@@ -1,0 +1,448 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: '2º Encontro Nacional pela Soberania Digital Já! — 18 e 19 de Maio de 2026',
+  description: 'Programação completa do 2º Encontro Nacional pela Soberania Digital Já! Brasília, 18 e 19 de Maio de 2026.',
+  robots: { index: true, follow: true },
+};
+
+interface ProgramItem {
+  time: string;
+  title: string;
+  description?: string;
+  participants?: string[];
+  responsible?: string;
+  highlight?: boolean;
+  type?: 'talk' | 'break' | 'meal' | 'special';
+}
+
+const day1Morning: ProgramItem[] = [
+  { time: '08h00', title: 'Credenciamento e café', type: 'break' },
+  {
+    time: '09h00',
+    title: 'Abertura',
+    description: 'Mesa de abertura do encontro',
+    participants: [
+      'Sindicato dos Bancários DF (Presidente)',
+      'Fenadados – Márcia Honda',
+      'Campanha Internet Legal – Helena / Alê',
+      'Rede pela Soberania Digital – Beá',
+      'CGI.br – Renata Mielli ou Bia Barbosa',
+    ],
+    responsible: 'Flynn',
+    type: 'special',
+  },
+  {
+    time: '09h30',
+    title: 'Mesa 1 – Cenário atual da soberania digital no Brasil',
+    participants: ['João Cassino', 'Roselí Fígaro', 'Marie Santini', 'Reitora (a confirmar)'],
+    responsible: 'Flynn',
+    type: 'talk',
+  },
+  { time: '10h35', title: 'Coffee break', type: 'break' },
+];
+
+const day1Afternoon: ProgramItem[] = [
+  {
+    time: '11h00',
+    title: 'Mesa 2 – Movimentos sociais em luta pela soberania digital',
+    participants: [
+      'MST – Raul Anorim',
+      'MTST – Ale Beave',
+      'MMM – Bruna Camilo',
+      'MNU (a confirmar)',
+    ],
+    responsible: 'Natália Blanco (MMM)',
+    type: 'talk',
+  },
+  { time: '12h30', title: 'Almoço', type: 'meal' },
+  {
+    time: '14h00',
+    title: 'Mesa 3 – Soberania digital desde o Sul',
+    description: 'Condição para o desenvolvimento econômico, político e social',
+    participants: [
+      'Fiorella Ceballos – Uruguai',
+      'Jeff Xiong – China',
+      'Isadora Rocha – Fórum Tecnológico dos BRICS',
+    ],
+    responsible: 'Roop',
+    type: 'talk',
+  },
+  {
+    time: '15h30',
+    title: 'Mesa 4 – Regulação da internet no Brasil e soberania digital',
+    description: 'Redes sociais, algoritmos e econômica (CDR/Dircom/FNDC)',
+    participants: ['José Vidal – Frente por IA com Direitos Sociais'],
+    responsible: 'Paulo Renê / Alê Arns',
+    type: 'talk',
+  },
+  {
+    time: '16h30',
+    title: 'Mesa 5 – Infraestrutura, chips e "nuvem" soberanos e livres',
+    participants: [
+      'Datacenters soberanos com software livre – C3SL (Castilho)',
+      'Fábrica de chips brasileira – Laisa (USP)',
+      'Solução de "nuvem" soberana – Ibitings – Ricardo Dahab (Unicamp)',
+    ],
+    responsible: 'Lari',
+    type: 'talk',
+  },
+  { time: '17h30', title: 'Coffee break – 20 min – Música', type: 'break' },
+  {
+    time: '17h50',
+    title: 'Mesa 6 – Propostas emergenciais para soberania digital do Brasil',
+    participants: [
+      'Sérgio Amadeu (UFABC)',
+      'Beatriz Bispo (Rede Nacional de Soberania Digital)',
+      'TC Silva (Rede Mocambos)',
+      'Tica Moreno (Marcha Mundial de Mulheres)',
+      'Zé Dirceu (a confirmar)',
+      'João Pedro Stédile (MST) (a confirmar)',
+      'José Murilo de Carvalho (WebSocialBR/IBRAM)',
+    ],
+    responsible: 'Mediação: Flynn',
+    highlight: true,
+    type: 'talk',
+  },
+  { time: '20h15', title: 'Proposta de encontro com o Presidente da República', type: 'special' },
+  { time: '20h30', title: 'Encontro nacional', type: 'special' },
+];
+
+const day2Morning: ProgramItem[] = [
+  { time: '08h30', title: 'Chegada e boas-vindas', type: 'break' },
+  {
+    time: '09h00',
+    title: 'Mesa 7 – O que é soberania digital e o que o software livre tem a ver com isso?',
+    participants: ['Corinto', 'Marcelo Branco (Software Livre)', 'Coelho Skarnio', 'John Maddog Hall'],
+    responsible: 'Skarnio',
+    type: 'talk',
+  },
+  {
+    time: '10h35',
+    title: 'Mesa 8 – Soberania digital no contexto das universidades',
+    participants: [
+      'Marcos Suryé (Reitor UFPR)',
+      'Ra. Menezes (UFBA / Raul Hacker Club)',
+      'Letícia Cesarino (UFSC)',
+      'Priscila Gonzales (UnB – on-line)',
+      'Leonardo Zenha (UFPA – mediador)',
+    ],
+    responsible: 'Leonardo Zenha',
+    type: 'talk',
+  },
+  { time: '12h00', title: 'Almoço – Música', type: 'meal' },
+];
+
+const day2Afternoon: ProgramItem[] = [
+  {
+    time: '13h30',
+    title: 'Mesa 9 – Datacenters da sociedade civil organizada',
+    description: 'Possibilidades e lutas',
+    participants: [
+      'Rede Mocambos',
+      'NUPEF (a confirmar)',
+      'PopSolutions',
+      'Datacenter dos Bancários – RS',
+    ],
+    responsible: 'Flynn',
+    type: 'talk',
+  },
+  {
+    time: '14h45',
+    title: 'Mesa 10 – Soluções tecnológicas dos movimentos',
+    participants: ['Coletivo Digital', 'Farpa', 'Eita!', 'Intervozes'],
+    responsible: 'Diego Rojas',
+    type: 'talk',
+  },
+  {
+    time: '16h20',
+    title: 'Lançamento do livro',
+    description: '"Teia Popular – Soberania Digital Para Vencer Esta Guerra"',
+    participants: ['Autor: Henrique Pereira', 'Convidado: Sérgio Amadeu'],
+    highlight: true,
+    type: 'special',
+  },
+  {
+    time: '17h30',
+    title: 'Mesa 11 – Articulação sindical pela soberania digital',
+    participants: ['Nova Central', 'CTB', 'CUT', 'CSP-Conlutas', 'Intersindical'],
+    responsible: 'Alê Arns',
+    type: 'talk',
+  },
+];
+
+const parallelActivities = [
+  'Soberania digital nas eleições',
+  'Saúde e dados digitais',
+  'Inteligência Artificial e soberania',
+  'Lançamento do Índice de Soberania Digital (BRICS)',
+];
+
+const complementaryActivities = [
+  'Exibição de documentários',
+  'Rodas de conversa',
+  'Espaço permanente de tecnologias livres',
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero -->
+  <section class="relative bg-[#010101] text-white py-16 md:py-24 overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 left-10 w-4 h-4 bg-[#FFD700]"></div>
+      <div class="absolute top-20 left-20 w-3 h-3 bg-[#77b978]"></div>
+      <div class="absolute bottom-20 right-20 w-5 h-5 bg-[#c60548]"></div>
+      <div class="absolute top-1/2 left-1/3 w-2 h-2 bg-[#FFD700]"></div>
+      <div class="absolute bottom-1/3 right-1/3 w-3 h-3 bg-[#77b978]"></div>
+    </div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-2 bg-[#c60548] text-white px-4 py-1 text-sm font-bold uppercase tracking-wider mb-6">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-1-1H6zm1 2h6v1H7V3zm-3 4h12v8H4V7z"/></svg>
+        18 e 19 de Maio de 2026
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight leading-none mb-4">
+        2º Encontro Nacional<br />
+        pela <span class="text-[#c60548]">Soberania</span> <span class="text-[#FFD700]">Digital</span>
+        <span class="text-[#c60548]">Já!</span>
+      </h1>
+      <p class="text-lg md:text-xl text-gray-300 mb-2 uppercase tracking-widest font-bold">
+        Sem isso, não há soberania nacional
+      </p>
+      <div class="flex items-center justify-center gap-2 text-[#FFD700] mt-6">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+        <span class="font-bold">Brasília — Sindicato dos Bancários DF</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programação -->
+  <section class="relative py-12 md:py-20 bg-[var(--sd-section-bg)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-[var(--sd-text)] mb-4">
+          Programação
+        </h2>
+        <div class="w-24 h-1 bg-[#c60548] mx-auto"></div>
+      </div>
+
+      <!-- Abas dos dias -->
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+        <!-- Dia 18 -->
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 bg-[#c60548] flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-1-1H6zm1 2h6v1H7V3zm-3 4h12v8H4V7z"/></svg>
+            </div>
+            <h3 class="text-2xl font-black uppercase text-[var(--sd-text)]">18 de Maio</h3>
+          </div>
+
+          <div class="space-y-1">
+            <div class="text-xs font-bold uppercase tracking-wider text-[#c60548] mb-2 mt-4">Manhã</div>
+            {day1Morning.map((item) => (
+              <div class:list={[
+                'p-3 md:p-4 border-l-4',
+                item.type === 'break' ? 'border-gray-300 bg-gray-50 dark:bg-gray-900/30' :
+                item.type === 'special' ? 'border-[#FFD700] bg-[#FFD700]/5' :
+                'border-[#c60548]'
+              ]}>
+                <div class="flex flex-wrap items-start gap-2 md:gap-3">
+                  <span class:list={[
+                    'text-xs font-bold px-2 py-0.5 rounded shrink-0',
+                    item.type === 'break' ? 'bg-gray-200 text-gray-700' :
+                    item.type === 'special' ? 'bg-[#FFD700] text-black' :
+                    'bg-[#c60548] text-white'
+                  ]}>{item.time}</span>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-bold text-[var(--sd-text)] text-sm md:text-base">{item.title}</div>
+                    {item.description && <div class="text-xs md:text-sm text-[var(--sd-text-2)] mt-0.5">{item.description}</div>}
+                    {item.participants && (
+                      <div class="text-xs text-[var(--sd-text-muted)] mt-1">
+                        {item.participants.join(' • ')}
+                      </div>
+                    )}
+                    {item.responsible && (
+                      <div class="text-xs text-[#45a2ca] mt-0.5 font-medium">Resp.: {item.responsible}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div class="text-xs font-bold uppercase tracking-wider text-[#c60548] mb-2 mt-6">Tarde</div>
+            {day1Afternoon.map((item) => (
+              <div class:list={[
+                'p-3 md:p-4 border-l-4',
+                item.type === 'break' ? 'border-gray-300 bg-gray-50 dark:bg-gray-900/30' :
+                item.type === 'meal' ? 'border-[#77b978] bg-[#77b978]/5' :
+                item.type === 'special' ? 'border-[#FFD700] bg-[#FFD700]/5' :
+                item.highlight ? 'border-[#c60548] bg-[#c60548]/5' :
+                'border-[#c60548]'
+              ]}>
+                <div class="flex flex-wrap items-start gap-2 md:gap-3">
+                  <span class:list={[
+                    'text-xs font-bold px-2 py-0.5 rounded shrink-0',
+                    item.type === 'break' ? 'bg-gray-200 text-gray-700' :
+                    item.type === 'meal' ? 'bg-[#77b978] text-white' :
+                    item.type === 'special' ? 'bg-[#FFD700] text-black' :
+                    'bg-[#c60548] text-white'
+                  ]}>{item.time}</span>
+                  <div class="flex-1 min-w-0">
+                    <div class:list={['font-bold text-sm md:text-base', item.highlight ? 'text-[#c60548]' : 'text-[var(--sd-text)]']}>
+                      {item.title}
+                    </div>
+                    {item.description && <div class="text-xs md:text-sm text-[var(--sd-text-2)] mt-0.5">{item.description}</div>}
+                    {item.participants && (
+                      <div class="text-xs text-[var(--sd-text-muted)] mt-1">
+                        {item.participants.join(' • ')}
+                      </div>
+                    )}
+                    {item.responsible && (
+                      <div class="text-xs text-[#45a2ca] mt-0.5 font-medium">Resp.: {item.responsible}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Dia 19 -->
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 bg-[#45a2ca] flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-1-1H6zm1 2h6v1H7V3zm-3 4h12v8H4V7z"/></svg>
+            </div>
+            <h3 class="text-2xl font-black uppercase text-[var(--sd-text)]">19 de Maio</h3>
+          </div>
+
+          <div class="space-y-1">
+            <div class="text-xs font-bold uppercase tracking-wider text-[#45a2ca] mb-2 mt-4">Manhã</div>
+            {day2Morning.map((item) => (
+              <div class:list={[
+                'p-3 md:p-4 border-l-4',
+                item.type === 'break' ? 'border-gray-300 bg-gray-50 dark:bg-gray-900/30' :
+                item.type === 'meal' ? 'border-[#77b978] bg-[#77b978]/5' :
+                'border-[#45a2ca]'
+              ]}>
+                <div class="flex flex-wrap items-start gap-2 md:gap-3">
+                  <span class:list={[
+                    'text-xs font-bold px-2 py-0.5 rounded shrink-0',
+                    item.type === 'break' ? 'bg-gray-200 text-gray-700' :
+                    item.type === 'meal' ? 'bg-[#77b978] text-white' :
+                    'bg-[#45a2ca] text-white'
+                  ]}>{item.time}</span>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-bold text-[var(--sd-text)] text-sm md:text-base">{item.title}</div>
+                    {item.description && <div class="text-xs md:text-sm text-[var(--sd-text-2)] mt-0.5">{item.description}</div>}
+                    {item.participants && (
+                      <div class="text-xs text-[var(--sd-text-muted)] mt-1">
+                        {item.participants.join(' • ')}
+                      </div>
+                    )}
+                    {item.responsible && (
+                      <div class="text-xs text-[#45a2ca] mt-0.5 font-medium">Resp.: {item.responsible}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div class="text-xs font-bold uppercase tracking-wider text-[#45a2ca] mb-2 mt-6">Tarde</div>
+            {day2Afternoon.map((item) => (
+              <div class:list={[
+                'p-3 md:p-4 border-l-4',
+                item.type === 'special' ? 'border-[#FFD700] bg-[#FFD700]/5' :
+                item.highlight ? 'border-[#c60548] bg-[#c60548]/5' :
+                'border-[#45a2ca]'
+              ]}>
+                <div class="flex flex-wrap items-start gap-2 md:gap-3">
+                  <span class:list={[
+                    'text-xs font-bold px-2 py-0.5 rounded shrink-0',
+                    item.type === 'special' ? 'bg-[#FFD700] text-black' :
+                    'bg-[#45a2ca] text-white'
+                  ]}>{item.time}</span>
+                  <div class="flex-1 min-w-0">
+                    <div class:list={['font-bold text-sm md:text-base', item.highlight ? 'text-[#c60548]' : 'text-[var(--sd-text)]']}>
+                      {item.title}
+                    </div>
+                    {item.description && <div class="text-xs md:text-sm text-[var(--sd-text-2)] mt-0.5">{item.description}</div>}
+                    {item.participants && (
+                      <div class="text-xs text-[var(--sd-text-muted)] mt-1">
+                        {item.participants.join(' • ')}
+                      </div>
+                    )}
+                    {item.responsible && (
+                      <div class="text-xs text-[#45a2ca] mt-0.5 font-medium">Resp.: {item.responsible}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programação Paralela + Complementar -->
+  <section class="relative py-10 md:py-16 bg-[var(--sd-section-alt-bg)]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+        <div class="bg-[#77b978] text-white p-5 md:p-6">
+          <h3 class="text-lg md:text-xl font-black uppercase mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Programação Paralela
+          </h3>
+          <p class="text-xs uppercase tracking-wider opacity-80 mb-3">Durante os dois dias</p>
+          <ul class="space-y-2">
+            {parallelActivities.map((act) => (
+              <li class="flex items-start gap-2 text-sm">
+                <span class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></span>
+                {act}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="bg-[#c60548] text-white p-5 md:p-6">
+          <h3 class="text-lg md:text-xl font-black uppercase mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Atividades Complementares
+          </h3>
+          <p class="text-xs uppercase tracking-wider opacity-80 mb-3">Durante os dois dias</p>
+          <ul class="space-y-2">
+            {complementaryActivities.map((act) => (
+              <li class="flex items-start gap-2 text-sm">
+                <span class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></span>
+                {act}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative py-12 md:py-20 bg-[#010101] text-white text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <h2 class="text-2xl md:text-4xl font-black uppercase tracking-tight mb-4">
+        Sua participação é <span class="text-[#c60548]">fundamental</span>
+      </h2>
+      <p class="text-gray-300 mb-8 text-base md:text-lg">
+        Construirmos juntos um futuro digital soberano para o Brasil.
+      </p>
+      <a
+        href="/encontro"
+        class="inline-block bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-3 px-8 md:py-4 md:px-10 text-base md:text-lg transition-colors shadow-lg"
+      >
+        INSCREVA-SE NO EVENTO
+      </a>
+      <div class="mt-8 text-sm text-gray-400">
+        <p>Apoio:</p>
+        <p class="text-white font-bold mt-1">CGI.br</p>
+      </div>
+    </div>
+  </section>
+</Layout>
