@@ -187,37 +187,94 @@ const complementaryActivities = [
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero -->
-  <section class="relative bg-[#010101] text-white py-16 md:py-24 overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-10 left-10 w-4 h-4 bg-[#FFD700]"></div>
-      <div class="absolute top-20 left-20 w-3 h-3 bg-[#77b978]"></div>
-      <div class="absolute bottom-20 right-20 w-5 h-5 bg-[#c60548]"></div>
-      <div class="absolute top-1/2 left-1/3 w-2 h-2 bg-[#FFD700]"></div>
-      <div class="absolute bottom-1/3 right-1/3 w-3 h-3 bg-[#77b978]"></div>
-    </div>
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
-      <div class="inline-flex items-center gap-2 bg-[#c60548] text-white px-4 py-1 text-sm font-bold uppercase tracking-wider mb-6">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-1-1H6zm1 2h6v1H7V3zm-3 4h12v8H4V7z"/></svg>
-        18 e 19 de Maio de 2026
+  <!-- Hero com identidade visual oficial -->
+  <section class="relative bg-[#010101] overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="md:basis-3/5">
+          <img
+            src="/encontro-2026-banner.png"
+            alt="2º Encontro Nacional pela Soberania Digital Já!"
+            class="w-full shadow-2xl"
+            loading="eager"
+          />
+        </div>
+        <div class="md:basis-2/5 text-center md:text-left">
+          <div class="inline-flex items-center gap-2 bg-[#c60548] text-white px-3 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-1-1H6zm1 2h6v1H7V3zm-3 4h12v8H4V7z"/></svg>
+            18 e 19 de Maio de 2026
+          </div>
+          <p class="text-sm uppercase tracking-widest text-[#FFD700] mb-2 font-bold">
+            Brasília • Sindicato dos Bancários DF
+          </p>
+          <p class="text-gray-300 text-base md:text-lg mb-6">
+            Estão abertas as inscrições! Construamos juntos um futuro digital soberano para o Brasil.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+            <a
+              href="/encontro"
+              class="inline-block bg-[#FFD700] hover:bg-[#e6c200] text-black font-bold py-3 px-6 text-base transition-colors shadow-lg"
+            >
+              Inscreva-se!
+            </a>
+            <a
+              href="#programacao"
+              class="inline-block bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-bold py-3 px-6 text-base transition-colors"
+            >
+              Ver programação
+            </a>
+          </div>
+          <div class="mt-6 flex items-center justify-center md:justify-start gap-3">
+            <img
+              src="/logo-soberania-digital.png"
+              alt="Rede pela Soberania Digital"
+              class="w-12 h-12 object-contain"
+              loading="lazy"
+            />
+            <div class="text-left">
+              <p class="text-xs text-gray-500">Realização</p>
+              <p class="text-sm text-white font-bold">Rede pela Soberania Digital</p>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Apoio: CGI.br</p>
+        </div>
       </div>
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight leading-none mb-4">
-        2º Encontro Nacional<br />
-        pela <span class="text-[#c60548]">Soberania</span> <span class="text-[#FFD700]">Digital</span>
-        <span class="text-[#c60548]">Já!</span>
-      </h1>
-      <p class="text-lg md:text-xl text-gray-300 mb-2 uppercase tracking-widest font-bold">
-        Sem isso, não há soberania nacional
-      </p>
-      <div class="flex items-center justify-center gap-2 text-[#FFD700] mt-6">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-        <span class="font-bold">Brasília — Sindicato dos Bancários DF</span>
+    </div>
+  </section>
+
+  <!-- Galeria / Mídia do evento -->
+  <section class="relative py-10 md:py-16 bg-[var(--sd-section-alt-bg)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-3 gap-4 md:gap-6">
+        <div class="md:col-span-2">
+          <img
+            src="/encontro-2026-foto.jpg"
+            alt="Foto do encontro anterior pela Soberania Digital"
+            class="w-full h-64 md:h-80 object-cover shadow-xl"
+            loading="lazy"
+          />
+          <p class="text-xs text-[var(--sd-text-muted)] mt-2">Momentos do encontro anterior — Brasília, 2025</p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <img
+            src="/encontro-2026-card-1.png"
+            alt="Card de divulgação do encontro 1"
+            class="w-full h-36 md:h-40 object-cover shadow-lg"
+            loading="lazy"
+          />
+          <img
+            src="/encontro-2026-card-2.png"
+            alt="Card de divulgação do encontro 2"
+            class="w-full h-36 md:h-40 object-cover shadow-lg"
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Programação -->
-  <section class="relative py-12 md:py-20 bg-[var(--sd-section-bg)]">
+  <section id="programacao" class="relative py-12 md:py-20 bg-[var(--sd-section-bg)]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-[var(--sd-text)] mb-4">
