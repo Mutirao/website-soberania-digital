@@ -2,34 +2,28 @@
 import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
 
-const { conf, about, location, schedule, sponsors, partners, hotels, community } = evento;
-
-const allSpeakers = schedule
-  .flatMap(day => day.slots)
-  .filter(slot => slot.presentation && slot.speakers && slot.speakers.length > 0)
-  .flatMap(slot => slot.speakers.map(s => ({
-    ...s,
-    title: slot.presentation.title,
-  })))
-  .filter(s => s.name && !s.name.startsWith('Palestrante a confirmar'));
-
-const uniqueSpeakers = allSpeakers.filter((s, i, arr) =>
-  arr.findIndex(x => x.name === s.name && x.company === s.company) === i
-);
+const { conf, about, location, schedule, hotels, community } = evento;
 
 const metadata = {
-  title: `${conf.name} — Soberania Já!`,
+  title: `${conf.name} — Soberania.Digital`,
   ignoreTitleTemplate: true,
-  description: `${conf.date} em ${conf.venue}. ${conf.description}`,
+  description: `${conf.date} · ${conf.venue}. ${conf.description}`,
 };
-
-function speakerInitials(name) {
-  return name.split(' ').filter(w => w.length > 2).map(w => w[0]).slice(0, 2).join('').toUpperCase();
-}
 ---
 
+<style>
+  /* Paleta específica da página Encontro — alinhada com soberania.digital/encontro-soberania */
+  .encontro-page {
+    --enc-accent: #FFD400;       /* amarelo ouro — labels, datas, destaques */
+    --enc-cta: #E31B23;          /* vermelho primário — botões, categorias */
+    --enc-cta-hover: #b01015;    /* vermelho escuro hover */
+    --enc-border-accent: #FFD400;
+  }
+</style>
+
 <Layout metadata={metadata}>
-  <div class="overflow-x-hidden">
+  <div class="overflow-x-hidden encontro-page">
+
     <!-- HERO -->
     <section class="relative bg-[var(--sd-section-bg)]">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12 md:py-20">
@@ -42,24 +36,37 @@ function speakerInitials(name) {
             />
           </div>
           <div class="md:basis-1/2 min-w-0 text-center md:text-left">
-            <div class="inline-block bg-[#c60548] text-white font-black text-sm uppercase tracking-widest px-4 py-2 mb-6">
+            <div class="inline-flex items-center gap-2 bg-[#E31B23] text-white text-sm font-black uppercase tracking-widest px-4 py-2 mb-6">
+              <span>✅</span>
+              <span>Inscrições abertas</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[var(--sd-text)] leading-tight mb-2">
+              2º Encontro NACIONAL<br />pela Soberania Digital
+            </h1>
+            <p class="text-2xl md:text-3xl font-black text-[#E31B23] mb-3">SOBERANIA JÁ!</p>
+            <p class="text-lg text-[#E31B23] font-semibold italic mb-3">{conf.tagline}</p>
+            <div class="inline-block bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)] text-sm text-[var(--sd-text-2)] font-semibold px-4 py-2 mb-6">
               {conf.date} · {conf.venue}
             </div>
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[var(--sd-text)] leading-tight mb-4">
-              2º Encontro Nacional<br />pela Soberania Digital
-            </h1>
-            <p class="text-3xl md:text-4xl font-black text-[#45a2ca] mb-4">SOBERANIA JÁ!</p>
-            <p class="text-lg text-[var(--sd-text-2)] mb-8 max-w-lg">
+            <p class="text-base text-[var(--sd-text-2)] leading-relaxed mb-8 max-w-lg">
               {conf.description}
             </p>
-            <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+            <div class="flex flex-wrap gap-3 justify-center md:justify-start">
               <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center min-h-[48px] bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-3 px-8 text-lg transition-colors shadow-lg">
-                {conf.callToAction.text}
+                class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold py-3 px-8 text-lg transition-colors shadow-lg">
+                Inscrições
               </a>
               <a href="#programacao"
-                class="inline-flex items-center justify-center min-h-[48px] border-2 border-[var(--sd-card-border)] text-[var(--sd-text-2)] hover:border-[#45a2ca] hover:text-[#45a2ca] font-bold py-3 px-8 text-base transition-colors">
-                Ver programação
+                class="inline-flex items-center justify-center min-h-[48px] border-2 border-[var(--sd-card-border)] text-[var(--sd-text-2)] hover:border-[#E31B23] hover:text-[#E31B23] font-bold py-3 px-6 text-base transition-colors">
+                Programação
+              </a>
+              <a href="/carta"
+                class="inline-flex items-center justify-center min-h-[48px] border-2 border-[var(--sd-card-border)] text-[var(--sd-text-2)] hover:border-[#E31B23] hover:text-[#E31B23] font-bold py-3 px-6 text-base transition-colors">
+                Carta ao Presidente
+              </a>
+              <a href="#local"
+                class="inline-flex items-center justify-center min-h-[48px] border-2 border-[var(--sd-card-border)] text-[var(--sd-text-2)] hover:border-[#E31B23] hover:text-[#E31B23] font-bold py-3 px-6 text-base transition-colors">
+                Hospedagem
               </a>
             </div>
           </div>
@@ -67,27 +74,33 @@ function speakerInitials(name) {
       </div>
     </section>
 
-    <!-- WHY ATTEND -->
-    <section class="bg-[var(--sd-section-alt-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
+    <!-- INSCRIÇÕES + SOBRE -->
+    <section class="bg-[var(--sd-section-alt-bg)] py-16 md:py-20 border-t border-[var(--sd-card-border)]">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        <div class="md:flex items-center gap-10">
+        <div class="md:flex items-start gap-10">
+          <!-- Registration info -->
           <div class="md:basis-1/2 mb-8 md:mb-0">
-            <img
-              src="/encontro-foto-grupo.jpeg"
-              alt="Participantes do 1º Encontro Nacional pela Soberania Digital"
-              class="w-full shadow-xl"
-              loading="lazy"
-            />
+            <div class="bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)] p-6">
+              <div class="flex items-center gap-2 mb-4">
+                <span class="text-green-500 text-xl">✅</span>
+                <h2 class="text-xl font-bold text-[var(--sd-text)]">Inscrições abertas</h2>
+              </div>
+              <p class="text-[var(--sd-text-2)] text-sm leading-relaxed mb-4">
+                As inscrições estão abertas para todas as pessoas interessadas em participar do processo. A organização convida movimentos sociais, coletivos, universidades, gestoras públicas e pessoas comprometidas com um projeto digital popular, soberano e democrático para se somarem.
+              </p>
+              <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+                class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold py-3 px-8 text-base transition-colors shadow-lg w-full sm:w-auto">
+                📌 Inscreva-se em plantaformas.org
+              </a>
+            </div>
           </div>
+          <!-- About text -->
           <div class="md:basis-1/2 min-w-0">
-            <p class="text-[#45a2ca] font-bold uppercase tracking-widest text-sm mb-3">Por que participar</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-4">
-              Construa o futuro digital do Brasil
-            </h2>
+            <p class="text-[#E31B23] font-bold uppercase tracking-widest text-sm mb-3">Sobre o encontro</p>
             <p class="text-base text-[var(--sd-text-2)] leading-relaxed mb-6">
               {about.text}
             </p>
-            <blockquote class="text-base text-[var(--sd-text-2)] italic leading-relaxed border-l-4 border-[#45a2ca] pl-4">
+            <blockquote class="text-base text-[var(--sd-text-2)] italic leading-relaxed border-l-4 border-[#E31B23] pl-4">
               {about.quote}
             </blockquote>
           </div>
@@ -95,43 +108,18 @@ function speakerInitials(name) {
       </div>
     </section>
 
-    <!-- SPEAKERS -->
-    {uniqueSpeakers.length > 0 && (
-      <section id="palestrantes" class="bg-[var(--sd-section-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6">
-          <div class="text-center mb-12">
-            <p class="text-[#45a2ca] font-bold uppercase tracking-widest text-sm mb-3">Quem vai estar lá</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)]">Palestrantes</h2>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-            {uniqueSpeakers.map((speaker) => (
-              <div class="bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)] p-3 md:p-4 text-center">
-                <div class="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto mb-3 bg-[#45a2ca] flex items-center justify-center text-white text-lg md:text-xl font-bold">
-                  {speakerInitials(speaker.name)}
-                </div>
-                <h3 class="text-[var(--sd-text)] font-bold text-xs md:text-sm mb-0.5 leading-snug">{speaker.name}</h3>
-                {speaker.company && (
-                  <p class="text-[#45a2ca] text-[10px] md:text-xs font-semibold leading-snug">{speaker.company}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
-
     <!-- SCHEDULE -->
     <section id="programacao" class="bg-[var(--sd-section-alt-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-12">
-          <p class="text-[#45a2ca] font-bold uppercase tracking-widest text-sm mb-3">O que vai acontecer</p>
+          <p class="text-[#E31B23] font-bold uppercase tracking-widest text-sm mb-3">🗓 Programação oficial</p>
           <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)]">Programação</h2>
         </div>
 
         <div class="space-y-12 lg:space-y-0 lg:flex lg:gap-8 lg:items-start">
           {schedule.map((day) => (
             <div class="lg:basis-1/2">
-              <h3 class="text-xl md:text-2xl font-bold text-[#45a2ca] text-center mb-2">
+              <h3 class="text-xl md:text-2xl font-bold text-[#E31B23] text-center mb-1">
                 {day.label} — {day.date}
               </h3>
               {day.room && (
@@ -156,8 +144,8 @@ function speakerInitials(name) {
                           )}
                           {slot.speakers && slot.speakers.length > 0 && (
                             <div class="flex flex-wrap gap-x-3 gap-y-0.5">
-                              {slot.speakers.map((s, si) => (
-                                <span class="text-[#45a2ca] text-xs md:text-sm font-semibold">
+                              {slot.speakers.map((s) => (
+                                <span class="text-[#E31B23] text-xs md:text-sm font-semibold">
                                   {s.role === 'mediação' && <span class="text-[var(--sd-text-muted)] font-normal italic">med: </span>}
                                   {s.name}{s.company ? ` · ${s.company}` : ''}
                                 </span>
@@ -190,7 +178,7 @@ function speakerInitials(name) {
           {conf.date} em {conf.venue}. Participe da construção de um futuro digital soberano para o Brasil.
         </p>
         <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-          class="inline-flex items-center justify-center min-h-[52px] bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-3 px-12 text-xl transition-colors shadow-lg">
+          class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold py-3 px-12 text-xl transition-colors shadow-lg">
           {conf.callToAction.text}
         </a>
       </div>
@@ -200,31 +188,36 @@ function speakerInitials(name) {
     <section id="local" class="bg-[var(--sd-section-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-10">
-          <p class="text-[#45a2ca] font-bold uppercase tracking-widest text-sm mb-3">Onde e quando</p>
+          <p class="text-[#E31B23] font-bold uppercase tracking-widest text-sm mb-3">📍 Local do evento</p>
           <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-2">{location.name}</h2>
           <p class="text-[var(--sd-text-2)] mb-6">{location.address}</p>
           <a href={location.mapLink} target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[48px] border-2 border-[#45a2ca] text-[#45a2ca] hover:bg-[#45a2ca] hover:text-white font-bold py-2 px-6 transition-colors">
+            class="inline-flex items-center justify-center min-h-[48px] border-2 border-[#E31B23] text-[#E31B23] hover:bg-[#E31B23] hover:text-white font-bold py-2 px-6 transition-colors">
             Ver no Google Maps
           </a>
         </div>
 
         <div class="border-t border-[var(--sd-card-border)] pt-10 mt-10">
           <h3 class="text-xl md:text-2xl font-bold text-[var(--sd-text)] text-center mb-8">
-            Onde se hospedar
+            Onde se hospedar em Brasília
           </h3>
-          <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {hotels.map((hotel) => (
               <div class="bg-[var(--sd-card-bg)] p-5 border border-[var(--sd-card-border)]">
-                <h4 class="text-[var(--sd-text)] font-bold text-base mb-2">{hotel.name}</h4>
+                <h4 class="text-[var(--sd-text)] font-bold text-base mb-1">{hotel.name}</h4>
                 {hotel.note && (
-                  <p class="text-[#45a2ca] font-semibold text-sm mb-2">{hotel.note}</p>
+                  <p class="text-[#E31B23] font-semibold text-sm mb-2">{hotel.note}</p>
                 )}
                 <p class="text-[var(--sd-text-2)] text-sm mb-2">{hotel.address}</p>
-                <p class="text-[var(--sd-text-muted)] text-sm">Tel: {hotel.phone}</p>
+                {hotel.email && (
+                  <p class="text-[var(--sd-text-muted)] text-sm mb-1">{hotel.email}</p>
+                )}
+                {hotel.phone && (
+                  <p class="text-[var(--sd-text-muted)] text-sm mb-2">Tel: {hotel.phone}</p>
+                )}
                 {hotel.url && (
                   <a href={hotel.url} target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center min-h-[48px] mt-3 text-[#45a2ca] font-semibold text-sm hover:underline">
+                    class="inline-flex items-center justify-center min-h-[48px] mt-1 text-[#E31B23] font-semibold text-sm hover:underline">
                     Site →
                   </a>
                 )}
@@ -235,46 +228,13 @@ function speakerInitials(name) {
       </div>
     </section>
 
-    <!-- SPONSORS -->
-    {sponsors.length > 0 && (
-      <section id="apoio" class="bg-[var(--sd-section-alt-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-10">Apoio</h2>
-          <div class="flex flex-wrap justify-center gap-8 items-center">
-            {sponsors.map((s) => (
-              <a href={s.url} target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center min-h-[48px]">
-                <img src={s.logo} alt={s.name} class="h-16" loading="lazy" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
-
-    {partners.length > 0 && (
-      <section id="parceiros" class="bg-[var(--sd-section-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-10">Parceiros</h2>
-          <div class="flex flex-wrap justify-center gap-8 items-center">
-            {partners.map((p) => (
-              <a href={p.url} target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center min-h-[48px]">
-                <img src={p.logo} alt={p.name} class="h-16" loading="lazy" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
-
     <!-- COMMUNITY -->
-    <section class="bg-[var(--sd-section-alt-bg)] py-16 border-t border-[var(--sd-card-border)]">
+    <section class="bg-[var(--sd-section-bg)] py-16 border-t border-[var(--sd-card-border)]">
       <div class="max-w-4xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-10">
-          <p class="text-[#45a2ca] font-bold uppercase tracking-widest text-sm mb-3">Faça parte</p>
+          <p class="text-[#E31B23] font-bold uppercase tracking-widest text-sm mb-3">Faça parte</p>
           <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)]">
-            Participe da <span class="text-[#c60548]">Rede</span>
+            Participe da <span class="text-[#E31B23]">Rede</span>
           </h2>
         </div>
         <div class="space-y-3">
@@ -292,7 +252,7 @@ function speakerInitials(name) {
                 </svg>
               )}
               {item.icon === 'matrix' && (
-                <svg class="w-8 h-8 text-[#45a2ca] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="w-8 h-8 text-[#E31B23] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.011 1.119.251-.373.591-.7.901-.981.42-.281.93-.422 1.533-.422.445 0 .855.055 1.232.166.376.111.697.29.963.537.267.247.472.572.617.976.145.403.217.893.217 1.47v5.991h-2.316v-5.08c0-.375-.023-.7-.07-.971a1.774 1.774 0 0 0-.254-.706 1.12 1.12 0 0 0-.511-.437c-.217-.1-.496-.15-.838-.15-.339 0-.62.058-.842.173a1.224 1.224 0 0 0-.511.463 1.862 1.862 0 0 0-.254.706c-.047.271-.07.596-.07.971v5.08h-2.316v-5.08c0-.37-.012-.697-.037-.974a1.812 1.812 0 0 0-.224-.737 1.1 1.1 0 0 0-.502-.484c-.217-.11-.505-.166-.863-.166a1.79 1.79 0 0 0-.478.074 1.513 1.513 0 0 0-.608.333c-.217.192-.397.472-.539.842-.142.37-.213.86-.213 1.47v5.08H7.675V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
                 </svg>
               )}
@@ -301,8 +261,13 @@ function speakerInitials(name) {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
               )}
+              {item.icon === 'plataformas' && (
+                <svg class="w-8 h-8 text-[#E31B23] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              )}
               <div class="min-w-0">
-                <div class={`font-bold text-base ${item.icon === 'carta' ? 'text-white' : item.icon === 'telegram' ? 'text-white' : 'text-[var(--sd-text)]'}`}>
+                <div class={`font-bold text-base ${item.icon === 'carta' ? 'text-white' : item.icon === 'telegram' ? 'text-white uppercase' : 'text-[var(--sd-text)]'}`}>
                   {item.name}
                 </div>
                 <div class={`text-sm ${item.icon === 'carta' ? 'text-pink-200' : item.icon === 'telegram' ? 'text-blue-200' : 'text-[var(--sd-text-muted)]'}`}>
@@ -315,32 +280,5 @@ function speakerInitials(name) {
       </div>
     </section>
 
-    <!-- PLATAFORMAS -->
-    <section class="py-16 bg-[var(--sd-section-bg)] border-t border-[var(--sd-card-border)]">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-[#45a2ca] font-bold uppercase tracking-widest mb-2 text-sm">Acompanhe as reuniões da</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-8">
-          Rede pela Soberania Digital
-        </h2>
-        <div class="flex flex-col sm:flex-row justify-center gap-3">
-          <a
-            href="https://plantaformas.org/assemblies/soberaniadigital/f/29/meetings"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[48px] bg-white text-[#010101] hover:bg-gray-200 font-bold py-3 px-8 text-lg transition-colors shadow-lg"
-          >
-            Veja nas Plataformas
-          </a>
-          <a
-            href="https://t.me/SoberaniaDigitalBR"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[48px] bg-[#004a8e] text-white hover:bg-[#003d73] font-bold py-3 px-8 text-lg transition-colors shadow-lg"
-          >
-            Telegram
-          </a>
-        </div>
-      </div>
-    </section>
   </div>
 </Layout>

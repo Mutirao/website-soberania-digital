@@ -1,21 +1,23 @@
 {
   "conf": {
     "name": "2º Encontro Nacional pela Soberania Digital",
-    "description": "Soberania Digital para construir o Futuro do Brasil",
-    "date": "18 e 19 de Maio",
+    "date": "18 e 19 de MAIO",
     "venue": "Brasília / DF",
+    "tagline": "Territórios e Movimentos pelo Futuro do Brasil",
+    "description": "Em um ano decisivo para o futuro do Brasil, movimentos, coletivos, organizações e pessoas comprometidas com a democracia e com o interesse público se reúnem no Segundo Encontro Nacional pela Soberania Digital.",
     "callToAction": {
       "text": "Inscreva-se",
       "link": "https://plantaformas.org/conferences/SoberaniaDigital/f/529/"
     }
   },
   "about": {
-    "text": "Em um ano decisivo para o futuro do Brasil, movimentos, coletivos, organizações e pessoas comprometidas com a democracia e com o interesse público se reúnem no Segundo Encontro Nacional pela Soberania Digital. O encontro é parte de um processo de articulação para fazer com que a soberania digital entre de vez na pauta do país, esteja presente nos debates eleitorais, nos planos de governo e nas estratégias para o desenvolvimento nacional.",
+    "text": "O encontro é parte de um processo de articulação para fazer com que a soberania digital entre de vez na pauta do país, esteja presente nos debates eleitorais, nos planos de governo e nas estratégias para o desenvolvimento nacional. Ao mesmo tempo, esse movimento quer se fortalecer de forma enraizada e espraiada em todos os territórios, conectando lutas, experiências e propostas que nascem das comunidades, das universidades, dos movimentos sociais, do poder público e da sociedade civil organizada.",
     "quote": "Mais do que uma agenda técnica, trata-se de afirmar que o Brasil precisa ter mais controle sobre suas infraestruturas, seus dados, suas plataformas e seus caminhos tecnológicos, colocando a tecnologia a serviço da vida, dos direitos e da autonomia do povo."
   },
   "location": {
     "name": "Sindicato e Teatro dos Bancários",
     "address": "Asa Sul, Eqs 314/315, BL A, Brasília / DF",
+    "room": "Anfiteatro central — 430 lugares",
     "mapLink": "https://maps.google.com/?q=Sindicato+dos+Bancarios+Brasilia+Asa+Sul"
   },
   "schedule": [
@@ -26,36 +28,30 @@
       "room": "Anfiteatro central — 430 lugares",
       "slots": [
         {
-          "time": "8h00",
+          "time": "08h00",
           "name": "Credenciamento e café"
         },
         {
-          "time": "9h00",
-          "name": "Mesa de Abertura",
-          "bio": "",
-          "company": "",
+          "time": "09h00",
           "presentation": {
             "title": "Mesa de Abertura",
-            "description": ""
+            "description": "Abertura oficial do 2º Encontro Nacional pela Soberania Digital."
           },
           "speakers": [
-            { "name": "Presidente dos Bancários DF", "company": "Sindicato dos Bancários DF", "bio": "" },
+            { "name": "Nome", "company": "Presidente — Sindicato dos Bancários DF", "role": "mediação" },
             { "name": "Marcia Honda", "company": "Fenadados", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "Beatriz Tibiriçá", "company": "Rede pela Soberania Digital", "bio": "Atua com políticas públicas e tecnologia." }
           ]
         },
         {
-          "time": "9h35",
-          "name": "Mesa 1",
-          "bio": "",
-          "company": "",
+          "time": "09h35",
           "presentation": {
-            "title": "Cenário atual da Soberania Digital no Brasil",
+            "title": "Mesa 1 — Cenário atual da Soberania Digital no Brasil",
             "description": "Apresentação do cenário atual da soberania digital brasileira."
           },
           "speakers": [
             { "name": "João Cassino", "company": "", "bio": "Professor e pesquisador em soberania digital. Atua com políticas públicas e tecnologia." },
-            { "name": "Palestrante a confirmar", "company": "UFABC", "bio": "Professor e pesquisador em soberania digital." }
+            { "name": "Fulano", "company": "UFABC", "bio": "Professor e pesquisador em soberania digital." }
           ]
         },
         {
@@ -64,19 +60,16 @@
         },
         {
           "time": "11h00",
-          "name": "Mesa 2",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Movimentos sociais em luta pela soberania digital",
+            "title": "Mesa 2 — Movimentos sociais em luta pela soberania digital",
             "description": "Que soberania digital queremos construir? As lutas por soberania popular constituem a organização e resistência dos movimentos sociais no Brasil e no mundo. Afirmar uma soberania digital precisa necessariamente passar pela dimensão popular para romper com as hierarquias históricas de que técnicas e tecnologias são neutras."
           },
           "speakers": [
             { "name": "Natalia Blanco", "company": "Marcha Mundial das Mulheres", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
             { "name": "Raul Amorim", "company": "MST", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "Bruna Camilo", "company": "Marcha Mundial das Mulheres", "bio": "Atua com políticas públicas e tecnologia." },
-            { "name": "Palestrante a confirmar", "company": "MTST", "bio": "" },
-            { "name": "Palestrante a confirmar", "company": "MNU", "bio": "" }
+            { "name": "Sicrano", "company": "MTST", "bio": "" },
+            { "name": "Beltrano", "company": "MNU", "bio": "" }
           ]
         },
         {
@@ -85,59 +78,51 @@
         },
         {
           "time": "14h00",
-          "name": "Mesa 3",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Soberania digital desde o sul: condição para o desenvolvimento",
+            "title": "Mesa 3 — Soberania digital desde o Sul: condição para o desenvolvimento econômico, político e social",
             "description": "Controlar dados, infraestrutura e tecnologias é condição para crescer com autonomia. Sem soberania digital, o país entrega seus dados e recursos naturais, fragiliza sua democracia e se mantém refém de interesses estrangeiros. O futuro será digital e precisa ser nacional."
           },
-          "speakers": []
+          "speakers": [
+            { "name": "Sicrano", "company": "", "bio": "", "role": "mediação" },
+            { "name": "Beltrano", "company": "", "bio": "" }
+          ]
         },
         {
           "time": "15h30",
-          "name": "Mesa 4",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Regulação da Internet: redes sociais, algoritmos e economia digital",
-            "description": "Apresentação do cenário atual da regulação digital no Brasil."
+            "title": "Mesa 4 — Regulação da Internet: redes sociais, algoritmos e economia digital",
+            "description": "Apresentação do cenário atual da soberania digital brasileira."
           },
           "speakers": [
-            { "name": "Flynn", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
+            { "name": "Guilherme Flynn", "company": "Onda Social", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
             { "name": "José Vital", "company": "Frente por IA com Direitos Sociais", "bio": "Atua com políticas públicas e tecnologia." }
           ]
         },
         {
           "time": "16h30",
-          "name": "Mesa 5",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Infraestrutura, chips e \"nuvem\" soberanos e livres",
+            "title": "Mesa 5 — Infraestrutura, chips e \"nuvem\" soberanos e livres",
             "description": "Apresentação de soluções desenvolvidas, mantidas e/ou utilizadas por comunidades e organizações brasileiras."
           },
           "speakers": [
-            { "name": "Lari", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" }
+            { "name": "Lari", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
+            { "name": "Sicrano", "company": "", "bio": "Atua com políticas públicas e tecnologia." }
           ]
         },
         {
           "time": "17h30",
-          "name": "Coffee break — Música"
+          "name": "Coffee break — Música ao vivo"
         },
         {
           "time": "17h50",
-          "name": "Mesa 6",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Propostas Emergenciais para a Soberania Digital do Brasil",
+            "title": "Mesa 6 — Propostas Emergenciais para a Soberania Digital do Brasil",
             "description": "Quais os passos para a construção de nossa Soberania Digital?"
           },
           "speakers": [
-            { "name": "Flynn", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
+            { "name": "Guilherme Flynn", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
             { "name": "Sérgio Amadeu", "company": "UFABC", "bio": "Professor e pesquisador em soberania digital." },
-            { "name": "Beatriz Tibiriçá", "company": "Rede Nacional de Soberania Digital", "bio": "Atua com políticas públicas e tecnologia." },
+            { "name": "Beatriz Tibiriçá", "company": "Rede pela Soberania Digital", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "TC Silva", "company": "Rede Mocambos", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "Tica Moreno", "company": "Marcha Mundial das Mulheres", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "José Murilo de Carvalho", "company": "WebSocialBR / IBRAM", "bio": "Atua com políticas públicas e tecnologia." }
@@ -145,11 +130,19 @@
         },
         {
           "time": "20h15",
-          "name": "Proposta de Encontro com o Presidente da República"
+          "presentation": {
+            "title": "Proposta de Encontro com o Presidente da República do Brasil",
+            "description": "Apresentação da proposta de delivery ao Presidente Lula."
+          },
+          "speakers": []
         },
         {
           "time": "20h30",
-          "name": "Encontro com o Presidente da República do Brasil"
+          "presentation": {
+            "title": "Encontro com o Presidente da República do Brasil",
+            "description": "Reunião aberta com o Presidente da República."
+          },
+          "speakers": []
         }
       ]
     },
@@ -160,36 +153,30 @@
       "room": "Anfiteatro central — 430 lugares",
       "slots": [
         {
-          "time": "8h30",
+          "time": "08h30",
           "name": "Chegada e boas vindas"
         },
         {
-          "time": "9h00",
-          "name": "Mesa 7",
-          "bio": "",
-          "company": "",
+          "time": "09h00",
           "presentation": {
-            "title": "O que é Soberania Digital e o que o Software Livre tem a ver com isso?",
+            "title": "Mesa 7 — O que é Soberania Digital e o que o Software Livre tem a ver com isso?",
             "description": ""
           },
           "speakers": [
-            { "name": "Thiago Skarnio", "company": "", "bio": "Professor e pesquisador em soberania digital.", "role": "mediação" },
+            { "name": "Thiago Skarnio", "company": "Alquimídia", "bio": "Professor e pesquisador em soberania digital.", "role": "mediação" },
             { "name": "Jon Maddog Hall", "company": "", "bio": "Professor e pesquisador em soberania digital." },
             { "name": "Rafael", "company": "", "bio": "Professor e pesquisador em soberania digital." }
           ]
         },
         {
           "time": "10h35",
-          "name": "Mesa 8",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Soberania Digital no contexto das Universidades",
+            "title": "Mesa 8 — Soberania Digital no contexto das Universidades",
             "description": ""
           },
           "speakers": [
             { "name": "Leozenha", "company": "UFPA", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
-            { "name": "Marcos Sunyê", "company": "Reitor UFPR", "bio": "Professor e pesquisador da Soberania Digital. Atua com políticas públicas e tecnologia." },
+            { "name": "Marcos Sunyê", "company": "Reitor UFPR", "bio": "Professor e pesquisador da Soberania Digital." },
             { "name": "ka.Menezes", "company": "UFBA / Raul Hacker Club", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "Leticia Cesarino", "company": "UFSC", "bio": "Atua com políticas públicas e tecnologia." },
             { "name": "Priscila Gonzales", "company": "UnB / Educação Vigiada", "bio": "Atua com políticas públicas e tecnologia." }
@@ -201,33 +188,28 @@
         },
         {
           "time": "13h30",
-          "name": "Mesa 9",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Datacenters da sociedade civil organizada: possibilidades e lutas",
+            "title": "Mesa 9 — Datacenters da sociedade civil organizada: possibilidades e lutas",
             "description": ""
           },
           "speakers": [
-            { "name": "Flynn", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
-            { "name": "Rede Mocambo", "company": "", "bio": "" },
-            { "name": "PopSolutions", "company": "", "bio": "" },
-            { "name": "Datacenter dos Bancários-RS", "company": "", "bio": "" }
+            { "name": "Guilherme Flynn", "company": "", "bio": "Atua com políticas públicas e tecnologia.", "role": "mediação" },
+            { "name": "Rede Mocambo", "company": "", "bio": "", "org": true },
+            { "name": "PopSolutions", "company": "", "bio": "", "org": true },
+            { "name": "Datacenter dos Bancários-RS", "company": "", "bio": "", "org": true }
           ]
         },
         {
           "time": "14h45",
-          "name": "Mesa 10",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Soberania Digital na sociedade civil organizada",
+            "title": "Mesa 10 — Soberania Digital na sociedade civil organizada",
             "description": ""
           },
           "speakers": [
-            { "name": "Coletivo Digital", "company": "", "bio": "" },
-            { "name": "Mocambos", "company": "", "bio": "" },
-            { "name": "MTST", "company": "", "bio": "" }
+            { "name": "Sicrano", "company": "", "bio": "", "role": "mediação" },
+            { "name": "Coletivo Digital", "company": "", "bio": "", "org": true },
+            { "name": "Mocambos", "company": "", "bio": "", "org": true },
+            { "name": "MTST", "company": "", "bio": "", "org": true }
           ]
         },
         {
@@ -236,11 +218,8 @@
         },
         {
           "time": "16h20",
-          "name": "Mesa 11",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Web Social Aberta — Redes Sociais Livres e Federadas",
+            "title": "Mesa 11 — Web Social Aberta: Redes Sociais Livres e Federadas para se libertar das Big Techs",
             "description": "Para se libertar das Big Techs."
           },
           "speakers": [
@@ -250,15 +229,13 @@
         },
         {
           "time": "17h30",
-          "name": "Mesa 12",
-          "bio": "",
-          "company": "",
           "presentation": {
-            "title": "Sindical — Construção de alinhamento da classe trabalhadora",
+            "title": "Mesa 12 — Sindical: Construção de alinhamento da classe trabalhadora",
             "description": "A importância da soberania digital na pauta de reivindicações dos servidores federais, como contribuição no avanço para toda classe trabalhadora."
           },
           "speakers": [
-            { "name": "Roseli Figaro", "company": "Fenadados", "bio": "Professora titular da Universidade de São Paulo.", "role": "mediação" }
+            { "name": "Roseli Figaro", "company": "Fenadados", "bio": "Professora titular da Universidade de São Paulo.", "role": "mediação" },
+            { "name": "Sicrano", "company": "", "bio": "" }
           ]
         }
       ]
@@ -269,41 +246,68 @@
   "hotels": [
     {
       "name": "LIKE U HOTEIS",
-      "note": "Desconto de 30% SESC",
-      "address": "SHS Quadra 04, Bloco F, Asa Sul",
-      "phone": "(61) 3121-6300",
+      "note": "30% de desconto para associados ao SESC",
+      "address": "SHS Quadra 04, Bloco F, S/N, Asa Sul, Brasília",
+      "phone": "(61) 3121-6300 | (61) 98612-8321",
+      "email": "hospedagem@sescdf.com.br",
       "url": "https://www.sesc.com.br/unidade/hotel-like-u/"
     },
     {
       "name": "Joy Hostels",
-      "address": "SCRN 702/703, Bloco H, Asa Norte",
-      "phone": "(61) 3542-9909",
+      "address": "SCRN 702/703, Bloco H, Entrada 49, Asa Norte, Brasília-DF",
+      "phone": "(61) 3542-9909 | WhatsApp: (61) 9 9155-7240",
       "url": "https://www.vemprojoy.com.br/"
     },
     {
       "name": "Freeway Hostels",
-      "address": "SHCGN 708 bloco I, Asa Norte",
+      "address": "SHCGN 708 bloco I, Entrada 38, Asa Norte, Brasília-DF",
       "phone": "(61) 99616-7091",
       "url": ""
+    },
+    {
+      "name": "Airbnb",
+      "note": "Aluguel por temporada",
+      "address": "Brasília / DF",
+      "phone": "",
+      "url": "https://www.airbnb.com.br/s/brasilia/homes?refinement_paths%5B%5D=%2Fhomes&date_picker_type=calendar&checkin=2026-05-18&checkout=2026-05-19&search_type=search_query"
     }
   ],
+  "partnersGrid": {
+    "realizacao": ["Rede pela Soberania Digital"],
+    "producao": ["Instituto Mutirão", "Coletivo Digital", "FENADADOS"],
+    "patrocinio": ["Comitê Gestor da Internet no Brasil (CGI.br)"],
+    "apoio": [
+      "Sindicato dos Bancários",
+      "Campanha Internet Legal",
+      "Coalizão Direitos na Rede",
+      "Interlig",
+      "Casa de Cultura Tainã",
+      "Marcha Mundial das Mulheres",
+      "MTST",
+      "MST",
+      "Alquimídia",
+      "POP Solutions",
+      "Rede Economia Solidária e Feminista",
+      "TV Travessia"
+    ]
+  },
   "community": [
     {
-      "name": "Grupo no Telegram",
+      "name": "Entre no Grupo do Telegram da Soberania Digital",
       "url": "https://t.me/SoberaniaDigitalBR",
       "subtitle": "t.me/SoberaniaDigitalBR",
       "icon": "telegram",
       "color": "#004a8e"
     },
     {
-      "name": "Rede Matrix",
-      "url": "https://matrix.to/#/%23soberaniadigital:matrix.org",
-      "subtitle": "#soberaniadigital:matrix.org",
-      "icon": "matrix",
-      "color": "var(--sd-section-bg)"
+      "name": "Presta atenção nas reuniões da Frente",
+      "url": "https://plantaformas.org/assemblies/soberaniadigital/f/29/meetings",
+      "subtitle": "Veja nas Plataformas",
+      "icon": "plataformas",
+      "color": "var(--sd-card-bg)"
     },
     {
-      "name": "LEIA E ASSINE NOSSA CARTA AO PRESIDENTE LULA",
+      "name": "Leia e assine nossa Carta ao Presidente Lula",
       "url": "/carta",
       "subtitle": "Acessar documento completo",
       "icon": "carta",
