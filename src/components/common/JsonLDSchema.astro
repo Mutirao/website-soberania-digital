@@ -1,0 +1,124 @@
+---
+import { SITE, METADATA } from 'astrowind:config';
+
+export interface Props {
+  type?: 'WebPage' | 'Article';
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const {
+  type = 'WebPage',
+  title = METADATA?.title?.default || SITE?.name,
+  description = METADATA?.description,
+  canonical = String(new URL(Astro.url.pathname, SITE.site)),
+  ogImage = String(new URL('/id-visual-banner-horizontal.jpg', SITE.site)),
+  ogImageWidth = 1200,
+  ogImageHeight = 592,
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const siteUrl = SITE.site;
+const siteName = 'Soberania.digital';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['EducationalOrganization', 'Organization'],
+      '@id': `${siteUrl}/#organization`,
+      name: siteName,
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        '@id': `${siteUrl}/#logo`,
+        url: ogImage,
+        contentUrl: ogImage,
+        caption: siteName,
+        inLanguage: 'pt-BR',
+        width: String(ogImageWidth),
+        height: String(ogImageHeight),
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: siteName,
+      alternateName: 'REDE PELA SOBERANIA DIGITAL',
+      publisher: { '@id': `${siteUrl}/#organization` },
+      inLanguage: 'pt-BR',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${siteUrl}/?s={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': ogImage,
+      url: ogImage,
+      width: String(ogImageWidth),
+      height: String(ogImageHeight),
+      inLanguage: 'pt-BR',
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}/#webpage`,
+      url: canonical,
+      name: title,
+      datePublished: publishedTime,
+      dateModified: modifiedTime,
+      about: { '@id': `${siteUrl}/#organization` },
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      primaryImageOfPage: { '@id': ogImage },
+      inLanguage: 'pt-BR',
+    },
+    ...(type === 'Article'
+      ? [
+          {
+            '@type': 'Article',
+            headline: title,
+            datePublished: publishedTime,
+            dateModified: modifiedTime,
+            author: {
+              '@id': `${siteUrl}/author/diegorojas/`,
+              name: 'Diego',
+            },
+            publisher: { '@id': `${siteUrl}/#organization` },
+            description: description,
+            name: title,
+            '@id': `${canonical}/#richSnippet`,
+            isPartOf: { '@id': `${canonical}/#webpage` },
+            image: { '@id': ogImage },
+            inLanguage: 'pt-BR',
+            mainEntityOfPage: { '@id': `${canonical}/#webpage` },
+          },
+          {
+            '@type': 'Person',
+            '@id': `${siteUrl}/author/diegorojas/`,
+            name: 'Diego',
+            url: `${siteUrl}/author/diegorojas/`,
+            image: {
+              '@type': 'ImageObject',
+              '@id': 'https://secure.gravatar.com/avatar/f8ae629de05ed8729124b26d77905a81327b63b3bd8ef691f01972ce84078759?s=96&amp;d=mm&amp;r=g',
+              url: 'https://secure.gravatar.com/avatar/f8ae629de05ed8729124b26d77905a81327b63b3bd8ef691f01972ce84078759?s=96&amp;d=mm&amp;r=g',
+              caption: 'Diego',
+              inLanguage: 'pt-BR',
+            },
+            worksFor: { '@id': `${siteUrl}/#organization` },
+          },
+        ]
+      : []),
+  ],
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)}></script>

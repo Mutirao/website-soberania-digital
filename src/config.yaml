@@ -12,12 +12,16 @@ metadata:
   robots:
     index: true
     follow: true
+    maxSnippet: -1
+    maxVideoPreview: -1
+    maxImagePreview: 'large'
   openGraph:
     site_name: Soberania.digital
     images:
       - url: '~/assets/images/default.png'
         width: 1200
         height: 628
+        alt: 'Soberania digital'
     type: website
   twitter:
     handle: '@soberania'

@@ -61,17 +61,24 @@ export interface MetaData {
 
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
+
+  articlePublishedTime?: string;
+  articleModifiedTime?: string;
 }
 
 export interface MetaDataRobots {
   index?: boolean;
   follow?: boolean;
+  maxSnippet?: number;
+  maxVideoPreview?: number;
+  maxImagePreview?: string;
 }
 
 export interface MetaDataImage {
   url: string;
   width?: number;
   height?: number;
+  alt?: string;
 }
 
 export interface MetaDataOpenGraph {

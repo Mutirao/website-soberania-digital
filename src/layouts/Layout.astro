@@ -11,6 +11,7 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
+import JsonLDSchema from '~/components/common/JsonLDSchema.astro';
 
 // Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
@@ -33,6 +34,13 @@ const { language, textDirection } = I18N;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
+    <JsonLDSchema
+      type={Astro.url.pathname === '/' ? 'Article' : 'WebPage'}
+      title={metadata?.title}
+      description={metadata?.description}
+      publishedTime={metadata?.articlePublishedTime}
+      modifiedTime={metadata?.articleModifiedTime}
+    />
     <SiteVerification />
     <Analytics />
 
