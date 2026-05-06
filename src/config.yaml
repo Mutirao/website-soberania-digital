@@ -18,9 +18,9 @@ metadata:
   openGraph:
     site_name: Soberania.digital
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/id-visual-banner-horizontal.jpg'
         width: 1200
-        height: 628
+        height: 592
         alt: 'Soberania digital'
     type: website
   twitter:
