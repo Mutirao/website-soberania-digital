@@ -66,7 +66,12 @@ const metadata = {
               </a>
               <a href="#local"
                 class="inline-flex items-center justify-center min-h-[48px] border-2 border-[var(--sd-card-border)] text-[var(--sd-text-2)] hover:border-[#E31B23] hover:text-[#E31B23] font-bold py-3 px-6 text-base transition-colors">
-                Hospedagem
+                Mapa & Hospedagem
+              </a>
+              <a href="/encontro.ics" download
+                class="inline-flex items-center justify-center gap-2 min-h-[48px] border-2 border-[#E31B23] text-[#E31B23] hover:bg-[#E31B23] hover:text-white font-bold py-3 px-6 text-base transition-colors">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Adicionar ao Calendário (.ics)
               </a>
             </div>
           </div>
@@ -177,26 +182,59 @@ const metadata = {
         <p class="text-base md:text-lg text-gray-300 mb-8 max-w-xl mx-auto">
           {conf.date} em {conf.venue}. Participe da construção de um futuro digital soberano para o Brasil.
         </p>
-        <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-          class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold py-3 px-12 text-xl transition-colors shadow-lg">
-          {conf.callToAction.text}
-        </a>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold py-3 px-12 text-xl transition-colors shadow-lg">
+            {conf.callToAction.text}
+          </a>
+          <a href="/encontro.ics" download
+            class="inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-white text-white hover:bg-white hover:text-[#010101] font-bold py-3 px-8 text-xl transition-colors">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Baixar Programação (.ics)
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- LOCATION + HOTELS -->
+    <!-- MAPA + LOCAL + HOSPEDAGEM -->
     <section id="local" class="bg-[var(--sd-section-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-10">
           <p class="text-[#E31B23] font-bold uppercase tracking-widest text-sm mb-3">📍 Local do evento</p>
           <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-2">{location.name}</h2>
           <p class="text-[var(--sd-text-2)] mb-6">{location.address}</p>
-          <a href={location.mapLink} target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[48px] border-2 border-[#E31B23] text-[#E31B23] hover:bg-[#E31B23] hover:text-white font-bold py-2 px-6 transition-colors">
-            Ver no Google Maps
-          </a>
         </div>
 
+        <!-- Mapa OpenStreetMap com Leaflet -->
+        <div class="mb-10">
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+          <div id="osm-map" class="w-full rounded overflow-hidden border border-[var(--sd-card-border)] shadow-lg" style="height: 420px;"></div>
+          <div class="flex flex-wrap gap-3 mt-4 justify-center text-sm">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
+              <span class="w-3 h-3 rounded-full bg-[#E31B23] inline-block"></span> Local do Encontro
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
+              <span class="w-3 h-3 rounded-full bg-[#45a2ca] inline-block"></span> Hotéis
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
+              <span class="w-3 h-3 rounded-full bg-[#77b978] inline-block"></span> Aeroporto
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
+              <span class="w-3 h-3 rounded-full bg-[#FFD400] inline-block"></span> Rodoviária
+            </span>
+          </div>
+        </div>
+
+        <!-- Botão Download Offline -->
+        <div class="text-center mb-12">
+          <button id="download-offline" type="button"
+            class="inline-flex items-center justify-center gap-2 min-h-[48px] bg-[var(--sd-card-bg)] border-2 border-[var(--sd-card-border)] hover:border-[#E31B23] text-[var(--sd-text)] hover:text-[#E31B23] font-bold py-3 px-8 text-base transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Baixar Info do Viajante (Offline)
+          </button>
+        </div>
+
+        <!-- Hotéis -->
         <div class="border-t border-[var(--sd-card-border)] pt-10 mt-10">
           <h3 class="text-xl md:text-2xl font-bold text-[var(--sd-text)] text-center mb-8">
             Onde se hospedar em Brasília
@@ -225,8 +263,113 @@ const metadata = {
             ))}
           </div>
         </div>
+
+        <!-- Aeroporto e Rodoviária -->
+        <div class="border-t border-[var(--sd-card-border)] pt-10 mt-10">
+          <h3 class="text-xl md:text-2xl font-bold text-[var(--sd-text)] text-center mb-8">
+            Como Chegar
+          </h3>
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)]">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-2xl">✈️</span>
+                <h4 class="text-[var(--sd-text)] font-bold text-lg">Aeroporto de Brasília (BSB)</h4>
+              </div>
+              <p class="text-[var(--sd-text-2)] text-sm mb-2">Aeroporto Internacional Juscelino Kubitschek</p>
+              <p class="text-[var(--sd-text-muted)] text-sm mb-2">Lago Sul, Brasília — DF</p>
+              <p class="text-[var(--sd-text-2)] text-sm mb-1"><strong>Distância:</strong> ~15 km do local do evento (20-30 min de carro)</p>
+              <p class="text-[var(--sd-text-muted)] text-xs">Táxi/Uber disponível 24h. Ônibus executivo para Rodoviária do Plano Piloto.</p>
+            </div>
+            <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)]">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-2xl">🚌</span>
+                <h4 class="text-[var(--sd-text)] font-bold text-lg">Rodoviária do Plano Piloto</h4>
+              </div>
+              <p class="text-[var(--sd-text-2)] text-sm mb-2">Rodoviária Interestadual de Brasília</p>
+              <p class="text-[var(--sd-text-muted)] text-sm mb-2">SMAS, Trecho 4, Conjunto 5/6 — Asa Sul</p>
+              <p class="text-[var(--sd-text-2)] text-sm mb-1"><strong>Distância:</strong> ~7 km do local do evento (15 min de carro)</p>
+              <p class="text-[var(--sd-text-muted)] text-xs">Metrô (Estação Shopping) + caminhada. Táxi/Uber disponível.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
+
+    <!-- Leaflet Map Script -->
+    <script is:inline>
+      (function() {
+        var mapEl = document.getElementById('osm-map');
+        if (!mapEl) return;
+
+        function buildMap() {
+          var map = L.map('osm-map').setView([-15.790, -47.888], 13);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 19,
+          }).addTo(map);
+
+          // Venue marker
+          L.marker([-15.7993, -47.8905], {
+            icon: L.divIcon({
+              className: 'custom-marker',
+              html: '<div style="background:#E31B23;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">📍</div>',
+              iconSize: [30, 30],
+              iconAnchor: [15, 15],
+            }),
+          }).addTo(map).bindPopup('<strong>Sindicato e Teatro dos Bancários</strong><br>EQS 314/315, Asa Sul<br>📍 Local do 2º Encontro');
+
+          // Hotel markers
+          var hotelIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background:#45a2ca;color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">🏨</div>',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+          });
+
+          var hotels = [
+            { name: 'LIKE U HOTEIS', lat: -15.7895, lng: -47.885, desc: 'SHS Quadra 04, Bloco F — 30% desc SESC' },
+            { name: 'Joy Hostels', lat: -15.7779, lng: -47.892, desc: 'SCRN 702/703, Bloco H, Asa Norte' },
+            { name: 'Freeway Hostels', lat: -15.767, lng: -47.888, desc: 'SHCGN 708 bloco I, Asa Norte' },
+          ];
+
+          hotels.forEach(function(h) {
+            L.marker([h.lat, h.lng], { icon: hotelIcon })
+              .addTo(map)
+              .bindPopup('<strong>' + h.name + '</strong><br>' + h.desc);
+          });
+
+          // Airport
+          L.marker([-15.8697, -47.9177], {
+            icon: L.divIcon({
+              className: 'custom-marker',
+              html: '<div style="background:#77b978;color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">✈️</div>',
+              iconSize: [26, 26],
+              iconAnchor: [13, 13],
+            }),
+          }).addTo(map).bindPopup('<strong>✈️ Aeroporto de Brasília (BSB)</strong><br>~15 km do local | 20-30 min');
+
+          // Bus station
+          L.marker([-15.7934, -47.8826], {
+            icon: L.divIcon({
+              className: 'custom-marker',
+              html: '<div style="background:#FFD400;color:#010101;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">🚌</div>',
+              iconSize: [26, 26],
+              iconAnchor: [13, 13],
+            }),
+          }).addTo(map).bindPopup('<strong>🚌 Rodoviária do Plano Piloto</strong><br>~7 km do local | 15 min');
+        }
+
+        if (typeof L !== 'undefined') {
+          buildMap();
+        } else {
+          var s = document.createElement('script');
+          s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          s.onload = buildMap;
+          document.head.appendChild(s);
+        }
+      })();
+    </script>
 
     <!-- COMMUNITY -->
     <section class="bg-[var(--sd-section-bg)] py-16 border-t border-[var(--sd-card-border)]">
