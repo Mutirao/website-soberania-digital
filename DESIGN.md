@@ -1,221 +1,73 @@
-# Design System — Soberania Digital
+# Design System - Soberania Digital
 
-## Overview
-
-The Soberania Digital website is built on **Astro 5** with **Tailwind CSS** and uses a custom design system based on CSS variables for theming. The project uses **Overpass** as the primary typeface with **Inter** as a fallback.
+> Documentação de design para projeto Astro com Tailwind CSS utilizando o template [AstroWind](https://github.com/onwidget/astrowind)
 
 ---
 
-## Color System
+## Índice
 
-### Semantic Tokens (CSS Variables)
-
-```css
-/* Primary Brand Colors */
---aw-color-primary: #45a2ca;    /* Cyan blue - main brand color */
---aw-color-secondary: #59c3c3;  /* Teal - secondary accent */
---aw-color-accent: #77b978;     /* Green - tertiary accent */
-
-/* CTA / Action Color */
---c60548: #c60548;              /* Deep pink-red - call-to-action buttons */
-
-/* Light Mode Text */
---aw-color-text-heading: #010101;
---aw-color-text-default: #333333;
---aw-color-text-muted: #333333 / 66%;
-
-/* Light Mode Backgrounds */
---aw-color-bg-page: #ffffff;
---sd-section-bg: #ffffff;
---sd-section-alt-bg: #f7f7f7;
-
-/* Dark Mode Overrides */
-.dark {
-  --aw-color-text-heading: #ffffff;
-  --aw-color-text-default: #e0e0e0;
-  --aw-color-bg-page: #010101;
-  --sd-section-bg: #010101;
-  --sd-section-alt-bg: #010101;
-}
-
-/* Card/Component Tokens */
---sd-card-bg: #ffffff;          /* Card background */
---sd-card-border: #e5e7eb;       /* Card borders */
---sd-text: #010101;              /* Primary text */
---sd-text-2: #555555;            /* Secondary text */
---sd-text-muted: #888888;        /* Muted text */
-```
-
-### Color Usage
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Primary Blue | `#45a2ca` | Links, highlights, icon backgrounds |
-| Deep Pink-Red | `#c60548` | CTA buttons, emphasis |
-| Dark Blue | `#004a8e` | Secondary buttons/cards |
-| Darker Pink | `#a0043c` | CTA button hover state |
-| Page Background | `#ffffff` / `#010101` | Light/dark mode base |
-| Section Alt | `#f7f7f7` | Alternating section backgrounds |
-| Text Primary | `#010101` / `#ffffff` | Headings and primary text |
-| Text Secondary | `#555555` / `#d1d5db` | Body text |
-| Text Muted | `#888888` / `#9ca3af` | Captions, metadata |
-
-### Contrast Compliance (WCAG)
-
-| Element | Ratio | Compliance |
-|---------|-------|------------|
-| Body text (#333 on #fff) | 9.4:1 | AAA |
-| Text on dark bg (#fff on #010) | 20:1 | AAA |
-| Primary buttons (#c60548 on white) | 4.6:1 | AA |
+1. [Visão Geral](#visão-geral)
+2. [Paleta de Cores](#paleta-de-cores)
+3. [Tipografia](#tipografia)
+4. [Componentes](#componentes)
+5. [Layout](#layout)
+6. [Responsividade](#responsividade)
+7. [Boas Práticas](#boas-práticas)
 
 ---
 
-## Typography
+## Visão Geral
 
-### Typeface Stack
-
-```css
---aw-font-sans: 'Overpass', 'Inter Variable', sans-serif;
---aw-font-serif: 'Overpass', 'Inter Variable', sans-serif;
---aw-font-heading: 'Overpass', 'Inter Variable', sans-serif;
+```yaml
+Projeto: Soberania Digital
+Framework: Astro 5.x
+Estilização: Tailwind CSS 3.x
+Template Base: AstroWind
+Build: Static
+Dark Mode: class-based (.dark on html)
 ```
 
-**Primary Font:** Overpass (Google Fonts)
-- Weights: 400, 500, 700, 900
-- Used for all text (headings, body, UI)
+### Objetivos de Design
 
-**Fallback:** Inter Variable (from `@fontsource-variable/inter`)
-- Used as fallback for Overpass
-
-### Type Scale
-
-```css
-/* CSS custom properties */
---text-xs: 0.75rem;     /* 12px */
---text-sm: 0.875rem;    /* 14px */
---text-base: 1rem;      /* 16px */
---text-lg: 1.125rem;    /* 18px */
---text-xl: 1.25rem;     /* 20px */
---text-2xl: 1.5rem;      /* 24px */
---text-3xl: 1.875rem;   /* 30px */
---text-4xl: 2.25rem;     /* 36px */
---text-5xl: 3rem;       /* 48px */
-```
-
-### Heading Styles
-
-```css
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-```
-
-| Element | Size | Weight | Transform |
-|---------|------|--------|-----------|
-| H1 | 4xl-5xl | 900 | uppercase |
-| H2 | 3xl-4xl | 900 | uppercase |
-| H3 | 2xl-3xl | 900 | uppercase |
-| Body | base-lg (16-18px) | 400-500 | none |
-
-### Line Heights
-
-- Headings: `1.1-1.3`
-- Body text: `1.5-1.7`
-- UI labels: `1.2-1.4`
-
-### Reading Width
-
-```css
-p {
-  max-width: 65ch; /* Optimal reading width */
-}
-```
+- Identidade visual forte e coerente
+- Acessibilidade WCAG 2.1 AA
+- Performance otimizada (Lighthouse 90+)
+- Mobile-first responsivo
+- Dark mode nativo
 
 ---
 
-## Spacing System
+## Paleta de Cores
 
-**8-point grid system** based on Tailwind defaults:
-
-| Token | Value | Common Usage |
-|-------|-------|--------------|
-| `--space-1` | 4px | Icon gaps |
-| `--space-2` | 8px | Small gaps |
-| `--space-3` | 12px | Icon-text gaps |
-| `--space-4` | 16px | Card padding, form fields |
-| `--space-5` | 20px | Component padding |
-| `--space-6` | 24px | Section padding |
-| `--space-8` | 32px | Section gaps |
-| `--space-10` | 40px | Large spacing |
-| `--space-12` | 48px | Section dividers |
-| `--space-16` | 64px | Major sections |
-
-### Component Spacing
-
-| Component | Padding | Gap |
-|-----------|---------|-----|
-| Card | 16-24px | 16-24px |
-| Section | 32-64px vertical | 16-24px |
-| Form field | 16px vertical | 16-24px |
-| Button | 8-16px vertical, 16-24px horizontal | 8px |
-| Icon + text | — | 8px |
-
----
-
-## Components
-
-### Buttons
-
-**Primary CTA Button:**
-```css
-.bg-[#c60548] hover:bg-[#a0043c]
-text-white font-bold py-4 px-8 text-lg
-transition-colors shadow-lg
-```
-
-**Secondary Button:**
-```css
-.bg-white hover:bg-gray-200
-text-[#010101] font-bold py-4 px-10 text-xl
-transition-colors shadow-lg
-```
-
-**Telegram Link Button:**
-```css
-.bg-[#004a8e] hover:bg-[#003d73]
-text-white font-bold
-transition-colors
-```
-
-### Cards
+### Cores Primárias
 
 ```css
-background: var(--sd-card-bg);
-border: 1px solid var(--sd-card-border);
+/* Primárias */
+--aw-color-primary: #45a2ca;    /* Cyan blue - cor principal da marca */
+--aw-color-secondary: #59c3c3;  /* Teal - acento secundário */
+--aw-color-accent: #77b978;       /* Green - acento terciário */
+
+/* CTA / Ação */
+--c60548: #c60548;               /* Rosa-vermelho - botões de ação */
+--a0043c: #a0043c;               /* Hover do CTA */
 ```
 
-### Icon System
+### Cores de Seção
 
-Icons are inline SVGs using `currentColor`. Sizes follow the system:
-
-| Size | Value | Usage |
-|------|-------|-------|
-| xs | 12px | Small indicators |
-| sm | 16px | UI labels |
-| md | 20px | Default |
-| lg | 24px | Feature icons |
-| xl | 32px | Section icons |
-| 2xl | 40px | Large callouts |
-
----
-
-## Theming
+```css
+/* Light Mode */
+--sd-section-bg: #ffffff;       /* Fundo principal */
+--sd-section-alt-bg: #f7f7f7;    /* Fundo alternado */
+--sd-text: #010101;              /* Texto primário */
+--sd-text-2: #555555;            /* Texto secundário */
+--sd-text-muted: #888888;       /* Texto terciário/muted */
+--sd-card-bg: #ffffff;           /* Fundo de cards */
+--sd-card-border: #e5e7eb;       /* Bordas de cards */
+--sd-primary: #004a8e;          /* Botão Telegram */
+--sd-primary-hover: #003d73;
+```
 
 ### Dark Mode
-
-Dark mode is handled via a `.dark` class on the `<html>` element, toggled by JavaScript.
 
 ```css
 .dark {
@@ -229,74 +81,117 @@ Dark mode is handled via a `.dark` class on the `<html>` element, toggled by Jav
   --sd-text-muted: #9ca3af;
   --sd-card-bg: #111827;
   --sd-card-border: #1f2937;
+  --sd-primary: #45a2ca;
+  --sd-primary-hover: #3a8ab0;
 }
 ```
 
-### Color Mode Toggle
+### Paleta Consolidada
 
-Component: `src/components/common/ToggleTheme.astro`
+| Nome | Hex | Uso |
+|------|-----|-----|
+| Primary Blue | `#45a2ca` | Links, destaques, ícones |
+| Deep Pink-Red | `#c60548` | CTA buttons, ênfase |
+| Dark Blue | `#004a8e` | Botão Telegram |
+| Darker Pink | `#a0043c` | CTA hover |
+| Section BG | `#ffffff` / `#010101` | Fundos de seção |
+| Section Alt | `#f7f7f7` | Fundos alternados |
+| Text Primary | `#010101` / `#ffffff` | Títulos |
+| Text Secondary | `#555555` / `#d1d5db` | Corpo de texto |
+| Text Muted | `#888888` / `#9ca3af` | Legendas, metadados |
+
+### Contraste WCAG
+
+| Elemento | Razão | Conformidade |
+|----------|-------|--------------|
+| Body text (#333 on #fff) | 9.4:1 | AAA |
+| Text on dark (#fff on #010) | 20:1 | AAA |
+| Primary buttons (#c60548 on white) | 4.6:1 | AA |
 
 ---
 
-## Animation
+## Tipografia
+
+### Fontes
 
 ```css
-animation: fadeInUp 1s both;
+--aw-font-sans: 'Overpass', 'Inter Variable', sans-serif;
+--aw-font-serif: 'Overpass', 'Inter Variable', sans-serif;
+--aw-font-heading: 'Overpass', 'Inter Variable', sans-serif;
+```
 
-@keyframes fadeInUp {
-  0% { opacity: 0, transform: translateY(2rem); }
-  100% { opacity: 1, transform: translateY(0); }
+**Overpass** (Google Fonts) - weights 400, 500, 700, 900
+**Fallback:** Inter Variable (from `@fontsource-variable/inter`)
+
+### Escala Tipográfica
+
+```css
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-wrap: balance;
 }
 ```
 
-### Interactive States
+| Elemento | Tamanho | Weight | Transform |
+|----------|---------|--------|-----------|
+| H1 | 4xl-5xl | 900 | uppercase |
+| H2 | 3xl-4xl | 900 | uppercase |
+| H3 | 2xl-3xl | 900 | uppercase |
+| Body | base-lg (16-18px) | 400 | none |
 
-- **Buttons:** `transition-colors` on hover
-- **Links:** Color change on hover via Tailwind
-- **Cards:** Background change on hover
+### Line Heights
+
+- Headings: `1.1-1.3`
+- Body text: `1.5-1.7`
+- UI labels: `1.2-1.4`
 
 ---
 
-## Accessibility
+## Componentes
 
-### Focus States
+### Buttons
 
-Ensure all interactive elements have visible focus states. The project uses Tailwind's default focus rings.
-
-### Selection Color
-
-```css
-::selection {
-  background-color: #45a2ca / 40%;
-}
+**CTA Primário:**
+```html
+class="bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-4 px-8 text-lg transition-colors shadow-lg"
 ```
 
-### Scroll Behavior
-
-```css
-html {
-  scroll-behavior: smooth;
-}
+**CTA Secundário:**
+```html
+class="bg-white hover:bg-gray-200 text-[#010101] font-bold py-4 px-10 text-xl transition-colors shadow-lg"
 ```
 
-### Touch Targets
+**Botão Telegram:**
+```html
+class="flex items-center gap-4 p-5 bg-[var(--sd-primary)] hover:bg-[var(--sd-primary-hover)] transition-colors group"
+```
 
-Minimum touch target size should be 44x44px for mobile accessibility.
+### Cards
+
+```html
+class="bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)] p-6"
+```
+
+### Icon System
+
+Tamanhos (inline SVG com `currentColor`):
+
+| Tamanho | Valor | Uso |
+|---------|-------|-----|
+| xs | 12px | Indicadores |
+| sm | 16px | Labels |
+| md | 20px | Default |
+| lg | 24px | Ícones de features |
+| xl | 32px | Ícones de seção |
+| 2xl | 40px | Destaques |
 
 ---
 
 ## Layout
 
-### Max Widths
-
-| Container | Max Width | Usage |
-|-----------|-----------|-------|
-| Content | 65ch | Text blocks |
-| Cards | 6xl (72rem) | Feature sections |
-| Wide | 7xl (80rem) | Hero, major sections |
-| Full | None | Video embeds, images |
-
-### Section Structure
+### Estrutura de Seção
 
 ```html
 <section class="py-16 bg-[var(--sd-section-bg)]">
@@ -305,6 +200,15 @@ Minimum touch target size should be 44x44px for mobile accessibility.
   </div>
 </section>
 ```
+
+### Max Widths
+
+| Container | Max Width | Uso |
+|-----------|-----------|-----|
+| Content | 65ch | Blocos de texto |
+| Cards | 6xl (72rem) | Seções de features |
+| Wide | 7xl (80rem) | Hero, seções principais |
+| Full | None | Video embeds, imagens |
 
 ### Breakpoints
 
@@ -316,9 +220,71 @@ Minimum touch target size should be 44x44px for mobile accessibility.
 
 ---
 
-## Resources
+## Responsividade
+
+### Padrões
+
+```html
+<!-- Grid responsivo -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+<!-- Tipografia fluida -->
+<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+
+<!-- Espaçamento adaptativo -->
+<section class="py-8 px-4 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
+```
+
+### Touch Targets
+
+Mínimo de 44x44px para acessibilidade mobile.
+
+---
+
+## Boas Práticas
+
+### Seleção de Cor
+
+```css
+::selection {
+  background-color: #45a2ca / 40%;
+}
+```
+
+### Scroll Suave
+
+```css
+html {
+  scroll-behavior: smooth;
+}
+```
+
+### Animation
+
+```css
+animation: fadeInUp 1s both;
+
+@keyframes fadeInUp {
+  0% { opacity: 0, transform: 'translateY(2rem)'; }
+  100% { opacity: 1, transform: 'translateY(0)'; }
+}
+```
+
+### Checklist de Lançamento
+
+- [x] Paleta de cores aplicada consistentemente
+- [x] Tipografia configurada com fallbacks
+- [x] Dark mode funcional
+- [x] Responsividade testada
+- [ ] Acessibilidade: navegação por teclado
+- [ ] SEO: meta tags
+
+---
+
+## Recursos
 
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [Overpass Font](https://overpassfont.org/)
 - [Fontsource Inter](https://fontsource.org/)
 - [WCAG Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [AstroWind Template](https://github.com/onwidget/astrowind)
