@@ -1,399 +1,213 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
-import Features from '~/components/widgets/Features.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Steps from '~/components/widgets/Steps.astro';
-import Content from '~/components/widgets/Content.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import HeroFullImage from '~/components/widgets/HeroFullImage.astro';
+import MediaCoverage from '~/components/widgets/MediaCoverage.astro';
+import VideoEmbed from '~/components/widgets/VideoEmbed.astro';
+import Manifesto from '~/components/widgets/Manifesto.astro';
 
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: 'Soberania Digital — Rede pela Soberania Digital',
   ignoreTitleTemplate: true,
+  description: 'Rede para debates, trocas de informações e organização de ações pela Soberania Digital.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
+  <!-- Hero with Di Cavalcanti background -->
+  <HeroFullImage />
 
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/arthelokyo/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
-      },
-      { text: 'Learn more', href: '#features' },
-    ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'AstroWind Hero Image' }}
-  >
-    <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white"> Astro 5.0</span> + Tailwind CSS
-    </Fragment>
+  <!-- CTA: 2º Encontro Nacional -->
+  <section class="relative py-16 bg-gray-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="md:flex items-center gap-12">
+        <div class="md:basis-1/2 mb-8 md:mb-0">
+          <img
+            src="/banner-encontro-2026.jpg"
+            alt="2º Encontro Nacional pela Soberania Digital"
+            class="rounded-lg shadow-2xl w-full"
+            loading="lazy"
+          />
+        </div>
+        <div class="md:basis-1/2 text-center md:text-left">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+            Estão abertas as inscrições para o <span class="text-green-400">2º Encontro Nacional</span> pela Soberania Digital.
+          </h2>
+          <p class="text-xl text-gray-300 mb-8">
+            Colabore com a construção desse momento!
+          </p>
+          <a
+            href="/encontro"
+            class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors shadow-lg"
+          >
+            Saiba mais e Inscreva-se!
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro 5.0
-        + Tailwind CSS.</span
+  <!-- Carta ao Presidente Lula -->
+  <section id="carta" class="relative py-20 bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div class="md:flex md:flex-row-reverse md:gap-16">
+        <div class="md:basis-1/2 self-center">
+          <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-white">
+            um Plano Digital para a <span class="text-green-400">Soberania Nacional</span>
+          </h2>
+          <h3 class="text-2xl font-bold text-white mb-4">
+            Carta pública convoca Brasil a debater autonomia tecnológica
+          </h3>
+          <p class="text-lg text-gray-300 mb-8">
+            Em meio à recente crise diplomática, emergiu com força a discussão sobre a soberania nacional e tecnológica do país. Organizações da sociedade civil brasileira lançam a Carta pela Soberania Digital.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <p class="text-gray-300">Plano Nacional pela Soberania Digital com ações coordenadas</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <p class="text-gray-300">Força Tarefa Colaborativa reunindo sociedade, academia e governo</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <p class="text-gray-300">Audiência com o presidente da República para apresentar propostas</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10 md:mt-0 md:basis-1/2">
+          <img
+            src="/di-cavalcanti-topo-1536x865.jpg"
+            alt="Carta pela Soberania Digital"
+            class="mx-auto w-full rounded-lg shadow-lg"
+            width="768"
+            height="433"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote section -->
+  <section class="relative py-16 bg-gray-900 border-t border-b border-gray-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <blockquote class="text-lg md:text-xl text-gray-300 italic leading-relaxed">
+        "Excelentíssimo Senhor Presidente Luiz Inácio Lula da Silva,
+        <strong class="text-white">O Brasil está sob ataque.</strong> E não se trata apenas de ataques às instituições. Atacam a infância e a saúde mental coletiva. Atacam a cultura e a ciência. Estamos falando do <strong class="text-white">domínio brutal e predatório das Big Techs</strong> — um conglomerado global que avança sobre os territórios, os dados, os afetos e a democracia."
+      </blockquote>
+      <a
+        href="/carta"
+        class="inline-block mt-8 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
       >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages &
-      Blogs.
-    </Fragment>
-  </Hero>
+        CONTINUE LENDO A CARTA AO PRESIDENTE LULA
+      </a>
+    </div>
+  </section>
 
-  <!-- Note Widget ******************* -->
+  <!-- Sign & Participate Section -->
+  <section class="relative py-20 bg-gray-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          Leia, Assine e faça parte dessa <span class="text-green-400">Luta!</span>
+        </h2>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+          Precisamos de um projeto estruturante, nacional e coletivo, que aponte caminhos concretos para a construção de uma infraestrutura digital própria, baseada em código aberto, tecnologias públicas e controle democrático.
+        </p>
+      </div>
 
-  <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" />
+      <div class="md:flex items-center gap-16">
+        <div class="md:basis-1/2 mb-10 md:mb-0 text-center">
+          <img
+            src="/id-visual-generica.jpg"
+            alt="Rede pela Soberania Digital"
+            class="rounded-lg shadow-xl mx-auto max-w-md"
+            loading="lazy"
+          />
+          <p class="text-gray-400 mt-4 text-sm">
+            A reunião inaugural da Rede foi realizada no dia <strong class="text-white">1 de julho de 2023</strong>.
+          </p>
+          <p class="text-gray-300 mt-2">
+            Junte-se a nós nesse processo colaborativo e vital para o futuro da nossa sociedade.
+          </p>
+        </div>
+        <div class="md:basis-1/2 space-y-6">
+          <a
+            href="https://t.me/SoberaniaDigitalBR"
+            target="_blank"
+            class="flex items-center gap-4 p-5 bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors group"
+          >
+            <svg class="w-10 h-10 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            <div>
+              <div class="text-white font-bold text-lg">Entre para nosso grupo no Telegram</div>
+              <div class="text-blue-200 text-sm">t.me/SoberaniaDigitalBR</div>
+            </div>
+          </a>
 
-  <!-- Features Widget *************** -->
+          <a
+            href="https://matrix.to/#/%23soberaniadigital:matrix.org"
+            target="_blank"
+            class="flex items-center gap-4 p-5 bg-gray-800 hover:bg-gray-700 rounded-xl transition-colors group"
+          >
+            <svg class="w-10 h-10 text-green-400 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.011 1.119.251-.373.591-.7 1.011-.981.42-.281.93-.422 1.533-.422.445 0 .855.055 1.232.166.376.111.697.29.963.537.267.247.472.572.617.976.145.403.217.893.217 1.47v5.991h-2.316v-5.08c0-.375-.023-.7-.07-.971a1.774 1.774 0 0 0-.254-.706 1.12 1.12 0 0 0-.511-.437c-.217-.1-.496-.15-.838-.15-.339 0-.62.058-.842.173a1.224 1.224 0 0 0-.511.463 1.862 1.862 0 0 0-.254.706c-.047.271-.07.596-.07.971v5.08h-2.316v-5.08c0-.37-.012-.697-.037-.974a1.812 1.812 0 0 0-.224-.737 1.1 1.1 0 0 0-.502-.484c-.217-.11-.505-.166-.863-.166a1.79 1.79 0 0 0-.478.074 1.513 1.513 0 0 0-.608.333c-.217.192-.397.472-.539.842-.142.37-.213.86-.213 1.47v5.08H7.675V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
+            </svg>
+            <div>
+              <div class="text-white font-bold text-lg">Entre para nosso grupo da Rede Matrix</div>
+              <div class="text-gray-400 text-sm">#soberaniadigital:matrix.org</div>
+            </div>
+          </a>
 
-  <Features
-    id="features"
-    tagline="Features"
-    title="What you get with AstroWind"
-    subtitle="One of the most professional and comprehensive templates currently on the market. Most starred & forked Astro theme in 2022, 2023 and 2024."
-    items={[
-      {
-        title: 'Astro + Tailwind CSS Integration',
-        description:
-          'A seamless integration between two great frameworks that offer high productivity, performance and versatility.',
-        icon: 'tabler:brand-tailwind',
-      },
-      {
-        title: 'Ready-to-use Components',
-        description:
-          'Widgets made with Tailwind CSS ready to be used in Marketing Websites, SaaS, Blogs, Personal Profiles, Small Business...',
-        icon: 'tabler:components',
-      },
-      {
-        title: 'Best Practices',
-        description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
-        icon: 'tabler:list-check',
-      },
-      {
-        title: 'Excellent Page Speed',
-        description:
-          'Having a good page speed impacts organic search ranking, improves user experience (UI/UX) and increase conversion rates.',
-        icon: 'tabler:rocket',
-      },
-      {
-        title: 'Search Engine Optimization (SEO)',
-        description:
-          "SEO lies in its ability to enhance a website's visibility, driving organic traffic and enabling it to reach a wider audience.",
-        icon: 'tabler:arrows-right-left',
-      },
-      {
-        title: 'Open to new ideas and contributions',
-        description:
-          'Embracing a culture that is open to new ideas and contributions is integral fostering innovation, collaboration, and a dynamic user experience.',
-        icon: 'tabler:bulb',
-      },
-    ]}
-  />
+          <a
+            href="/carta"
+            class="flex items-center gap-4 p-5 bg-green-600 hover:bg-green-700 rounded-xl transition-colors group"
+          >
+            <svg class="w-10 h-10 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <div>
+              <div class="text-white font-bold text-lg">LEIA E ASSINE NOSSA CARTA. COMPARTILHE!</div>
+              <div class="text-green-200 text-sm">Acessar documento completo</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Content Widget **************** -->
+  <!-- Video Section: Professor Sérgio Amadeu -->
+  <VideoEmbed />
 
-  <Content
-    isReversed
-    tagline="Inside template"
-    title="AstroWind's Blueprint: Fun Meets Functionality!"
-    items={[
-      {
-        title: 'Built on top of Astro 5.0',
-        description:
-          'Benefiting from the performance and developer-friendly features of this modern static site generator.',
-      },
-      {
-        title: 'Styled using Tailwind CSS',
-        description:
-          'Facilitating rapid design and consistent styling with this highly popular utility-first CSS framework.',
-      },
-      {
-        title: 'Cross-browser compatibility',
-        description:
-          'Ensure your website looks and functions consistently across various web browsers, delivering a seamless experience to all users.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Colorful Image',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Building on modern foundations</h3>
-      Gain a competitive advantage by incorporating industry leading practices
-    </Fragment>
+  <!-- Manifesto Section -->
+  <Manifesto />
 
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
+  <!-- Media Coverage Section -->
+  <MediaCoverage />
 
-  <!-- Content Widget **************** -->
-
-  <Content
-    isAfterContent
-    items={[
-      {
-        title: 'High level of customization',
-        description: `Tailor the template effortlessly to match your brand's identity and requirements, making your website distinct and saving you time.`,
-      },
-      {
-        title: 'Multiple layout possibilities',
-        description:
-          'Explore various layout options to find the structure that best presents your content, enhancing user engagement and navigation.',
-      },
-      {
-        title: 'Fully responsive design',
-        description:
-          "Ensure your website's optimal performance on various devices and screen sizes, providing a consistent and enjoyable user experience.",
-      },
-      {
-        title: 'Integration of media',
-        description:
-          'Seamlessly incorporate images, videos, and multimedia elements that enhance your content and engage visitors effectively.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2194&q=80',
-      alt: 'Blueprint Image',
-    }}
-  >
-    <Fragment slot="content">Ensure your online presence truly represents you.</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    isAfterContent
-    items={[
-      {
-        title: 'Enhanced user engagement',
-        description:
-          'Captivate your audience with interactive elements, intuitive navigation, and visually appealing layouts, encouraging longer visits.',
-      },
-      {
-        title: 'Continuous improvement',
-        description:
-          'Ensure your website stays aligned with the latest trends and technologies through regular updates and enhancements.',
-      },
-      {
-        title: 'Time and resource efficiency',
-        description:
-          'Skip the time-consuming process of building a website from scratch and launch your online presence sooner with AstroWind.',
-      },
-      {
-        title: 'Community support',
-        description: `Join the growing AstroWind community for insights, resources, and assistance, ensuring you're never alone on your web development journey.`,
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1611462985358-60d3498e0364?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Astronauts Image',
-    }}
-  >
-    <Fragment slot="content">Designed to foster growth and success.</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Steps Widget ****************** -->
-
-  <Steps
-    title="Get your dream website up and running in no time with AstroWind."
-    items={[
-      {
-        title: 'Step 1: <span class="font-medium">Download</span>',
-        description:
-          "Kickstart with GitHub! Either fork the AstroWind template or simply click 'Use this template'. Your canvas awaits, ready for your digital masterpiece. In just a few clicks, you've already set the foundation.",
-        icon: 'tabler:package',
-      },
-      {
-        title: 'Step 2: <span class="font-medium">Add content</span>',
-        description:
-          "Pour your vision into it. Add images, text, and all that jazz to breathe life into your digital space. Remember, it's the content that tells your story, so make it captivating.",
-        icon: 'tabler:letter-case',
-      },
-      {
-        title: 'Step 3: <span class="font-medium">Customize styles</span>',
-        description:
-          'Give it your personal touch. Tailor colors, fonts, and layouts until it feels just right. Your unique flair, amplified by AstroWind! Precision in design ensures a seamless user experience.',
-        icon: 'tabler:paint',
-      },
-      {
-        title: 'Ready!',
-        icon: 'tabler:check',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1616198814651-e71f960c3180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Steps image',
-    }}
-  />
-
-  <!-- Features2 Widget ************** -->
-
-  <Features2
-    title="Most used widgets"
-    subtitle="Provides frequently used components for building websites using Tailwind CSS"
-    tagline="Components"
-    items={[
-      {
-        title: 'Headers',
-        description: "Ever tried driving without GPS? Boom! That's why websites need headers for direction.",
-        icon: 'flat-color-icons:template',
-      },
-      {
-        title: 'Heros',
-        description:
-          "Picture a superhero landing – epic, right? That's the job of a Hero section, making grand entrances!",
-        icon: 'flat-color-icons:gallery',
-      },
-      {
-        title: 'Features',
-        description:
-          'Where websites strut their stuff and show off superpowers. No holding back on the bragging rights here!',
-        icon: 'flat-color-icons:approval',
-      },
-      {
-        title: 'Content',
-        description:
-          "Dive into the meat and potatoes of a site; without it, you'd just be window shopping. Content is king.",
-        icon: 'flat-color-icons:document',
-      },
-      {
-        title: 'Call-to-Action',
-        description:
-          'That enthusiastic friend who\'s always urging, "Do it! Do it!"? Yeah, that\'s this button nudging you towards adventure.',
-        icon: 'flat-color-icons:advertising',
-      },
-      {
-        title: 'Pricing',
-        description: 'Behold the dessert menu of the website world. Tempting choices await, can you resist?',
-        icon: 'flat-color-icons:currency-exchange',
-      },
-      {
-        title: 'Testimonial',
-        description: 'Step into the gossip corner! Here, other visitors spill the beans and share the juicy details.',
-        icon: 'flat-color-icons:voice-presentation',
-      },
-      {
-        title: 'Contact',
-        description:
-          'Like a digital mailbox, but faster! Drop a line, ask a question, or send a virtual high-five. Ding! Message in.',
-        icon: 'flat-color-icons:business-contact',
-      },
-      {
-        title: 'Footers',
-        description: "The footer's like the credits of a movie but sprinkled with easter eggs. Time to hunt!",
-        icon: 'flat-color-icons:database',
-      },
-    ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Features2>
-
-  <!-- HighlightedPosts Widget ******* -->
-
-  <BlogLatestPosts
-    title="Find out more content in our Blog"
-    information={`The blog is used to display AstroWind documentation.
-                        Each new article will be an important step that you will need to know to be an expert in creating a website using Astro + Tailwind CSS.
-                        Astro is a very interesting technology. Thanks.
-                `}
-  />
-
-  <!-- FAQs Widget ******************* -->
-
-  <FAQs
-    title="Frequently Asked Questions"
-    subtitle="Dive into the following questions to gain insights into the powerful features that AstroWind offers and how it can elevate your web development journey."
-    tagline="FAQs"
-    classes={{ container: 'max-w-6xl' }}
-    items={[
-      {
-        title: 'Why AstroWind?',
-        description:
-          "Michael Knight a young loner on a crusade to champion the cause of the innocent. The helpless. The powerless in a world of criminals who operate above the law. Here he comes Here comes Speed Racer. He's a demon on wheels.",
-      },
-      {
-        title: 'What do I need to start?',
-        description:
-          'Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds. Many say exploration is part of our destiny, but it’s actually our duty to future generations.',
-      },
-      {
-        title: 'How to install the Astro + Tailwind CSS template?',
-        description:
-          "Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows.",
-      },
-      {
-        title: "What's something that you don't understand?",
-        description:
-          "A flower in my garden, a mystery in my panties. Heart attack never stopped old Big Bear. I didn't even know we were calling him Big Bear.",
-      },
-      {
-        title: 'What is something that you would like to try again?',
-        description:
-          "A business big enough that it could be listed on the NASDAQ goes belly up. Disappears! It ceases to exist without me. No, you clearly don't know who you're talking to, so let me clue you in.",
-      },
-      {
-        title: 'If you could only ask one question to each person you meet, what would that question be?',
-        description:
-          "This is not about revenge. This is about justice. A lot of things can change in twelve years, Admiral. Well, that's certainly good to know. About four years. I got tired of hearing how young I looked.",
-      },
-    ]}
-  />
-
-  <!-- Stats Widget ****************** -->
-
-  <Stats
-    stats={[
-      { title: 'Downloads', amount: '132K' },
-      { title: 'Stars', amount: '24.8K' },
-      { title: 'Forks', amount: '10.3K' },
-      { title: 'Users', amount: '48.4K' },
-    ]}
-  />
-
-  <!-- CallToAction Widget *********** -->
-
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/arthelokyo/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
-      },
-    ]}
-  >
-    <Fragment slot="title">
-      Astro&nbsp;+&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">Tailwind CSS</span>
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      Be very surprised by these huge fake numbers you are seeing on this page. <br class="hidden md:inline" />Don't
-      waste more time! :P
-    </Fragment>
-  </CallToAction>
+  <!-- Meetings/Plantaformas Section -->
+  <section class="relative py-16 bg-green-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-green-100 font-bold uppercase tracking-widest mb-2 text-sm">PRESTA ATENÇÃO NAS REUNIÕES DA</p>
+      <h2 class="text-3xl md:text-5xl font-bold text-white mb-8">
+        Rede PELA SOBERANIA DIGITAL
+      </h2>
+      <a
+        href="https://plantaformas.org/assemblies/soberaniadigital/f/29/meetings"
+        target="_blank"
+        class="inline-block bg-white text-green-700 hover:bg-gray-100 font-bold py-4 px-10 rounded-lg text-xl transition-colors shadow-lg"
+      >
+        VEJA NA PLANTAFORMAS
+      </a>
+    </div>
+  </section>
 </Layout>
