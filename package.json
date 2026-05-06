@@ -68,5 +68,8 @@
     "unist-util-visit": "^5.0.0",
     "vite": "^8.0.10",
     "wrangler": "^4.88.0"
+  },
+  "overrides": {
+    "astro": "$astro"
   }
 }
