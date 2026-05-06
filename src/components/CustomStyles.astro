@@ -3,46 +3,63 @@ import '@fontsource-variable/inter';
 ---
 
 <style is:inline>
+  @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@400;500;700;900&display=swap');
+
   :root {
-    --aw-font-sans: 'Inter Variable';
-    --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
+    --aw-font-sans: 'Overpass', 'Inter Variable', sans-serif;
+    --aw-font-serif: 'Overpass', 'Inter Variable', sans-serif;
+    --aw-font-heading: 'Overpass', 'Inter Variable', sans-serif;
 
-    --aw-color-primary: rgb(34 197 94);
-    --aw-color-secondary: rgb(22 163 74);
-    --aw-color-accent: rgb(34 197 94);
+    --aw-color-primary: #45a2ca;
+    --aw-color-secondary: #59c3c3;
+    --aw-color-accent: #77b978;
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 7 18);
+    --aw-color-text-heading: #010101;
+    --aw-color-text-default: #333333;
+    --aw-color-text-muted: #333333 / 66%;
+    --aw-color-bg-page: #ffffff;
+
+    --sd-section-bg: #ffffff;
+    --sd-section-alt-bg: #f7f7f7;
+    --sd-text: #010101;
+    --sd-text-2: #555555;
+    --sd-text-muted: #888888;
+    --sd-card-bg: #ffffff;
+    --sd-card-border: #e5e7eb;
 
     ::selection {
-      background-color: rgb(34 197 94 / 40%);
+      background-color: #45a2ca / 40%;
     }
   }
 
   .dark {
-    --aw-font-sans: 'Inter Variable';
-    --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
+    --aw-color-text-heading: #ffffff;
+    --aw-color-text-default: #e0e0e0;
+    --aw-color-text-muted: #e0e0e0 / 66%;
+    --aw-color-bg-page: #010101;
 
-    --aw-color-primary: rgb(34 197 94);
-    --aw-color-secondary: rgb(22 163 74);
-    --aw-color-accent: rgb(34 197 94);
-
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 7 18);
+    --sd-section-bg: #010101;
+    --sd-section-alt-bg: #010101;
+    --sd-text: #ffffff;
+    --sd-text-2: #d1d5db;
+    --sd-text-muted: #9ca3af;
+    --sd-card-bg: #111827;
+    --sd-card-border: #1f2937;
 
     ::selection {
-      background-color: rgb(34 197 94 / 40%);
+      background-color: #45a2ca / 40%;
       color: white;
     }
   }
 
   html {
     scroll-behavior: smooth;
+    font-family: 'Overpass', 'Inter Variable', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 </style>

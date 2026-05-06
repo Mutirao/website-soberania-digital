@@ -3,12 +3,12 @@ import { getPermalink } from './utils/permalinks';
 export const headerData = {
   links: [
     {
-      text: 'Início',
-      href: getPermalink('/'),
+      text: 'Carta',
+      href: getPermalink('/carta'),
     },
     {
-      text: 'Carta ao Presidente Lula',
-      href: getPermalink('/carta'),
+      text: 'Manifesto',
+      href: getPermalink('/manifesto'),
     },
     {
       text: 'Encontros',
@@ -21,16 +21,8 @@ export const headerData = {
           text: '1º Encontro Soberania Já',
           href: getPermalink('/primeiro-encontro'),
         },
-        {
-          text: 'Links Rápidos',
-          href: getPermalink('/links-rapidos'),
-        },
       ],
-    },
-    {
-      text: 'Manifesto',
-      href: getPermalink('/manifesto'),
-    },
+    }
   ],
   actions: [
     {
@@ -48,8 +40,17 @@ export const footerData = {
         { text: 'Início', href: getPermalink('/') },
         { text: 'Carta ao Presidente Lula', href: getPermalink('/carta') },
         { text: '2º Encontro', href: getPermalink('/encontro') },
+        { text: '1º Encontro', href: getPermalink('/primeiro-encontro') },
         { text: 'Manifesto', href: getPermalink('/manifesto') },
-        { text: 'Links Rápidos', href: getPermalink('/links-rapidos') },
+      ],
+    },
+    {
+      title: 'Plantaformas',
+      links: [
+        { text: 'Conferência', href: 'https://plantaformas.org/conferences/SoberaniaDigital' },
+        { text: 'Inscrições 2º Encontro', href: 'https://plantaformas.org/conferences/SoberaniaDigital/f/529/' },
+        { text: 'Reuniões da Rede', href: 'https://plantaformas.org/assemblies/soberaniadigital/f/29/meetings' },
+        { text: 'Pad Colaborativo', href: 'https://pad.riseup.net/p/SoberaniaDigital' },
       ],
     },
     {
@@ -57,8 +58,8 @@ export const footerData = {
       links: [
         { text: 'Telegram', href: 'https://t.me/SoberaniaDigitalBR' },
         { text: 'Matrix', href: 'https://matrix.to/#/%23soberaniadigital:matrix.org' },
-        { text: 'Plantaformas', href: 'https://plantaformas.org/assemblies/soberaniadigital/f/29/meetings' },
         { text: 'Mastodon', href: 'https://organica.social/@soberania' },
+        { text: 'PeerTube', href: 'https://videos.organica.social/a/soberania/' },
       ],
     },
     {
@@ -76,6 +77,6 @@ export const footerData = {
     { ariaLabel: 'Telegram', icon: 'tabler:brand-telegram', href: 'https://t.me/SoberaniaDigitalBR' },
   ],
   footNote: `
-    Rede pela Soberania Digital · Construído com <a class="text-green-400 underline" href="https://astro.build">Astro</a> · Código aberto
+    Rede pela Soberania Digital · Código aberto
   `,
 };

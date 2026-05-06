@@ -14,31 +14,29 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero with Di Cavalcanti background -->
   <HeroFullImage />
 
-  <!-- CTA: 2º Encontro Nacional -->
-  <section class="relative py-16 bg-gray-900">
+  <section class="relative py-16 bg-[var(--sd-section-alt-bg)]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="md:flex items-center gap-12">
         <div class="md:basis-1/2 mb-8 md:mb-0">
           <img
             src="/banner-encontro-2026.jpg"
             alt="2º Encontro Nacional pela Soberania Digital"
-            class="rounded-lg shadow-2xl w-full"
+            class="shadow-2xl w-full"
             loading="lazy"
           />
         </div>
         <div class="md:basis-1/2 text-center md:text-left">
-          <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-            Estão abertas as inscrições para o <span class="text-green-400">2º Encontro Nacional</span> pela Soberania Digital.
+          <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-6 leading-tight">
+            Estão abertas as inscrições para o <span class="text-[#45a2ca]">2º Encontro Nacional</span> pela Soberania Digital.
           </h2>
-          <p class="text-xl text-gray-300 mb-8">
+          <p class="text-xl text-[var(--sd-text-2)] mb-8">
             Colabore com a construção desse momento!
           </p>
           <a
             href="/encontro"
-            class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors shadow-lg"
+            class="inline-block bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-4 px-8 text-lg transition-colors shadow-lg"
           >
             Saiba mais e Inscreva-se!
           </a>
@@ -47,38 +45,37 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Carta ao Presidente Lula -->
-  <section id="carta" class="relative py-20 bg-gray-950">
+  <section id="carta" class="relative py-20 bg-[var(--sd-section-bg)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="md:flex md:flex-row-reverse md:gap-16">
         <div class="md:basis-1/2 self-center">
-          <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-white">
-            um Plano Digital para a <span class="text-green-400">Soberania Nacional</span>
+          <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-6 text-[var(--sd-text)]">
+            um Plano Digital para a <span class="text-[#45a2ca]">Soberania Nacional</span>
           </h2>
-          <h3 class="text-2xl font-bold text-white mb-4">
+          <h3 class="text-2xl font-bold text-[var(--sd-text)] mb-4">
             Carta pública convoca Brasil a debater autonomia tecnológica
           </h3>
-          <p class="text-lg text-gray-300 mb-8">
+          <p class="text-lg text-[var(--sd-text-2)] mb-8">
             Em meio à recente crise diplomática, emergiu com força a discussão sobre a soberania nacional e tecnológica do país. Organizações da sociedade civil brasileira lançam a Carta pela Soberania Digital.
           </p>
           <div class="space-y-4">
             <div class="flex items-start gap-3">
-              <div class="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div class="w-7 h-7 rounded-full bg-[#45a2ca] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <p class="text-gray-300">Plano Nacional pela Soberania Digital com ações coordenadas</p>
+              <p class="text-[var(--sd-text-2)]">Plano Nacional pela Soberania Digital com ações coordenadas</p>
             </div>
             <div class="flex items-start gap-3">
-              <div class="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div class="w-7 h-7 rounded-full bg-[#45a2ca] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <p class="text-gray-300">Força Tarefa Colaborativa reunindo sociedade, academia e governo</p>
+              <p class="text-[var(--sd-text-2)]">Força Tarefa Colaborativa reunindo sociedade, academia e governo</p>
             </div>
             <div class="flex items-start gap-3">
-              <div class="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div class="w-7 h-7 rounded-full bg-[#45a2ca] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <p class="text-gray-300">Audiência com o presidente da República para apresentar propostas</p>
+              <p class="text-[var(--sd-text-2)]">Audiência com o presidente da República para apresentar propostas</p>
             </div>
           </div>
         </div>
@@ -86,7 +83,7 @@ const metadata = {
           <img
             src="/di-cavalcanti-topo-1536x865.jpg"
             alt="Carta pela Soberania Digital"
-            class="mx-auto w-full rounded-lg shadow-lg"
+            class="mx-auto w-full shadow-lg"
             width="768"
             height="433"
             loading="lazy"
@@ -96,30 +93,28 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Quote section -->
-  <section class="relative py-16 bg-gray-900 border-t border-b border-gray-800">
+  <section class="relative py-16 bg-[var(--sd-section-bg)] border-t border-b border-[var(--sd-card-border)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-      <blockquote class="text-lg md:text-xl text-gray-300 italic leading-relaxed">
+      <blockquote class="text-lg md:text-xl text-[var(--sd-text-2)] italic leading-relaxed">
         "Excelentíssimo Senhor Presidente Luiz Inácio Lula da Silva,
-        <strong class="text-white">O Brasil está sob ataque.</strong> E não se trata apenas de ataques às instituições. Atacam a infância e a saúde mental coletiva. Atacam a cultura e a ciência. Estamos falando do <strong class="text-white">domínio brutal e predatório das Big Techs</strong> — um conglomerado global que avança sobre os territórios, os dados, os afetos e a democracia."
+        <strong class="text-[var(--sd-text)]">O Brasil está sob ataque.</strong> E não se trata apenas de ataques às instituições. Atacam a infância e a saúde mental coletiva. Atacam a cultura e a ciência. Estamos falando do <strong class="text-[var(--sd-text)]">domínio brutal e predatório das Big Techs</strong> — um conglomerado global que avança sobre os territórios, os dados, os afetos e a democracia."
       </blockquote>
       <a
         href="/carta"
-        class="inline-block mt-8 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+        class="inline-block mt-8 bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-3 px-8 text-lg transition-colors"
       >
         CONTINUE LENDO A CARTA AO PRESIDENTE LULA
       </a>
     </div>
   </section>
 
-  <!-- Sign & Participate Section -->
-  <section class="relative py-20 bg-gray-950">
+  <section class="relative py-20 bg-[var(--sd-section-alt-bg)]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-          Leia, Assine e faça parte dessa <span class="text-green-400">Luta!</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-4">
+          Leia, Assine e faça parte dessa <span class="text-[#c60548]">Luta!</span>
         </h2>
-        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+        <p class="text-xl text-[var(--sd-text-2)] max-w-3xl mx-auto">
           Precisamos de um projeto estruturante, nacional e coletivo, que aponte caminhos concretos para a construção de uma infraestrutura digital própria, baseada em código aberto, tecnologias públicas e controle democrático.
         </p>
       </div>
@@ -129,13 +124,13 @@ const metadata = {
           <img
             src="/id-visual-generica.jpg"
             alt="Rede pela Soberania Digital"
-            class="rounded-lg shadow-xl mx-auto max-w-md"
+            class="shadow-xl mx-auto max-w-md"
             loading="lazy"
           />
-          <p class="text-gray-400 mt-4 text-sm">
-            A reunião inaugural da Rede foi realizada no dia <strong class="text-white">1 de julho de 2023</strong>.
+          <p class="text-[var(--sd-text-muted)] mt-4 text-sm">
+            A reunião inaugural da Rede foi realizada no dia <strong class="text-[var(--sd-text)]">1 de julho de 2023</strong>.
           </p>
-          <p class="text-gray-300 mt-2">
+          <p class="text-[var(--sd-text-2)] mt-2">
             Junte-se a nós nesse processo colaborativo e vital para o futuro da nossa sociedade.
           </p>
         </div>
@@ -143,7 +138,7 @@ const metadata = {
           <a
             href="https://t.me/SoberaniaDigitalBR"
             target="_blank"
-            class="flex items-center gap-4 p-5 bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors group"
+            class="flex items-center gap-4 p-5 bg-[#004a8e] hover:bg-[#003d73] transition-colors group"
           >
             <svg class="w-10 h-10 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
@@ -157,27 +152,27 @@ const metadata = {
           <a
             href="https://matrix.to/#/%23soberaniadigital:matrix.org"
             target="_blank"
-            class="flex items-center gap-4 p-5 bg-gray-800 hover:bg-gray-700 rounded-xl transition-colors group"
+            class="flex items-center gap-4 p-5 bg-[var(--sd-section-bg)] hover:bg-[var(--sd-card-bg)] transition-colors group"
           >
-            <svg class="w-10 h-10 text-green-400 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <svg class="w-10 h-10 text-[#45a2ca] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.011 1.119.251-.373.591-.7 1.011-.981.42-.281.93-.422 1.533-.422.445 0 .855.055 1.232.166.376.111.697.29.963.537.267.247.472.572.617.976.145.403.217.893.217 1.47v5.991h-2.316v-5.08c0-.375-.023-.7-.07-.971a1.774 1.774 0 0 0-.254-.706 1.12 1.12 0 0 0-.511-.437c-.217-.1-.496-.15-.838-.15-.339 0-.62.058-.842.173a1.224 1.224 0 0 0-.511.463 1.862 1.862 0 0 0-.254.706c-.047.271-.07.596-.07.971v5.08h-2.316v-5.08c0-.37-.012-.697-.037-.974a1.812 1.812 0 0 0-.224-.737 1.1 1.1 0 0 0-.502-.484c-.217-.11-.505-.166-.863-.166a1.79 1.79 0 0 0-.478.074 1.513 1.513 0 0 0-.608.333c-.217.192-.397.472-.539.842-.142.37-.213.86-.213 1.47v5.08H7.675V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
             </svg>
             <div>
-              <div class="text-white font-bold text-lg">Entre para nosso grupo da Rede Matrix</div>
-              <div class="text-gray-400 text-sm">#soberaniadigital:matrix.org</div>
+              <div class="text-[var(--sd-text)] font-bold text-lg">Entre para nosso grupo da Rede Matrix</div>
+              <div class="text-[var(--sd-text-muted)] text-sm">#soberaniadigital:matrix.org</div>
             </div>
           </a>
 
           <a
             href="/carta"
-            class="flex items-center gap-4 p-5 bg-green-600 hover:bg-green-700 rounded-xl transition-colors group"
+            class="flex items-center gap-4 p-5 bg-[#c60548] hover:bg-[#a0043c] transition-colors group"
           >
             <svg class="w-10 h-10 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
             <div>
               <div class="text-white font-bold text-lg">LEIA E ASSINE NOSSA CARTA. COMPARTILHE!</div>
-              <div class="text-green-200 text-sm">Acessar documento completo</div>
+              <div class="text-pink-200 text-sm">Acessar documento completo</div>
             </div>
           </a>
         </div>
@@ -185,26 +180,22 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Video Section: Professor Sérgio Amadeu -->
-  <VideoEmbed />
+  <VideoEmbed videoId="oreTIGSDLHM" title="Aula do Professor Sérgio Amadeu sobre Soberania Digital" />
 
-  <!-- Manifesto Section -->
   <Manifesto />
 
-  <!-- Media Coverage Section -->
   <MediaCoverage />
 
-  <!-- Meetings/Plantaformas Section -->
-  <section class="relative py-16 bg-green-600">
+  <section class="relative py-16 bg-[var(--sd-section-bg)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-      <p class="text-green-100 font-bold uppercase tracking-widest mb-2 text-sm">PRESTA ATENÇÃO NAS REUNIÕES DA</p>
-      <h2 class="text-3xl md:text-5xl font-bold text-white mb-8">
+      <p class="text-[#45a2ca] font-bold uppercase tracking-widest mb-2 text-sm">PRESTA ATENÇÃO NAS REUNIÕES DA</p>
+      <h2 class="text-3xl md:text-5xl font-bold text-[var(--sd-text)] mb-8">
         Rede PELA SOBERANIA DIGITAL
       </h2>
       <a
         href="https://plantaformas.org/assemblies/soberaniadigital/f/29/meetings"
         target="_blank"
-        class="inline-block bg-white text-green-700 hover:bg-gray-100 font-bold py-4 px-10 rounded-lg text-xl transition-colors shadow-lg"
+        class="inline-block bg-white text-[#010101] hover:bg-gray-200 font-bold py-4 px-10 text-xl transition-colors shadow-lg"
       >
         VEJA NA PLANTAFORMAS
       </a>

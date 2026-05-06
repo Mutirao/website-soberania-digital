@@ -9,75 +9,75 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="relative py-20 md:py-28 bg-gray-950 overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-green-900/20 via-transparent to-gray-950"></div>
+  <section class="relative py-20 md:py-28 bg-[var(--sd-section-bg)] overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#45a2ca]/20 via-transparent to-[var(--sd-section-bg)]"></div>
     <div class="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
-      <p class="text-green-400 font-bold uppercase tracking-widest text-sm mb-4">8 e 9 de JULHO de 2025 | BRASÍLIA / DF</p>
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4">
+      <p class="text-[#45a2ca] font-bold uppercase tracking-widest text-sm mb-4">8 e 9 de JULHO de 2025 | BRASÍLIA / DF</p>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[var(--sd-text)] leading-tight mb-4">
         1º Encontro Nacional<br />Soberania Já!
       </h1>
-      <p class="text-2xl md:text-3xl text-gray-300 font-medium mb-8">
+      <p class="text-2xl md:text-3xl text-[var(--sd-text-2)] font-medium mb-8">
         O encontro que fundou a Rede Nacional pela Soberania Digital
       </p>
-      <p class="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
+      <p class="text-[var(--sd-text-muted)] text-lg max-w-3xl mx-auto leading-relaxed">
         Nos dias 8 e 9 de julho de 2025, movimentos sociais, coletivos digitais, lideranças comunitárias, sindicais, parlamentares, pesquisadoras, artistas, universidades e representantes de todas as regiões do país se reuniram em Brasília para debater e articular propostas pela soberania digital do Brasil.
       </p>
     </div>
   </section>
 
-  <section class="py-20 bg-gray-900">
+  <section class="py-20 bg-[var(--sd-section-alt-bg)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-6">Sobre o Encontro</h2>
-      <div class="text-gray-300 text-lg leading-relaxed space-y-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] text-center mb-6">Sobre o Encontro</h2>
+      <div class="text-[var(--sd-text-2)] text-lg leading-relaxed space-y-6">
         <p>
-          O <span class="text-green-400 font-semibold">1º Encontro Nacional Soberania Já!</span> foi uma articulação inédita que reuniu movimentos sociais, coletivos digitais, lideranças comunitárias, sindicais, parlamentares, pesquisadoras, artistas, universidades e representantes de todas as regiões do país.
+          O <span class="text-[#45a2ca] font-semibold">1º Encontro Nacional Soberania Já!</span> foi uma articulação inédita que reuniu movimentos sociais, coletivos digitais, lideranças comunitárias, sindicais, parlamentares, pesquisadoras, artistas, universidades e representantes de todas as regiões do país.
         </p>
         <p>
-          O encontro simbolizou a confluência de diversas lutas e saberes em torno de uma pauta comum: a soberania digital do Brasil. Foi nesse espaço que se consolidou a <span class="text-green-400 font-semibold">Rede Nacional pela Soberania Digital</span>, uma articulação permanente para enfrentar o domínio das Big Techs e construir alternativas tecnológicas soberanas.
+          O encontro simbolizou a confluência de diversas lutas e saberes em torno de uma pauta comum: a soberania digital do Brasil. Foi nesse espaço que se consolidou a <span class="text-[#45a2ca] font-semibold">Rede Nacional pela Soberania Digital</span>, uma articulação permanente para enfrentar o domínio das Big Techs e construir alternativas tecnológicas soberanas.
         </p>
         <p>
-          Durante dois dias intensos de debates, oficinas e assembleias, os participantes identificaram os principais desafios e formularam propostas concretas que deram origem à <a href="/carta" class="text-green-400 underline hover:text-green-300">Carta ao Presidente Lula</a>, entregue em audiência com o Presidente da República.
+          Durante dois dias intensos de debates, oficinas e assembleias, os participantes identificaram os principais desafios e formularam propostas concretas que deram origem à <a href="/carta" class="text-[#45a2ca] underline hover:text-[#59c3c3]">Carta ao Presidente Lula</a>, entregue em audiência com o Presidente da República.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="py-20 bg-gray-950">
+  <section class="py-20 bg-[var(--sd-section-bg)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">Principais eixos debatidos</h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] text-center mb-12">Principais eixos debatidos</h2>
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-green-500/50 transition-colors">
-          <div class="text-green-400 font-bold text-lg mb-3">Infraestrutura Soberana</div>
-          <p class="text-gray-400">Datacenters públicos, chips nacionais, nuvem soberana. Alternativas à dependência das Big Techs em infraestrutura crítica.</p>
+        <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)] hover:border-[#45a2ca]/50 transition-colors">
+          <div class="text-[#45a2ca] font-bold text-lg mb-3">Infraestrutura Soberana</div>
+          <p class="text-[var(--sd-text-muted)]">Datacenters públicos, chips nacionais, nuvem soberana. Alternativas à dependência das Big Techs em infraestrutura crítica.</p>
         </div>
-        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-green-500/50 transition-colors">
-          <div class="text-green-400 font-bold text-lg mb-3">Software Livre</div>
-          <p class="text-gray-400">Migração para software livre em órgãos públicos e universidades. Construção colaborativa de tecnologias abertas.</p>
+        <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)] hover:border-[#45a2ca]/50 transition-colors">
+          <div class="text-[#45a2ca] font-bold text-lg mb-3">Software Livre</div>
+          <p class="text-[var(--sd-text-muted)]">Migração para software livre em órgãos públicos e universidades. Construção colaborativa de tecnologias abertas.</p>
         </div>
-        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-green-500/50 transition-colors">
-          <div class="text-green-400 font-bold text-lg mb-3">Regulação das Big Techs</div>
-          <p class="text-gray-400">Marco regulatório para plataformas digitais. Combate ao abuso de poder econômico e à manipulação algorítmica.</p>
+        <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)] hover:border-[#45a2ca]/50 transition-colors">
+          <div class="text-[#45a2ca] font-bold text-lg mb-3">Regulação das Big Techs</div>
+          <p class="text-[var(--sd-text-muted)]">Marco regulatório para plataformas digitais. Combate ao abuso de poder econômico e à manipulação algorítmica.</p>
         </div>
-        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-green-500/50 transition-colors">
-          <div class="text-green-400 font-bold text-lg mb-3">Proteção de Dados</div>
-          <p class="text-gray-400">Soberania de dados frente ao Cloud Act. Garantia de que dados brasileiros fiquem sob jurisdição brasileira.</p>
+        <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)] hover:border-[#45a2ca]/50 transition-colors">
+          <div class="text-[#45a2ca] font-bold text-lg mb-3">Proteção de Dados</div>
+          <p class="text-[var(--sd-text-muted)]">Soberania de dados frente ao Cloud Act. Garantia de que dados brasileiros fiquem sob jurisdição brasileira.</p>
         </div>
-        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-green-500/50 transition-colors">
-          <div class="text-green-400 font-bold text-lg mb-3">Universidades e Pesquisa</div>
-          <p class="text-gray-400">Autonomia tecnológica nas universidades públicas. Investimento em pesquisa e formação de quadros técnicos.</p>
+        <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)] hover:border-[#45a2ca]/50 transition-colors">
+          <div class="text-[#45a2ca] font-bold text-lg mb-3">Universidades e Pesquisa</div>
+          <p class="text-[var(--sd-text-muted)]">Autonomia tecnológica nas universidades públicas. Investimento em pesquisa e formação de quadros técnicos.</p>
         </div>
-        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-green-500/50 transition-colors">
-          <div class="text-green-400 font-bold text-lg mb-3">Democracia Digital</div>
-          <p class="text-gray-400">Redes sociais livres e federadas. Participação social na construção de políticas digitais. Combate à desinformação.</p>
+        <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)] hover:border-[#45a2ca]/50 transition-colors">
+          <div class="text-[#77b978] font-bold text-lg mb-3">Democracia Digital</div>
+          <p class="text-[var(--sd-text-muted)]">Redes sociais livres e federadas. Participação social na construção de políticas digitais. Combate à desinformação.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="py-20 bg-gray-900">
+  <section class="py-20 bg-[var(--sd-section-alt-bg)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">Entidades participantes</h2>
-      <div class="text-gray-300 text-lg leading-relaxed columns-2 gap-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] text-center mb-12">Entidades participantes</h2>
+      <div class="text-[var(--sd-text-2)] text-lg leading-relaxed columns-2 gap-8">
         <ul class="space-y-2">
           <li>MST — Movimento dos Trabalhadores Rurais Sem Terra</li>
           <li>MTST — Movimento dos Trabalhadores Sem Teto</li>
@@ -107,19 +107,19 @@ const metadata = {
     </div>
   </section>
 
-  <section class="py-16 bg-green-600">
+  <section class="py-16 bg-[var(--sd-section-bg)] border-t border-[var(--sd-card-border)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-[var(--sd-text)] mb-4">
         Continue articulando conosco
       </h2>
-      <p class="text-green-100 text-lg mb-8">
+      <p class="text-[#45a2ca] text-lg mb-8">
         O 2º Encontro Nacional já está marcado. Participe!
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/encontro" class="inline-block bg-white text-green-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg text-lg transition-colors shadow-lg">
+        <a href="/encontro" class="inline-block bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-3 px-8 text-lg transition-colors shadow-lg">
           2º Encontro
         </a>
-        <a href="/carta" class="inline-block bg-gray-900 text-white hover:bg-gray-800 font-bold py-3 px-8 rounded-lg text-lg transition-colors shadow-lg">
+        <a href="/carta" class="inline-block bg-[var(--sd-card-bg)] text-[var(--sd-text)] hover:bg-[var(--sd-card-bg)] font-bold py-3 px-8 text-lg transition-colors shadow-lg border border-[var(--sd-card-border)]">
           Carta ao Presidente
         </a>
       </div>
