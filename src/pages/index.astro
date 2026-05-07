@@ -111,55 +111,7 @@ const metadata = {
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap');
 
-  /* ── form tokens (kept for .enc-form) ── */
-  .enc {
-    font-family: 'Overpass', Helvetica, Arial, sans-serif;
-    --enc-input-bg:       #f8f8f8;
-    --enc-input-border:   #cccccc;
-    --enc-input-text:     #010101;
-    --enc-label-color:    #555555;
-    --enc-placeholder:    #999999;
-  }
-  :global(html.dark) .enc {
-    --enc-input-bg:       #111111;
-    --enc-input-border:   #333333;
-    --enc-input-text:     #e8e8e8;
-    --enc-label-color:    #888888;
-    --enc-placeholder:    #555555;
-  }
-
-  /* ── form ── */
-  .enc-form input,
-  .enc-form select,
-  .enc-form textarea {
-    width: 100%;
-    background: var(--enc-input-bg);
-    border: 1px solid var(--enc-input-border);
-    color: var(--enc-input-text);
-    padding: 12px 14px;
-    font-family: inherit;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .enc-form input:focus,
-  .enc-form select:focus,
-  .enc-form textarea:focus {
-    border-color: #FFD400;
-  }
-  .enc-form input::placeholder,
-  .enc-form textarea::placeholder { color: var(--enc-placeholder); }
-  .enc-form select option { background: var(--enc-input-bg); color: var(--enc-input-text); }
-  .enc-form label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--enc-label-color);
-    margin-bottom: 6px;
-  }
-  .enc-form .required-mark { color: #E31B23; }
+  .enc { font-family: 'Overpass', Helvetica, Arial, sans-serif; }
 
   /* ── view tabs (grade/sessões/palestrantes) ── */
   .view-tab {
@@ -711,84 +663,160 @@ const metadata = {
           </p>
         </div>
 
-        <form class="enc-form space-y-5" id="form-inscricao">
+        <form class="space-y-5" id="form-inscricao">
 
+          <!-- Nome + Data de Nascimento -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="nome">Nome completo <span class="required-mark" aria-hidden="true">*</span></label>
-              <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Seu nome" />
+              <label for="nome" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Nome Completo <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Seu nome completo"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
             </div>
             <div>
-              <label for="email">E-mail <span class="required-mark" aria-hidden="true">*</span></label>
-              <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com" />
+              <label for="data_nascimento" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Data de Nascimento <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="data_nascimento" name="data_nascimento" required placeholder="dd/mm/aaaa"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
             </div>
           </div>
 
+          <!-- CPF + E-mail -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="telefone">Telefone / WhatsApp</label>
-              <input type="tel" id="telefone" name="telefone" autocomplete="tel" placeholder="(11) 99999-9999" />
+              <label for="cpf" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">CPF <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
             </div>
             <div>
-              <label for="cidade">Cidade / UF <span class="required-mark" aria-hidden="true">*</span></label>
-              <input type="text" id="cidade" name="cidade" required placeholder="São Paulo / SP" />
+              <label for="email" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">E-mail <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
             </div>
           </div>
 
-          <div>
-            <label for="ocupacao">Ocupação / Organização <span class="required-mark" aria-hidden="true">*</span></label>
-            <input type="text" id="ocupacao" name="ocupacao" required placeholder="Ex: estudante, professora, militante do MST, jornalista…" />
+          <!-- Telefone + Estado -->
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="telefone" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Telefone / WhatsApp <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="tel" id="telefone" name="telefone" required autocomplete="tel" placeholder="(11) 99999-9999"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+            </div>
+            <div>
+              <label for="estado" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Estado <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="estado" name="estado" required placeholder="SP, RJ, DF…"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+            </div>
           </div>
 
-          <div>
-            <label for="como-conheceu">Como conheceu o encontro?</label>
-            <select id="como-conheceu" name="como-conheceu">
-              <option value="" disabled selected>Selecione uma opção</option>
-              <option value="telegram">Grupo do Telegram</option>
-              <option value="redes-sociais">Redes sociais</option>
-              <option value="organizacao">Pelo movimento / organização</option>
-              <option value="email">E-mail / newsletter</option>
-              <option value="amigo">Indicação de amigo(a)</option>
-              <option value="outro">Outro</option>
-            </select>
+          <!-- Cidade + Comunidade -->
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="cidade" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Cidade <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="cidade" name="cidade" required placeholder="São Paulo"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+            </div>
+            <div>
+              <label for="comunidade" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Comunidade que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="comunidade" name="comunidade" required placeholder="Ex: Aldeia Tekoa Pyau, Favela da Maré…"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+            </div>
           </div>
 
-          <div>
-            <label for="acessibilidade">Necessidade de acessibilidade</label>
-            <textarea id="acessibilidade" name="acessibilidade" rows="2" placeholder="Ex: intérprete de Libras, espaço para cadeira de rodas, dieta especial…"></textarea>
+          <!-- Coletivo/Organização + Função/Atuação -->
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="coletivo_organizacao" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Coletivo/Organização que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="coletivo_organizacao" name="coletivo_organizacao" required placeholder="Ex: MST, MTST, Marcha Mundial das Mulheres…"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+            </div>
+            <div>
+              <label for="funcao_atuacao" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Função/Atuação <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <input type="text" id="funcao_atuacao" name="funcao_atuacao" required placeholder="Ex: professor, estudante, liderança comunitária…"
+                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+            </div>
           </div>
+
+          <!-- Participação no evento -->
+          <fieldset>
+            <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-3">Participação no evento</legend>
+            <div class="flex flex-wrap gap-x-6 gap-y-2">
+              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+                <input type="checkbox" id="participacao_dia18" name="participacao_dia18" value="1" checked
+                  class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                Dia 18 de Maio
+              </label>
+              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+                <input type="checkbox" id="participacao_dia19" name="participacao_dia19" value="1"
+                  class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                Dia 19 de Maio
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Condições para Deslocamento e Hospedagem -->
+          <fieldset>
+            <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">
+              Condições para Deslocamento e Hospedagem <span class="text-[#E31B23]" aria-hidden="true">*</span>
+            </legend>
+            <p class="text-[#666] dark:text-[#777] text-xs mb-3">Informe abaixo suas condições para ir ao evento e nos ajude a prever a demanda e organizar o deslocamento e hospedagem de todes.</p>
+            <div class="space-y-2.5">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+                <input type="radio" name="condicoes_deslocamento" value="conta_propria" required
+                  class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                <span>Consigo ir por conta própria</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+                <input type="radio" name="condicoes_deslocamento" value="apoio_transporte"
+                  class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                <span>Preciso de Apoio com Transporte e Hospedagem para ir ao evento</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+                <input type="radio" name="condicoes_deslocamento" value="convite_oficial"
+                  class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                <span>Preciso de Convite Oficial para viabilizar Transporte e Hospedagem pela minha organização</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Termos de Serviço -->
+          <label for="tos_agreement" class="flex items-start gap-3 cursor-pointer select-none group">
+            <input type="checkbox" id="tos_agreement" name="tos_agreement" value="1" required
+              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+            <span class="text-[#e8e8e8] dark:text-[#d1d5db] text-sm leading-relaxed group-hover:text-white dark:group-hover:text-white transition-colors">
+              Ao participar, você aceita os seus <strong class="text-white dark:text-white">Termos de Serviço</strong> <span class="text-[#E31B23]" aria-hidden="true">*</span>
+            </span>
+          </label>
 
           <div>
             <button type="submit" id="btn-submit"
-              class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-colors cursor-pointer">
+              class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
               Enviar inscrição
             </button>
-            <p class="text-[#444] text-xs mt-3 text-center">
+            <p class="text-[#555] dark:text-[#666] text-xs mt-3 text-center">
               Campos com <span class="text-[#E31B23]">*</span> são obrigatórios. Seus dados são usados apenas para organização do evento.
             </p>
           </div>
         </form>
 
         <div id="form-sucesso" class="hidden text-center py-10">
-          <div class="text-5xl mb-4">✅</div>
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#FFD400]/10 text-3xl mb-6">✅</div>
           <h3 class="text-[#FFD400] font-black uppercase text-2xl mb-3">Inscrição Enviada!</h3>
-          <p class="text-[#E7E7D8]">
+          <p class="text-[#d1d5db] text-sm leading-relaxed max-w-md mx-auto">
             Obrigada! Sua inscrição foi recebida. Em breve você receberá mais informações por e-mail.
           </p>
         </div>
 
         <div id="form-erro" class="hidden text-center py-10">
-          <div class="text-5xl mb-4">⚠️</div>
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#E31B23]/10 text-3xl mb-6">⚠️</div>
           <h3 class="text-[#E31B23] font-black uppercase text-2xl mb-3">Erro ao enviar</h3>
-          <p class="text-[#E7E7D8]">
+          <p class="text-[#d1d5db] text-sm leading-relaxed max-w-md mx-auto">
             Não foi possível enviar sua inscrição. Por favor, tente novamente ou{' '}
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-              class="text-[#FFD400] hover:underline font-semibold">
+              class="text-[#FFD400] hover:underline font-semibold transition-colors">
               inscreva-se pelo Plantaformas
             </a>.
           </p>
-          <button onclick="document.getElementById('form-erro').classList.add('hidden');document.getElementById('form-inscricao').style.display='';"
-            class="mt-6 bg-[#292929] hover:bg-[#444] text-white font-bold uppercase text-sm py-3 px-8 transition-colors cursor-pointer">
+          <button id="btn-tentar-novamente" type="button"
+            class="mt-6 bg-[#292929] hover:bg-[#444] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-bold uppercase text-sm py-3 px-8 rounded-lg transition-all duration-200 cursor-pointer">
             Tentar novamente
           </button>
         </div>
@@ -806,18 +834,19 @@ const metadata = {
         var erro = document.getElementById('form-erro');
         if (!form) return;
 
-        var comoConheceuMap = {
-          'telegram': 'Grupo do Telegram',
-          'redes-sociais': 'Redes sociais',
-          'organizacao': 'Pelo movimento / organização',
-          'email': 'E-mail / newsletter',
-          'amigo': 'Indicação de amigo(a)',
-          'outro': 'Outro'
-        };
-
         function val(id) {
           var el = form.querySelector('#' + id);
           return el ? el.value.trim() : '';
+        }
+
+        function checked(id) {
+          var el = form.querySelector('#' + id);
+          return el ? el.checked : false;
+        }
+
+        function radioVal(name) {
+          var el = form.querySelector('input[name="' + name + '"]:checked');
+          return el ? el.value : '';
         }
 
         form.addEventListener('submit', function (e) {
@@ -835,40 +864,59 @@ const metadata = {
               var hm = html.match(/name="((?:fegjto|another_fake)[^"]+)"[^>]*Se é humano/);
               var honeypotName = hm ? hm[1] : '';
 
-              var como = val('como-conheceu');
-              var comoLabel = comoConheceuMap[como] || como || 'Não informado';
-
               var body = new URLSearchParams();
               body.set('authenticity_token', csrf);
               if (honeypotName) body.set(honeypotName, '');
 
+              // ── Campos de texto (question_ids 870–879, mapeados corretamente) ──
               var fields = [
                 { id: '870', v: val('nome') },
-                { id: '871', v: val('email') },
-                { id: '872', v: val('telefone') || 'Não informado' },
-                { id: '873', v: val('cidade') },
-                { id: '874', v: val('ocupacao') },
-                { id: '875', v: comoLabel },
-                { id: '876', v: '' },
-                { id: '877', v: val('acessibilidade') || 'Nenhuma' },
-                { id: '878', v: '' },
-                { id: '879', v: '' }
+                { id: '871', v: val('data_nascimento') },
+                { id: '872', v: val('cpf') },
+                { id: '873', v: val('email') },
+                { id: '874', v: val('telefone') },
+                { id: '875', v: val('estado') },
+                { id: '876', v: val('cidade') },
+                { id: '877', v: val('comunidade') },
+                { id: '878', v: val('coletivo_organizacao') },
+                { id: '879', v: val('funcao_atuacao') }
               ];
 
               fields.forEach(function (f, i) {
                 body.set('questionnaire[responses][' + i + '][question_id]', f.id);
-                body.set('questionnaire[responses][' + i + '][body]', f.v);
+                body.set('questionnaire[responses][' + i + '][body]', f.v || 'Não informado');
               });
 
+              // ── Questão 880: Participação no evento (checkboxes) ──
               body.set('questionnaire[responses][10][question_id]', '880');
-              body.set('questionnaire[responses][10][choices][0][body]', 'Dia 18 de Maio');
-              body.set('questionnaire[responses][10][choices][0][answer_option_id]', '1818');
+              var partIdx = 0;
+              if (checked('participacao_dia18')) {
+                body.set('questionnaire[responses][10][choices][' + partIdx + '][body]', 'Dia 18 de Maio');
+                body.set('questionnaire[responses][10][choices][' + partIdx + '][answer_option_id]', '1818');
+                partIdx++;
+              }
+              if (checked('participacao_dia19')) {
+                body.set('questionnaire[responses][10][choices][' + partIdx + '][body]', 'Dia 19 de Maio');
+                body.set('questionnaire[responses][10][choices][' + partIdx + '][answer_option_id]', '1819');
+                partIdx++;
+              }
 
+              // ── Questão 881: Condições para Deslocamento (radio) ──
+              var condicoesMap = {
+                'conta_propria':     { body: 'Consigo ir por conta própria',                                                              id: '1822' },
+                'apoio_transporte':  { body: 'Preciso de Apoio com Transporte e Hospedagem para ir ao evento',                            id: '1823' },
+                'convite_oficial':   { body: 'Preciso de Convite Oficial para viabilizar Transporte e Hospedagem pela minha organização', id: '1824' }
+              };
+              var condVal = radioVal('condicoes_deslocamento');
+              var cond = condicoesMap[condVal];
               body.set('questionnaire[responses][11][question_id]', '881');
-              body.set('questionnaire[responses][11][choices][][body]', 'Consigo ir por conta própria');
-              body.set('questionnaire[responses][11][choices][][answer_option_id]', '1822');
+              if (cond) {
+                body.set('questionnaire[responses][11][choices][][body]', cond.body);
+                body.set('questionnaire[responses][11][choices][][answer_option_id]', cond.id);
+              }
 
-              body.set('questionnaire[tos_agreement]', '1');
+              // ── Termos de Serviço ──
+              body.set('questionnaire[tos_agreement]', checked('tos_agreement') ? '1' : '0');
 
               return fetch(FORM_URL, {
                 method: 'POST',
@@ -897,6 +945,15 @@ const metadata = {
               btn.textContent = 'Enviar inscrição';
             });
         });
+
+        // Botão "Tentar novamente" no painel de erro
+        var btnRetry = document.getElementById('btn-tentar-novamente');
+        if (btnRetry) {
+          btnRetry.addEventListener('click', function () {
+            erro.classList.add('hidden');
+            form.style.display = '';
+          });
+        }
       })();
     </script>
 
