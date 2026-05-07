@@ -1,5 +1,5 @@
 [phases.build]
-cmds = ["npm run build:docker"]
+cmds = ["npm run build:ci"]
 
 [start]
-cmd = "node server.js"
+cmd = "node ./dist/server/entry.mjs"

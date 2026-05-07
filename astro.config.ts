@@ -3,7 +3,6 @@ import { fileURLToPath } from 'url';
 
 import { defineConfig } from 'astro/config';
 
-import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
@@ -14,6 +13,7 @@ import type { AstroIntegration } from 'astro';
 import astrowind from './vendor/integration';
 
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
+import node from '@astrojs/node';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,12 +24,12 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 export default defineConfig({
   output: 'static',
   base: '/encontro',
+  adapter: node({ mode: 'standalone' }),
 
   integrations: [
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap(),
     mdx(),
     icon({
       include: {

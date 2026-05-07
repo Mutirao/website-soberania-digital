@@ -8,6 +8,9 @@ import parceirosData from '~/data/parceiros.json';
 const { conf, about, location, hotels, community, partnersGrid } = evento;
 const parceiros = parceirosData.organizadores;
 
+const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
+const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
+
 // ── schedule helpers ────────────────────────────────────────────────────────
 const diasMap: Record<string, string> = {
   '18/05 Seg': 'dia1',
@@ -311,15 +314,13 @@ const metadata = {
 <Layout metadata={metadata}>
   <div class="enc overflow-x-hidden">
 
-    <!-- ═══════════════════════════════════════════════════════════
-         1. HERO
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 1. HERO -->
     <section class="bg-[#010101]">
 
       <!-- mobile hero: imagem de banner full-width -->
       <div class="md:hidden">
         <img
-          src="/banner-encontro-1080.png"
+          src={asset('/banner-encontro-1080.png')}
           alt="2º Encontro Nacional pela Soberania Digital — 18 e 19 de Maio, Brasília"
           class="w-full block"
           loading="eager"
@@ -349,7 +350,7 @@ const metadata = {
       <div class="hidden md:flex items-center gap-10 max-w-6xl mx-auto px-6 py-12 lg:py-16">
         <div class="flex-1 min-w-0">
           <img
-            src="/banner-encontro-1080.png"
+            src={asset('/banner-encontro-1080.png')}
             alt="2º Encontro Nacional pela Soberania Digital"
             class="w-full max-h-[60vh] object-contain block"
             loading="eager"
@@ -370,7 +371,7 @@ const metadata = {
               class="inline-flex items-center justify-center min-h-[48px] border border-[#333] text-[#E7E7D8] hover:border-[#FFD400] hover:text-[#FFD400] font-bold uppercase py-3 px-6 transition-colors text-sm">
               Ver Programação ↓
             </a>
-            <a href="/encontro.ics" download
+            <a href={asset('/encontro.ics')} download
               class="inline-flex items-center justify-center min-h-[44px] text-[#666] hover:text-[#888] font-bold uppercase py-2 px-4 transition-colors text-xs">
               ↓ Adicionar à agenda (.ics)
             </a>
@@ -379,9 +380,7 @@ const metadata = {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         2. SOBRE O ENCONTRO
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 2. SOBRE O ENCONTRO -->
     <span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
     <section class="bg-white dark:bg-[#010101] py-16 md:py-24">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -412,9 +411,7 @@ const metadata = {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         3. PROGRAMAÇÃO — 3 VIEWS
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 3. PROGRAMAÇÃO — 3 VIEWS -->
     <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
@@ -577,9 +574,7 @@ const metadata = {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         4. BIG NUMBER — INSCRIÇÕES
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 4. BIG NUMBER — INSCRIÇÕES -->
     {assinaturas.total > 0 && (
       <section class="bg-[#111] border-y border-[#FFD400]/20 py-8 md:py-10">
         <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
@@ -597,9 +592,7 @@ const metadata = {
       </section>
     )}
 
-    <!-- ═══════════════════════════════════════════════════════════
-         5. INSCRIÇÃO CTA
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 5. INSCRIÇÃO CTA -->
     <section class="bg-[#E31B23] py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
         <p class="text-pink-200 text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Não perca</p>
@@ -612,17 +605,11 @@ const metadata = {
             class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg">
             {conf.callToAction.text}
           </a>
-          <a href="#inscricao"
-            class="inline-flex items-center justify-center min-h-[52px] border-2 border-white text-white hover:bg-white hover:text-[#E31B23] font-bold uppercase py-4 px-8 transition-colors text-base">
-            Formulário de inscrição ↓
-          </a>
         </div>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         6. LOCAL, MAPA E COMO CHEGAR
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 6. LOCAL, MAPA E COMO CHEGAR -->
     <span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
     <section id="local" class="bg-white dark:bg-[#010101] py-16 md:py-24">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -651,60 +638,6 @@ const metadata = {
           ))}
         </div>
 
-        <!-- Hotéis -->
-        <!-- <div class="border-t border-[#e5e7eb] dark:border-[#1f2937] pt-12 mt-12">
-          <h3 class="text-[#010101] dark:text-white text-2xl md:text-4xl font-black uppercase leading-tight text-center mb-8">Onde se hospedar</h3>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {hotels.map((hotel) => (
-              <div class="bg-[#f9f9f9] dark:bg-[#111111] border border-[#ebebeb] dark:border-[#1e1e1e] p-5">
-                <h4 class="text-[#010101] dark:text-white font-bold text-base leading-relaxed mb-1">{hotel.name}</h4>
-                {hotel.note && (
-                  <p class="text-[#E31B23] font-semibold text-[0.8125rem] leading-relaxed mb-2">{hotel.note}</p>
-                )}
-                <p class="text-[#292929] dark:text-[#d1d5db] text-[0.8125rem] leading-relaxed mb-2 leading-snug">{hotel.address}</p>
-                {hotel.email && (
-                  <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mb-1">{hotel.email}</p>
-                )}
-                {hotel.phone && (
-                  <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mb-2">{hotel.phone}</p>
-                )}
-                {hotel.url && (
-                  <a href={hotel.url} target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1 text-[#E31B23] font-bold text-sm hover:underline min-h-[44px]">
-                    Visitar site →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- Como chegar -->
-        <!-- <div class="border-t border-[#e5e7eb] dark:border-[#1f2937] pt-12 mt-12">
-          <h3 class="text-[#010101] dark:text-white text-2xl md:text-4xl font-black uppercase leading-tight text-center mb-8">Como Chegar</h3>
-          <div class="grid sm:grid-cols-2 gap-6">
-            <div class="bg-[#f9f9f9] dark:bg-[#111111] border border-[#ebebeb] dark:border-[#1e1e1e] p-6">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-2xl" aria-hidden="true">✈️</span>
-                <h4 class="text-[#010101] dark:text-white font-bold text-base leading-relaxed">Aeroporto de Brasília (BSB)</h4>
-              </div>
-              <p class="text-[#292929] dark:text-[#d1d5db] text-[0.8125rem] leading-relaxed mb-1">Aeroporto Internacional Juscelino Kubitschek</p>
-              <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mb-2">Lago Sul, Brasília — DF</p>
-              <p class="text-[#292929] dark:text-[#d1d5db] text-[0.8125rem] leading-relaxed"><strong>~15 km</strong> do local (20–30 min de carro)</p>
-              <p class="text-[#aaaaaa] dark:text-[#666666] text-[0.8125rem] leading-relaxed mt-2">Táxi/Uber disponível 24h. Ônibus executivo para Rodoviária do Plano Piloto.</p>
-            </div>
-            <div class="bg-[#f9f9f9] dark:bg-[#111111] border border-[#ebebeb] dark:border-[#1e1e1e] p-6">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-2xl" aria-hidden="true">🚌</span>
-                <h4 class="text-[#010101] dark:text-white font-bold text-base leading-relaxed">Rodoviária do Plano Piloto</h4>
-              </div>
-              <p class="text-[#292929] dark:text-[#d1d5db] text-[0.8125rem] leading-relaxed mb-1">Rodoviária Interestadual de Brasília</p>
-              <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mb-2">SMAS, Trecho 4, Conjunto 5/6 — Asa Sul</p>
-              <p class="text-[#292929] dark:text-[#d1d5db] text-[0.8125rem] leading-relaxed"><strong>~7 km</strong> do local (15 min de carro)</p>
-              <p class="text-[#aaaaaa] dark:text-[#666666] text-[0.8125rem] leading-relaxed mt-2">Metrô (Estação Shopping) + caminhada. Táxi/Uber disponível.</p>
-            </div>
-          </div>
-        </div> --> 
       </div>
     </section>
 
@@ -729,7 +662,7 @@ const metadata = {
           size = size || 30;
           return L.divIcon({
             className: '',
-            html: '<div style="background:' + bg + ';color:' + fg + ';width:' + size + 'px;height:' + size + 'px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size * 0.5) + 'px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,.35)">' + emoji + '</div>',
+            html: '<div style="background:' + bg + ';color:' + fg + ';width:' + size + 'px;height:' + size + 'px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size * 0.5) + 'px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,.35)">' + emoji + '<\/div>',
             iconSize: [size, size], iconAnchor: [size / 2, size / 2],
           });
         }
@@ -737,13 +670,13 @@ const metadata = {
         function buildMap() {
           var map = L.map('osm-map').setView([-15.790, -47.888], 13);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap<\/a>',
             maxZoom: 19,
           }).addTo(map);
 
           L.marker([-15.7993, -47.8905], { icon: mkIcon('#E31B23', '#fff', '📍', 34) })
             .addTo(map)
-            .bindPopup('<strong>Sindicato e Teatro dos Bancários</strong><br>EQS 314/315, Asa Sul<br>📍 Local do 2º Encontro');
+            .bindPopup('<strong>Sindicato e Teatro dos Bancários<\/strong><br>EQS 314/315, Asa Sul<br>📍 Local do 2º Encontro');
 
           var hiconH = mkIcon('#45a2ca', '#fff', '🏨', 24);
           [
@@ -752,23 +685,21 @@ const metadata = {
             { name: 'Freeway Hostels', lat: -15.7670, lng: -47.8880, desc: 'SHCGN 708, Asa Norte' },
           ].forEach(function (h) {
             L.marker([h.lat, h.lng], { icon: hiconH }).addTo(map)
-              .bindPopup('<strong>' + h.name + '</strong><br>' + h.desc);
+              .bindPopup('<strong>' + h.name + '<\/strong><br>' + h.desc);
           });
 
           L.marker([-15.8697, -47.9177], { icon: mkIcon('#77b978', '#fff', '✈️', 28) })
-            .addTo(map).bindPopup('<strong>✈️ Aeroporto de Brasília (BSB)</strong><br>~15 km | 20–30 min');
+            .addTo(map).bindPopup('<strong>✈️ Aeroporto de Brasília (BSB)<\/strong><br>~15 km | 20–30 min');
 
           L.marker([-15.7934, -47.8826], { icon: mkIcon('#FFD400', '#010101', '🚌', 28) })
-            .addTo(map).bindPopup('<strong>🚌 Rodoviária do Plano Piloto</strong><br>~7 km | 15 min');
+            .addTo(map).bindPopup('<strong>🚌 Rodoviária do Plano Piloto<\/strong><br>~7 km | 15 min');
         }
 
         initMap();
       })();
     </script>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         6. FORMULÁRIO DE INSCRIÇÃO
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 6. FORMULÁRIO DE INSCRIÇÃO -->
     <section id="inscricao" class="bg-[#010101] py-16 md:py-24 border-t border-[#1a1a1a]">
       <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
@@ -1002,55 +933,8 @@ const metadata = {
       })();
     </script>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         7. COMUNIDADE / FAÇA PARTE
-    ═══════════════════════════════════════════════════════════ -->
-    <!-- <section class="bg-[#010101] py-16 border-t border-[#1a1a1a]">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6">
-        <div class="text-center mb-10">
-          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Faça parte</p>
-          <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">Participe da <span class="text-[#E31B23]">Rede</span></h2>
-        </div>
-        <div class="space-y-3">
-          {community.map((item) => (
-            <a
-              href={item.url}
-              target={item.url.startsWith('/') ? undefined : '_blank'}
-              rel={item.url.startsWith('/') ? undefined : 'noopener noreferrer'}
-              class="flex items-center gap-4 p-4 min-h-[64px] transition-opacity hover:opacity-90"
-              style={`background-color: ${item.color}`}
-            >
-              {item.icon === 'telegram' && (
-                <svg class="w-7 h-7 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                </svg>
-              )}
-              {item.icon === 'carta' && (
-                <svg class="w-7 h-7 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-              )}
-              {item.icon === 'plataformas' && (
-                <svg class="w-7 h-7 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              )}
-              <div class="min-w-0">
-                <p class="text-white font-bold text-base leading-snug">{item.name}</p>
-                <p class="text-white/70 text-sm">{item.subtitle}</p>
-              </div>
-              <svg class="w-5 h-5 text-white/50 flex-shrink-0 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section> -->
 
-    <!-- ═══════════════════════════════════════════════════════════
-         7. PARCEIROS E APOIO
-    ═══════════════════════════════════════════════════════════ -->
+<!-- 7. PARCEIROS E APOIO -->
     <section class="bg-white dark:bg-[#080808] py-16 md:py-20 border-t border-[#e5e7eb] dark:border-[#1a1a1a]">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
@@ -1064,7 +948,7 @@ const metadata = {
                   <a href={org.url} target="_blank" rel="noopener noreferrer"
                     class="inline-flex items-center justify-center">
                     <img
-                      src={org.logo}
+                      src={asset(org.logo)}
                       alt={org.nome}
                       class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                     />
@@ -1083,7 +967,7 @@ const metadata = {
                   <a href={org.url} target="_blank" rel="noopener noreferrer"
                     class="inline-flex items-center justify-center">
                     <img
-                      src={org.logo}
+                      src={asset(org.logo)}
                       alt={org.nome}
                       class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                     />
@@ -1105,7 +989,7 @@ const metadata = {
                 <a href={org.url} target="_blank" rel="noopener noreferrer"
                   class="inline-flex items-center justify-center">
                   <img
-                    src={org.logo}
+                    src={asset(org.logo)}
                     alt={org.nome}
                     class={`h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                   />
@@ -1136,7 +1020,7 @@ const metadata = {
 </Layout>
 
 <script>
-fetch('api/dados')
+fetch('/encontro/api/dados')
   .then(r => r.ok ? r.json() : null)
   .then(dados => {
     if (!dados) return;
