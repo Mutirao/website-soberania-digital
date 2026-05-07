@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "node scripts/fetch-assinaturas.ts && node scripts/fetch-parceiros.ts && node scripts/build-programacao.mjs && astro build",
-    "build:docker": "node scripts/fetch-parceiros.ts && node scripts/build-programacao.mjs && astro build",
+    "build:docker": "npx tsx scripts/fetch-parceiros.ts && node scripts/build-programacao.mjs && astro build",
     "server": "node server.js",
     "preview": "node server.js",
     "fetch-assinaturas": "npx tsx scripts/fetch-assinaturas.ts",
