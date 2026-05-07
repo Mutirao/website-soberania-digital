@@ -2,8 +2,11 @@
 import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
 import programacao from '~/data/programacao-gerado.json';
+import assinaturas from '~/data/assinaturas.json';
+import parceirosData from '~/data/parceiros.json';
 
 const { conf, about, location, hotels, community, partnersGrid } = evento;
+const parceiros = parceirosData.organizadores;
 
 // ── schedule helpers ────────────────────────────────────────────────────────
 const diasMap: Record<string, string> = {
@@ -575,7 +578,27 @@ const metadata = {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         4. INSCRIÇÃO CTA
+         4. BIG NUMBER — INSCRIÇÕES
+    ═══════════════════════════════════════════════════════════ -->
+    {assinaturas.total > 0 && (
+      <section class="bg-[#111] border-y border-[#FFD400]/20 py-8 md:py-10">
+        <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
+          <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-2">Já somos</p>
+          <div id="inscritos-count" class="text-[#FFD400] text-6xl sm:text-7xl md:text-8xl font-black font-['Barlow_Condensed',sans-serif] leading-none mb-1 tabular-nums">
+            {assinaturas.total.toLocaleString('pt-BR')}
+          </div>
+          <p class="text-[#888] text-sm sm:text-base font-bold uppercase tracking-wide">
+            pessoas inscritas no 2º Encontro
+          </p>
+          <p id="inscritos-time" class="text-[#444] text-[0.625rem] mt-3">
+            atualizado em {new Date(assinaturas.atualizadoEm).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- ═══════════════════════════════════════════════════════════
+         5. INSCRIÇÃO CTA
     ═══════════════════════════════════════════════════════════ -->
     <section class="bg-[#E31B23] py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
@@ -589,16 +612,16 @@ const metadata = {
             class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg">
             {conf.callToAction.text}
           </a>
-          <!-- <a href="#inscricao"
+          <a href="#inscricao"
             class="inline-flex items-center justify-center min-h-[52px] border-2 border-white text-white hover:bg-white hover:text-[#E31B23] font-bold uppercase py-4 px-8 transition-colors text-base">
             Formulário de inscrição ↓
-          </a> -->
+          </a>
         </div>
       </div>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         5. LOCAL, MAPA E COMO CHEGAR
+         6. LOCAL, MAPA E COMO CHEGAR
     ═══════════════════════════════════════════════════════════ -->
     <span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
     <section id="local" class="bg-white dark:bg-[#010101] py-16 md:py-24">
@@ -746,34 +769,18 @@ const metadata = {
     <!-- ═══════════════════════════════════════════════════════════
          6. FORMULÁRIO DE INSCRIÇÃO
     ═══════════════════════════════════════════════════════════ -->
-    <!-- section id="inscricao" class="bg-[#010101] py-16 md:py-24 border-t border-[#1a1a1a]">
+    <section id="inscricao" class="bg-[#010101] py-16 md:py-24 border-t border-[#1a1a1a]">
       <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
         <div class="text-center mb-10">
           <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Inscrições</p>
           <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">Participar do Encontro</h2>
           <p class="text-[#E7E7D8] text-base">
-            Preencha o formulário abaixo ou{' '}
-            <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-              class="text-[#FFD400] hover:underline font-semibold inline-block py-1">
-              acesse o Plantaformas
-            </a>.
+            Preencha o formulário abaixo
           </p>
         </div>
 
-        <!-- Formulário Netlify -
-        <form
-          name="inscricao-encontro"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          class="enc-form space-y-5"
-          id="form-inscricao"
-        >
-          <input type="hidden" name="form-name" value="inscricao-encontro" />
-          <p class="hidden" aria-hidden="true">
-            <label>Não preencha se for humano: <input name="bot-field" /></label>
-          </p>
+        <form class="enc-form space-y-5" id="form-inscricao">
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
@@ -821,7 +828,7 @@ const metadata = {
           </div>
 
           <div>
-            <button type="submit"
+            <button type="submit" id="btn-submit"
               class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-colors cursor-pointer">
               Enviar inscrição
             </button>
@@ -831,7 +838,6 @@ const metadata = {
           </div>
         </form>
 
-        <!-- Mensagem de sucesso (mostrada via JS após submit) -
         <div id="form-sucesso" class="hidden text-center py-10">
           <div class="text-5xl mb-4">✅</div>
           <h3 class="text-[#FFD400] font-black uppercase text-2xl mb-3">Inscrição Enviada!</h3>
@@ -839,36 +845,126 @@ const metadata = {
             Obrigada! Sua inscrição foi recebida. Em breve você receberá mais informações por e-mail.
           </p>
         </div>
+
+        <div id="form-erro" class="hidden text-center py-10">
+          <div class="text-5xl mb-4">⚠️</div>
+          <h3 class="text-[#E31B23] font-black uppercase text-2xl mb-3">Erro ao enviar</h3>
+          <p class="text-[#E7E7D8]">
+            Não foi possível enviar sua inscrição. Por favor, tente novamente ou{' '}
+            <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+              class="text-[#FFD400] hover:underline font-semibold">
+              inscreva-se pelo Plantaformas
+            </a>.
+          </p>
+          <button onclick="document.getElementById('form-erro').classList.add('hidden');document.getElementById('form-inscricao').style.display='';"
+            class="mt-6 bg-[#292929] hover:bg-[#444] text-white font-bold uppercase text-sm py-3 px-8 transition-colors cursor-pointer">
+            Tentar novamente
+          </button>
+        </div>
       </div>
     </section>
 
-    <!-- Form submit handler 
     <script is:inline>
       (function () {
+        var FORM_URL = 'https://plantaformas.org/conferences/SoberaniaDigital/f/529/surveys/91/answer';
+        var PAGE_URL = 'https://plantaformas.org/conferences/SoberaniaDigital/f/529/';
+
         var form = document.getElementById('form-inscricao');
+        var btn = document.getElementById('btn-submit');
         var sucesso = document.getElementById('form-sucesso');
+        var erro = document.getElementById('form-erro');
         if (!form) return;
 
+        var comoConheceuMap = {
+          'telegram': 'Grupo do Telegram',
+          'redes-sociais': 'Redes sociais',
+          'organizacao': 'Pelo movimento / organização',
+          'email': 'E-mail / newsletter',
+          'amigo': 'Indicação de amigo(a)',
+          'outro': 'Outro'
+        };
+
+        function val(id) {
+          var el = form.querySelector('#' + id);
+          return el ? el.value.trim() : '';
+        }
+
         form.addEventListener('submit', function (e) {
-          // Only intercept if not Netlify (no action attr means Netlify handles it)
-          // When on Netlify, the redirect/success is handled by Netlify;
-          // this fallback shows success state for non-Netlify environments.
-          if (!form.hasAttribute('data-netlify-confirmed')) {
-            e.preventDefault();
-            var data = new FormData(form);
-            fetch('/', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: new URLSearchParams(data).toString(),
-            }).then(function () {
+          e.preventDefault();
+          btn.disabled = true;
+          btn.textContent = 'Enviando…';
+
+          fetch(PAGE_URL, { credentials: 'include' })
+            .then(function (r) { return r.text(); })
+            .then(function (html) {
+              var m = html.match(/name="csrf-token"\s+content="([^"]+)"/);
+              if (!m) throw new Error('CSRF não encontrado');
+              var csrf = m[1];
+
+              var hm = html.match(/name="((?:fegjto|another_fake)[^"]+)"[^>]*Se é humano/);
+              var honeypotName = hm ? hm[1] : '';
+
+              var como = val('como-conheceu');
+              var comoLabel = comoConheceuMap[como] || como || 'Não informado';
+
+              var body = new URLSearchParams();
+              body.set('authenticity_token', csrf);
+              if (honeypotName) body.set(honeypotName, '');
+
+              var fields = [
+                { id: '870', v: val('nome') },
+                { id: '871', v: val('email') },
+                { id: '872', v: val('telefone') || 'Não informado' },
+                { id: '873', v: val('cidade') },
+                { id: '874', v: val('ocupacao') },
+                { id: '875', v: comoLabel },
+                { id: '876', v: '' },
+                { id: '877', v: val('acessibilidade') || 'Nenhuma' },
+                { id: '878', v: '' },
+                { id: '879', v: '' }
+              ];
+
+              fields.forEach(function (f, i) {
+                body.set('questionnaire[responses][' + i + '][question_id]', f.id);
+                body.set('questionnaire[responses][' + i + '][body]', f.v);
+              });
+
+              body.set('questionnaire[responses][10][question_id]', '880');
+              body.set('questionnaire[responses][10][choices][0][body]', 'Dia 18 de Maio');
+              body.set('questionnaire[responses][10][choices][0][answer_option_id]', '1818');
+
+              body.set('questionnaire[responses][11][question_id]', '881');
+              body.set('questionnaire[responses][11][choices][][body]', 'Consigo ir por conta própria');
+              body.set('questionnaire[responses][11][choices][][answer_option_id]', '1822');
+
+              body.set('questionnaire[tos_agreement]', '1');
+
+              return fetch(FORM_URL, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body.toString()
+              });
+            })
+            .then(function (r) {
+              if (r.redirected || r.ok) {
+                form.style.display = 'none';
+                erro.classList.add('hidden');
+                sucesso.classList.remove('hidden');
+              } else {
+                throw new Error('HTTP ' + r.status);
+              }
+            })
+            .catch(function (err) {
+              console.error('Erro inscrição:', err);
               form.style.display = 'none';
-              sucesso.classList.remove('hidden');
-            }).catch(function () {
-              // Fallback: just show success (non-Netlify env)
-              form.style.display = 'none';
-              sucesso.classList.remove('hidden');
+              sucesso.classList.add('hidden');
+              erro.classList.remove('hidden');
+            })
+            .finally(function () {
+              btn.disabled = false;
+              btn.textContent = 'Enviar inscrição';
             });
-          }
         });
       })();
     </script>
@@ -953,79 +1049,75 @@ const metadata = {
     </section> -->
 
     <!-- ═══════════════════════════════════════════════════════════
-         8. PARCEIROS E APOIO
+         7. PARCEIROS E APOIO
     ═══════════════════════════════════════════════════════════ -->
     <section class="bg-white dark:bg-[#080808] py-16 md:py-20 border-t border-[#e5e7eb] dark:border-[#1a1a1a]">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-        <!-- REALIZAÇÃO -->
-        <div class="mb-10 text-center">
-          <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
-          <div class="flex justify-center gap-8 flex-wrap">
-            {partnersGrid.realizacao.map((org: any) => (
-              org.logo ? (
-                <a href={org.url} target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center">
-                  <img
-                    src={org.logo}
-                    alt={org.nome}
-                    class={`h-14 sm:h-20 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
-                  />
-                </a>
-              ) : (
-                <div class="border border-dashed border-[#ccc] dark:border-[#444] h-16 sm:h-20 w-48 sm:w-64 flex items-center justify-center">
-                  <span class="text-[#555] dark:text-[#777] font-bold text-sm text-center px-4">{org.nome}</span>
-                </div>
-              )
-            ))}
+        <!-- LINHA 1: REALIZAÇÃO + APOIO INSTITUCIONAL -->
+        <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 mb-12 justify-center items-start">
+          <div class="text-center flex-1">
+            <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
+            <div class="flex justify-center gap-8 flex-wrap items-center">
+              {partnersGrid.realizacao.map((org: any) => (
+                org.logo ? (
+                  <a href={org.url} target="_blank" rel="noopener noreferrer"
+                    class="inline-flex items-center justify-center">
+                    <img
+                      src={org.logo}
+                      alt={org.nome}
+                      class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                    />
+                  </a>
+                ) : (
+                  <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+                )
+              ))}
+            </div>
+          </div>
+          <div class="text-center flex-1">
+            <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
+            <div class="flex justify-center gap-8 flex-wrap items-center">
+              {partnersGrid.patrocinio.map((org: any) => (
+                org.logo ? (
+                  <a href={org.url} target="_blank" rel="noopener noreferrer"
+                    class="inline-flex items-center justify-center">
+                    <img
+                      src={org.logo}
+                      alt={org.nome}
+                      class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                    />
+                  </a>
+                ) : (
+                  <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+                )
+              ))}
+            </div>
           </div>
         </div>
 
-        <!-- APOIO INSTITUCIONAL -->
-        <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10 mb-10 text-center">
-          <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
-          <div class="flex justify-center gap-8 flex-wrap">
-            {partnersGrid.patrocinio.map((org: any) => (
-              org.logo ? (
-                <a href={org.url} target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center">
-                  <img
-                    src={org.logo}
-                    alt={org.nome}
-                    class={`h-10 sm:h-14 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
-                  />
-                </a>
-              ) : (
-                <div class="border border-dashed border-[#ccc] dark:border-[#444] h-10 sm:h-14 w-40 sm:w-48 flex items-center justify-center">
-                  <span class="text-[#555] dark:text-[#777] font-bold text-sm text-center px-4">{org.nome}</span>
-                </div>
-              )
-            ))}
-          </div>
-        </div>
-
-        <!-- ORGANIZAÇÃO -->
-        <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10 mb-10 text-center">
+        <!-- LINHA 2: ORGANIZAÇÃO -->
+        <div class="mb-12 text-center border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
           <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Organização</p>
-          <div class="flex justify-center items-center gap-4 sm:gap-8 flex-nowrap overflow-x-auto">
-            {partnersGrid.producao.map((org: any) => (
+          <div class="flex justify-center gap-8 flex-wrap items-center">
+            {[...partnersGrid.producao].reverse().map((org: any) => (
               org.logo ? (
                 <a href={org.url} target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center flex-shrink-0 bg-white dark:bg-[#111] p-2 sm:p-3 rounded">
+                  class="inline-flex items-center justify-center">
                   <img
                     src={org.logo}
                     alt={org.nome}
-                    class={`h-6 sm:h-8 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80`}
+                    class={`h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                   />
                 </a>
               ) : (
-                <span class="text-[#555] dark:text-[#777] font-bold text-sm flex-shrink-0 bg-white dark:bg-[#111] p-2 sm:p-3 rounded">{org.nome}</span>
+                <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
               )
             ))}
           </div>
         </div>
 
-        <!-- APOIO -->
+        <!-- LINHA 3: APOIO -->
         <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
           <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
           <div class="flex flex-wrap gap-2">
@@ -1042,3 +1134,24 @@ const metadata = {
 
   </div>
 </Layout>
+
+<script>
+fetch('/api/dados')
+  .then(r => r.ok ? r.json() : null)
+  .then(dados => {
+    if (!dados) return;
+    if (dados.inscritos != null) {
+      const el = document.getElementById('inscritos-count');
+      if (el) el.textContent = dados.inscritos.toLocaleString('pt-BR');
+      const timeEl = document.getElementById('inscritos-time');
+      if (timeEl) {
+        const d = new Date(dados.atualizadoEm);
+        timeEl.textContent = 'atualizado em ' + d.toLocaleDateString('pt-BR', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit',
+        });
+      }
+    }
+  })
+  .catch(() => {});
+</script>
