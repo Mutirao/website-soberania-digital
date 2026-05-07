@@ -281,9 +281,23 @@
     }
   ],
   "partnersGrid": {
-    "realizacao": ["Rede pela Soberania Digital"],
+    "realizacao": [
+      {
+        "nome": "Rede pela Soberania Digital",
+        "url": "https://soberania.digital",
+        "logo": "/identidade-visual-soberania.png",
+        "logoType": "color"
+      }
+    ],
     "producao": ["Instituto Mutirão", "Coletivo Digital", "FENADADOS"],
-    "patrocinio": ["Comitê Gestor da Internet no Brasil (CGI.br)"],
+    "patrocinio": [
+      {
+        "nome": "Comitê Gestor da Internet no Brasil (CGI.br)",
+        "url": "https://cgi.br",
+        "logo": "/logos/cgibr.png",
+        "logoType": "color"
+      }
+    ],
     "apoio": [
       "Sindicato dos Bancários",
       "Campanha Internet Legal",
