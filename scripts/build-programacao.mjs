@@ -60,7 +60,34 @@ wsStands?.eachRow((row, rn) => {
   stands.push({ organizacao, statusAceite, statusEmail, contato, obs });
 });
 
+// ── Parceiros ─────────────────────────────────────────────────────────────
+const partnersGrid = {
+  realizacao: [],
+  producao: [],
+  patrocinio: [],
+  apoio: [],
+};
+
+const wsPartners = wb.getWorksheet('Parceiros');
+wsPartners?.eachRow((row, rn) => {
+  if (rn === 1) return;
+  const [categoria, nome, url, logo, logoType] = rowVals(row, 5);
+  if (!nome) return;
+
+  const partner = { nome, url, logo, logoType: logoType || 'color' };
+  const cat = categoria.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  if (cat.includes('realizacao')) partnersGrid.realizacao.push(partner);
+  else if (cat.includes('producao') || cat.includes('organizacao')) partnersGrid.producao.push(partner);
+  else if (cat.includes('patrocinio') || cat.includes('apoio institucional')) partnersGrid.patrocinio.push(partner);
+  else if (cat.includes('apoio')) partnersGrid.apoio.push(partner);
+});
+
 // ── Escreve JSON ──────────────────────────────────────────────────────────
 const out = { geradoEm: new Date().toISOString(), sessoes, stands };
 writeFileSync(OUT, JSON.stringify(out, null, 2), 'utf-8');
 console.log(`✓ programacao-gerado.json — ${sessoes.length} sessões, ${stands.length} stands`);
+
+const PARTNERS_OUT = path.join(root, 'src/data/parceiros.json');
+writeFileSync(PARTNERS_OUT, JSON.stringify({ ...partnersGrid, atualizadoEm: new Date().toISOString() }, null, 2), 'utf-8');
+console.log(`✓ parceiros.json — ${Object.values(partnersGrid).flat().length} parceiros unificados`);

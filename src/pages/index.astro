@@ -5,8 +5,8 @@ import programacao from '~/data/programacao-gerado.json';
 import assinaturas from '~/data/assinaturas.json';
 import parceirosData from '~/data/parceiros.json';
 
-const { conf, about, location, hotels, community, partnersGrid } = evento;
-const parceiros = parceirosData.organizadores;
+const { conf, about, location, hotels, community } = evento;
+const partnersGrid = parceirosData;
 
 const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
@@ -266,7 +266,9 @@ const metadata = {
 <Layout metadata={metadata}>
   <div class="enc overflow-x-hidden">
 
-<!-- 1. HERO -->
+<!-- ═══════════════════════════════════════════════════════════════
+     1. HERO — Identidade + CTA imediato
+     ═══════════════════════════════════════════════════════════════ -->
     <section class="bg-[#010101]">
 
       <!-- mobile hero: imagem de banner full-width -->
@@ -332,44 +334,87 @@ const metadata = {
       </div>
     </section>
 
-<!-- 2. SOBRE O ENCONTRO -->
     <span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
-    <section class="bg-white dark:bg-[#010101] py-16 md:py-24">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     2. TEORIA DA MUDANÇA — PASSO 1: DEFINIR O PROBLEMA
+     ═══════════════════════════════════════════════════════════════ -->
+    <section class="bg-[#010101] py-16 md:py-24">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="md:flex items-start gap-12 lg:gap-20">
-          <div class="md:basis-2/5 mb-8 md:mb-0 md:sticky md:top-20">
-            <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Sobre o Encontro</p>
-            <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-6">Uma luta<br/>do povo</h2>
-            <div class="flex flex-wrap gap-3">
-              <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold uppercase py-3 px-6 border-l-4 border-[#FFD400] transition-colors text-sm">
-                Inscreva-se
-              </a>
-              <a href="#programacao"
-                class="inline-flex items-center justify-center min-h-[48px] border text-[#010101] dark:text-white border-[#e5e7eb] dark:border-[#1f2937] hover:bg-[#E31B23] hover:text-white hover:border-[#E31B23] font-bold uppercase py-3 px-5 transition-colors text-sm">
-                Ver Programação
-              </a>
-            </div>
+          <div class="md:basis-2/5 mb-8 md:mb-0">
+            <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Passo 1 — O Problema</p>
+            <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">
+              Você acha que<br/>o Brasil é<br/>soberano?
+            </h2>
+            <p class="text-[#999] text-base leading-relaxed">
+              Nossa economia, democracia e comunicação dependem de plataformas e infraestruturas estrangeiras. Isso não é tecnologia. <strong class="text-[#FFD400]">É poder.</strong>
+            </p>
           </div>
-          <div class="md:basis-3/5 min-w-0">
-            <p class="text-[#292929] dark:text-[#d1d5db] text-lg leading-relaxed mb-6">{conf.description}</p>
-            <p class="text-[#292929] dark:text-[#d1d5db] text-base leading-relaxed mb-8">{about.text}</p>
-            <blockquote class="border-l-4 border-[#E31B23] pl-6">
-              <p class="text-[#010101] dark:text-white text-2xl md:text-4xl font-black uppercase leading-tight font-semibold italic">"{about.quote}"</p>
+          <div class="md:basis-3/5 min-w-0 space-y-4">
+            <div class="bg-[#141414] border border-[#1e1e1e] p-5 flex gap-5 items-start">
+              <p class="text-[#E31B23] text-3xl font-black flex-shrink-0">🔴</p>
+              <div>
+                <h3 class="text-[#FFD400] text-base font-black uppercase mb-1">Seus Dados Estão Fora do País</h3>
+                <p class="text-[#999] text-sm leading-relaxed">Fora da nossa lei. Fora do nosso controle. Empresas estrangeiras armazenam e monetizam informações de milhões de brasileiros.</p>
+              </div>
+            </div>
+            <div class="bg-[#141414] border border-[#1e1e1e] p-5 flex gap-5 items-start">
+              <p class="text-[#FFD400] text-3xl font-black flex-shrink-0">💠</p>
+              <div>
+                <h3 class="text-[#FFD400] text-base font-black uppercase mb-1">Seus Algoritmos São Controlados por Estrangeiros</h3>
+                <p class="text-[#999] text-sm leading-relaxed">Big Techs decidem o que você vê, o que é amplificado e o que é silenciado — sem qualquer controle democrático.</p>
+              </div>
+            </div>
+            <div class="bg-[#141414] border border-[#1e1e1e] p-5 flex gap-5 items-start">
+              <p class="text-[#888] text-3xl font-black flex-shrink-0">👁️</p>
+              <div>
+                <h3 class="text-[#FFD400] text-base font-black uppercase mb-1">Sua Informação É Manipulada Todos os Dias</h3>
+                <p class="text-[#999] text-sm leading-relaxed">Censura algorítmica, desinformação e manipulação do debate público moldam opiniões e decisões no Brasil.</p>
+              </div>
+            </div>
+            <blockquote class="border-l-4 border-[#FFD400] pl-6 mt-6">
+              <p class="text-white text-xl md:text-2xl font-black uppercase leading-tight">"Quem controla o digital, controla o país."</p>
             </blockquote>
-
           </div>
         </div>
       </div>
     </section>
 
-<!-- 3. PROGRAMAÇÃO — 3 VIEWS -->
+<!-- ═══════════════════════════════════════════════════════════════
+     3. TEORIA DA MUDANÇA — PASSO 2: O QUE VAMOS FAZER
+     Inputs → Activities → Outputs
+     ═══════════════════════════════════════════════════════════════ -->
+
+    <!-- 3a. INPUTS — Quem se mobiliza -->
+    <section class="bg-[#111] py-12 md:py-16 border-y border-[#222]">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="md:flex items-start gap-10">
+          <div class="md:basis-1/3 mb-6 md:mb-0">
+            <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Passo 2 — O que vamos fazer</p>
+            <h3 class="text-white text-2xl md:text-3xl font-black uppercase leading-tight">Quem se mobiliza</h3>
+            <p class="text-[#666] text-sm mt-2">Movimentos, organizações e pessoas se unindo para agir.</p>
+          </div>
+          <div class="md:basis-2/3">
+            <div class="flex flex-wrap gap-3">
+              {['Movimentos Sociais', 'Sindicatos e Trabalhadores', 'Juventude', 'Pesquisadores e Educadores', 'Desenvolvedores e Coletivos'].map((grupo) => (
+                <span class="border border-[#333] text-[#d1d5db] px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-[#FFD400] hover:text-[#FFD400] transition-colors">
+                  {grupo}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3b. ACTIVITIES — Programação completa (grade/sessões/palestrantes) -->
     <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="mb-8">
           <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">Programação Completa</p>
-          <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">O que acontece</h2>
+          <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">Dois dias de debates, articulação e construção coletiva</h2>
         </div>
 
         <!-- View tabs -->
@@ -526,31 +571,87 @@ const metadata = {
       </div>
     </section>
 
-<!-- 4. BIG NUMBER — INSCRIÇÕES -->
-    {assinaturas.total > 0 && (
-      <section class="bg-[#111] border-y border-[#FFD400]/20 py-8 md:py-10">
-        <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
-          <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-2">Já somos</p>
-          <div id="inscritos-count" class="text-[#FFD400] text-6xl sm:text-7xl md:text-8xl font-black font-['Barlow_Condensed',sans-serif] leading-none mb-1 tabular-nums">
-            {assinaturas.total.toLocaleString('pt-BR')}
+    <!-- 3c. OUTPUTS — O que vamos produzir -->
+    <section class="bg-[#E31B23] py-12 md:py-16">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <p class="text-pink-200 text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">O que vamos produzir juntos</p>
+        <h2 class="text-white text-3xl md:text-4xl font-black uppercase leading-tight mb-6">Não é um evento comum.</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="text-center">
+            <p class="text-white text-4xl font-black mb-2">📋</p>
+            <h3 class="text-white text-base font-black uppercase mb-1">Propostas Concretas</h3>
+            <p class="text-pink-200 text-sm">Para o Brasil debater e implementar.</p>
           </div>
-          <p class="text-[#888] text-sm sm:text-base font-bold uppercase tracking-wide">
-            pessoas inscritas no 2º Encontro
-          </p>
-          <p id="inscritos-time" class="text-[#444] text-[0.625rem] mt-3">
-            atualizado em {new Date(assinaturas.atualizadoEm).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-          </p>
+          <div class="text-center">
+            <p class="text-white text-4xl font-black mb-2">🗺️</p>
+            <h3 class="text-white text-base font-black uppercase mb-1">Plano de Ação</h3>
+            <p class="text-pink-200 text-sm">Construído coletivamente por todos os participantes.</p>
+          </div>
+          <div class="text-center">
+            <p class="text-white text-4xl font-black mb-2">🏛️</p>
+            <h3 class="text-white text-base font-black uppercase mb-1">Entrega ao Governo</h3>
+            <p class="text-pink-200 text-sm">Propostas entregues à Presidência da República.</p>
+          </div>
         </div>
-      </section>
-    )}
+      </div>
+    </section>
 
-<!-- 5. INSCRIÇÃO CTA -->
+<!-- ═══════════════════════════════════════════════════════════════
+     4. TEORIA DA MUDANÇA — PASSO 3: QUE DIFERENÇA VAI FAZER
+     Resultado imediato → Resultado de médio prazo
+     ═══════════════════════════════════════════════════════════════ -->
+    <section class="bg-[#0d0d0d] py-16 md:py-24">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Passo 3 — Que diferença vai fazer</p>
+        <h2 class="text-white text-3xl md:text-4xl font-black uppercase leading-tight mb-10">Unindo vozes de todo o país</h2>
+
+        <div class="space-y-6">
+          <div class="bg-[#141414] border border-[#1e1e1e] p-6 md:flex gap-6 items-start">
+            <div class="flex-shrink-0 mb-4 md:mb-0">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#E31B23]/20 text-[#E31B23] font-black text-lg">1</span>
+            </div>
+            <div>
+              <h3 class="text-[#FFD400] text-lg font-black uppercase mb-2">Resultado Imediato</h3>
+              <p class="text-[#d1d5db] text-base leading-relaxed">
+                Movimentos sociais, sindicatos, pesquisadores, juventude e coletivos debatem juntos o cenário da soberania digital,
+                constroem propostas e fortalecem a articulação nacional pela soberania digital do Brasil.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-[#141414] border border-[#1e1e1e] p-6 md:flex gap-6 items-start">
+            <div class="flex-shrink-0 mb-4 md:mb-0">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#FFD400]/20 text-[#FFD400] font-black text-lg">2</span>
+            </div>
+            <div>
+              <h3 class="text-[#FFD400] text-lg font-black uppercase mb-2">Resultado de Médio Prazo</h3>
+              <p class="text-[#d1d5db] text-base leading-relaxed">
+                As propostas construídas no encontro são entregues à Presidência da República,
+                colocando a soberania digital no centro da agenda do Estado brasileiro e influenciando
+                políticas públicas, regulação e investimento em infraestrutura nacional.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     5. TEORIA DA MUDANÇA — PASSO 4: IMPACTO DE LONGO PRAZO
+     + CTA de inscrição
+     ═══════════════════════════════════════════════════════════════ -->
     <section class="bg-[#E31B23] py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-pink-200 text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Não perca</p>
-        <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">Garanta sua vaga</h2>
-        <p class="text-pink-100 text-lg leading-relaxed mb-8">
+        <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Passo 4 — Impacto de longo prazo</p>
+        <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">
+          Sem soberania digital,<br/>não há soberania nacional
+        </h2>
+        <p class="text-pink-100 text-lg leading-relaxed mb-2">
           {conf.date} · {conf.venue} · {location.name}
+        </p>
+        <p class="text-pink-200 text-base leading-relaxed mb-8 max-w-xl mx-auto">
+          Um Brasil com controle sobre seus dados, seus algoritmos e sua infraestrutura digital —
+          tecnologia a serviço da vida, dos direitos e da autonomia do povo.
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
           <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
