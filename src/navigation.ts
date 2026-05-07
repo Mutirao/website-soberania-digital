@@ -1,35 +1,20 @@
-import { getPermalink } from './utils/permalinks';
-
 export const headerData = {
   links: [
     {
-      text: 'Carta',
-      href: getPermalink('/carta'),
+      text: 'Programação',
+      href: '#programacao',
     },
     {
-      text: 'Manifesto',
-      href: getPermalink('/manifesto'),
-    },
-    {
-      text: 'Encontros',
-      links: [
-        {
-          text: '2º Encontro Soberania Já',
-          href: getPermalink('/encontro'),
-        },
-        {
-          text: '1º Encontro Soberania Já',
-          href: getPermalink('/primeiro-encontro'),
-        },
-      ],
-    }
-  ],
-  actions: [
-    {
-      text: 'Inscreva-se',
-      href: getPermalink('/encontro'),
+      text: 'Local',
+      href: '#local',
     },
   ],
+  // actions: [
+  //   {
+  //     text: 'Inscreva-se',
+  //     href: 'https://plantaformas.org/conferences/SoberaniaDigital/f/529/',
+  //   },
+  // ],
 };
 
 export const footerData = {
@@ -37,11 +22,9 @@ export const footerData = {
     {
       title: 'Sobre',
       links: [
-        { text: 'Início', href: getPermalink('/') },
-        { text: 'Carta ao Presidente Lula', href: getPermalink('/carta') },
-        { text: '2º Encontro', href: getPermalink('/encontro') },
-        { text: '1º Encontro', href: getPermalink('/primeiro-encontro') },
-        { text: 'Manifesto', href: getPermalink('/manifesto') },
+        { text: 'Programação', href: '#programacao' },
+        { text: 'Inscrição', href: '#inscricao' },
+        { text: 'Local', href: '#local' },
       ],
     },
     {

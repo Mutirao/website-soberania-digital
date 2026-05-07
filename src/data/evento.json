@@ -289,7 +289,26 @@
         "logoType": "color"
       }
     ],
-    "producao": ["Instituto Mutirão", "Coletivo Digital", "FENADADOS"],
+    "producao": [
+      {
+        "nome": "Instituto Mutirão",
+        "url": "https://mutirao.org",
+        "logo": "/logo-mutirao-capa-site-05.png",
+        "logoType": "color"
+      },
+      {
+        "nome": "Coletivo Digital",
+        "url": "https://coletivo.digital",
+        "logo": "/logo-coleitov-digital.png",
+        "logoType": "color"
+      },
+      {
+        "nome": "FENADADOS",
+        "url": "https://fenadados.org.br",
+        "logo": "/logo-fenadados.png",
+        "logoType": "color"
+      }
+    ],
     "patrocinio": [
       {
         "nome": "Comitê Gestor da Internet no Brasil (CGI.br)",
@@ -299,18 +318,18 @@
       }
     ],
     "apoio": [
-      "Sindicato dos Bancários",
-      "Campanha Internet Legal",
-      "Coalizão Direitos na Rede",
-      "Interlig",
-      "Casa de Cultura Tainã",
-      "Marcha Mundial das Mulheres",
-      "MTST",
-      "MST",
-      "Alquimídia",
-      "POP Solutions",
-      "Rede Economia Solidária e Feminista",
-      "TV Travessia"
+      {"nome": "Sindicato dos Bancários"},
+      {"nome": "Campanha Internet Legal"},
+      {"nome": "Coalizão Direitos na Rede"},
+      {"nome": "Interlig"},
+      {"nome": "Casa de Cultura Tainã"},
+      {"nome": "Marcha Mundial das Mulheres"},
+      {"nome": "MTST"},
+      {"nome": "MST"},
+      {"nome": "Alquimídia"},
+      {"nome": "POP Solutions"},
+      {"nome": "Rede Economia Solidária e Feminista"},
+      {"nome": "TV Travessia"}
     ]
   },
   "community": [

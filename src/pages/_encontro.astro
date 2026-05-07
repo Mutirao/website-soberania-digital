@@ -959,20 +959,33 @@ const metadata = {
         </div>
 
         <!-- ORGANIZAÇÃO -->
-        <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10 mb-10">
-          <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Organização</p>
-          <p class="text-[#555] dark:text-[#666] text-sm">
-            {partnersGrid.producao.join(' · ')}
-          </p>
+        <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10 mb-10 text-center">
+          <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Organização</p>
+          <div class="flex justify-center items-center gap-6 sm:gap-10 flex-wrap">
+            {partnersGrid.producao.map((org: any) => (
+              org.logo ? (
+                <a href={org.url} target="_blank" rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center">
+                  <img
+                    src={org.logo}
+                    alt={org.nome}
+                    class={`h-10 sm:h-14 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                  />
+                </a>
+              ) : (
+                <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+              )
+            ))}
+          </div>
         </div>
 
         <!-- APOIO -->
         <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
           <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
           <div class="flex flex-wrap gap-2">
-            {partnersGrid.apoio.map((item: string) => (
+            {partnersGrid.apoio.map((org: any) => (
               <span class="border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 py-1.5 text-xs">
-                {item}
+                {org.nome}
               </span>
             ))}
           </div>

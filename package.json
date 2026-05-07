@@ -10,6 +10,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "node scripts/build-programacao.mjs && astro build",
+    "plantaformas:pull": "npx tsx scripts/sync-plantaformas.ts pull",
+    "plantaformas:push": "npx tsx scripts/sync-plantaformas.ts push",
     "preview": "npm run build && wrangler dev",
     "astro": "astro",
     "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
