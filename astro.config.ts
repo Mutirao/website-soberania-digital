@@ -3,8 +3,8 @@ import { fileURLToPath } from 'url';
 
 import { defineConfig } from 'astro/config';
 
-import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
+import tailwindcss from '@tailwindcss/vite';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
@@ -27,9 +27,6 @@ export default defineConfig({
   adapter: node({ mode: 'standalone' }),
 
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     mdx(),
     icon({
       include: {
@@ -82,6 +79,7 @@ export default defineConfig({
   },
 
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),

@@ -1,55 +1,140 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-@layer utilities {
-  .bg-page {
-    background-color: var(--aw-color-bg-page);
-  }
-  .bg-dark {
-    background-color: var(--aw-color-bg-page);
-  }
-  .bg-light {
-    background-color: var(--aw-color-bg-page);
-  }
-  .text-page {
-    color: var(--aw-color-text-default);
-  }
-  .text-muted {
-    color: var(--aw-color-text-muted);
+@config "../../tailwind.config.js";
+
+@utility bg-page {
+  background-color: var(--aw-color-bg-page);
+}
+@utility bg-dark {
+  background-color: var(--aw-color-bg-page);
+}
+@utility bg-light {
+  background-color: var(--aw-color-bg-page);
+}
+@utility text-page {
+  color: var(--aw-color-text-default);
+}
+@utility text-muted {
+  color: var(--aw-color-text-muted);
+}
+
+@utility btn {
+  inline-flex: items-center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid var(--color-gray-400);
+  background-color: transparent;
+  font-weight: 500;
+  text-align: center;
+  font-size: var(--text-base);
+  color: var(--aw-color-text-default);
+  line-height: 1.375;
+  transition: all 0.2s ease-in;
+  padding: 0.875rem 1.5rem;
+  cursor: pointer;
+}
+
+@media (min-width: 48rem) {
+  .btn {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
-@layer components {
-  .btn {
-    @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-gray-400 focus:ring-offset-gray-100 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
-  }
+.btn:hover {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-600);
+}
 
-  .btn-primary {
-    @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white dark:text-white dark:bg-primary dark:border-primary dark:hover:border-secondary dark:hover:bg-secondary;
-  }
+.btn:focus {
+  --tw-ring-color: var(--color-gray-400);
+  --tw-ring-offset-color: var(--color-gray-100);
+  --tw-ring-shadow: 0 0 0 2px var(--tw-ring-offset-color), 0 0 0 calc(2px + 2px) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-shadow);
+}
 
-  .btn-secondary {
-    @apply btn;
-  }
+:is(.dark .btn) {
+  color: var(--color-slate-300);
+  border-color: var(--color-slate-500);
+}
 
-  .btn-tertiary {
-    @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
-  }
+:is(.dark .btn:hover) {
+  background-color: var(--color-slate-800);
+  border-color: var(--color-slate-800);
+}
+
+@utility btn-primary {
+  font-weight: 600;
+  background-color: var(--aw-color-primary);
+  color: white;
+  border-color: var(--aw-color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--aw-color-secondary);
+  border-color: var(--aw-color-secondary);
+  color: white;
+}
+
+:is(.dark .btn-primary) {
+  color: white;
+  background-color: var(--aw-color-primary);
+  border-color: var(--aw-color-primary);
+}
+
+:is(.dark .btn-primary:hover) {
+  border-color: var(--aw-color-secondary);
+  background-color: var(--aw-color-secondary);
+}
+
+@utility btn-secondary {
+  @apply btn;
+}
+
+@utility btn-tertiary {
+  border: none;
+  box-shadow: none;
+  color: var(--aw-color-text-muted);
+}
+
+.btn-tertiary:hover {
+  color: var(--color-gray-900);
+}
+
+:is(.dark .btn-tertiary) {
+  color: var(--color-gray-400);
+}
+
+:is(.dark .btn-tertiary:hover) {
+  color: white;
 }
 
 #header.scroll > div:first-child {
-  @apply bg-page md:bg-white/90 md:backdrop-blur-md;
+  background-color: var(--aw-color-bg-page);
   box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%);
 }
+
+@media (min-width: 48rem) {
+  #header.scroll > div:first-child {
+    background-color: color-mix(in srgb, white 90%, transparent);
+    backdrop-filter: blur(12px);
+  }
+}
+
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
-  @apply bg-page md:bg-[#010101e6] border-b border-gray-500/20;
+  background-color: var(--aw-color-bg-page);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gray-500) 20%, transparent);
   box-shadow: none;
 }
-/* #header.scroll > div:last-child {
-  @apply py-3;
-} */
+
+@media (min-width: 48rem) {
+  .dark #header.scroll > div:first-child,
+  #header.scroll.dark > div:first-child {
+    background-color: #010101e6;
+  }
+}
 
 #header.expanded nav {
   position: fixed;
@@ -75,17 +160,18 @@
 }
 
 [data-aw-toggle-menu] path {
-  @apply transition;
+  transition: all 0.15s ease;
 }
+
 [data-aw-toggle-menu].expanded g > path:first-child {
-  @apply -rotate-45 translate-y-[15px] translate-x-[-3px];
+  rotate: -45deg;
+  translate: 0 15px -3px;
 }
 
 [data-aw-toggle-menu].expanded g > path:last-child {
-  @apply rotate-45 translate-y-[-8px] translate-x-[14px];
+  rotate: 45deg;
+  translate: 0 -8px 14px;
 }
-
-/* To deprecated */
 
 .dd *:first-child {
   margin-top: 0;
