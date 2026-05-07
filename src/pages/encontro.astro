@@ -103,7 +103,7 @@ const metadata = {
 ---
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap');
 
   /* ── theme tokens ─────────────────────────────────────────── */
   .enc {
@@ -240,7 +240,7 @@ const metadata = {
   .view-tab {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px;
-    text-transform: uppercase; padding: 8px 20px;
+    text-transform: uppercase; padding: 10px 20px; min-height: 44px;
     border: 1px solid #333; background: transparent; color: #555;
     cursor: pointer; transition: all 0.15s;
   }
@@ -250,7 +250,7 @@ const metadata = {
   .day-tab {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 900; font-size: 0.9rem; text-transform: uppercase;
-    letter-spacing: 1px; padding: 8px 20px; border: none;
+    letter-spacing: 1px; padding: 10px 20px; min-height: 44px; border: none;
     cursor: pointer; opacity: 0.45; transition: opacity 0.15s; color: white;
   }
   .day-tab.active { opacity: 1; }
@@ -790,7 +790,7 @@ const metadata = {
           <p class="text-[#E7E7D8] text-base">
             Preencha o formulário abaixo ou{' '}
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-              class="text-[#FFD400] hover:underline font-semibold">
+              class="text-[#FFD400] hover:underline font-semibold inline-block py-1">
               acesse o Plantaformas
             </a>.
           </p>
