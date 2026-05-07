@@ -338,7 +338,7 @@ const metadata = {
               <p class="text-white font-bold text-lg">Brasília / DF</p>
             </div>
           </div>
-          <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+          <a href="#inscricao"
             class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-3 px-8 border-l-4 border-[#FFD400] transition-colors w-full">
             Inscreva-se
           </a>
@@ -362,7 +362,7 @@ const metadata = {
           <h1 class="text-[#FFD400] text-4xl md:text-6xl font-black uppercase leading-none mb-2">18 E 19<br/>DE MAIO</h1>
           <p class="text-[#E7E7D8] text-2xl md:text-4xl font-black uppercase leading-tight mb-8">BRASÍLIA / DF</p>
           <div class="flex flex-col gap-3">
-            <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+            <a href="#inscricao"
               class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-4 px-8 border-l-4 border-[#FFD400] transition-colors">
               Inscreva-se
             </a>
@@ -390,7 +390,7 @@ const metadata = {
             <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Sobre o Encontro</p>
             <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-6">Uma luta<br/>do povo</h2>
             <div class="flex flex-wrap gap-3">
-              <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+              <a href="#inscricao"
                 class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold uppercase py-3 px-6 border-l-4 border-[#FFD400] transition-colors text-sm">
                 Inscreva-se
               </a>
@@ -608,7 +608,7 @@ const metadata = {
           {conf.date} · {conf.venue} · {location.name}
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
-          <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+          <a href="#inscricao"
             class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg">
             {conf.callToAction.text}
           </a>
@@ -1136,7 +1136,7 @@ const metadata = {
 </Layout>
 
 <script>
-fetch(import.meta.env.BASE_URL + '/api/dados')
+fetch('api/dados')
   .then(r => r.ok ? r.json() : null)
   .then(dados => {
     if (!dados) return;

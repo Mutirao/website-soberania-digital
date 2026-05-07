@@ -93,10 +93,14 @@ app.get(`${BASE_PATH}/api/dados`, async (_req, res) => {
 });
 
 // Redirect raiz → base path
-app.get('/', (_req, res) => res.redirect(301, `${BASE_PATH}/`));
+if (BASE_PATH !== '/') {
+  app.get('/', (_req, res) => res.redirect(301, `${BASE_PATH}/`));
+}
 
-// Arquivos estáticos sob BASE_PATH
+// Arquivos estáticos: primeiro sob BASE_PATH (para navegação de páginas),
+// depois na raiz (para assets com paths absolutos gerados pelo Astro)
 app.use(BASE_PATH, express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // 404
 app.use((_req, res) => {
