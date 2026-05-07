@@ -1,11 +1,35 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
+import programacao from '~/data/programacao-gerado.json';
 
-const { conf, about, location, schedule, hotels, community } = evento;
-const { stories = [] } = evento;
+const { conf, about, location, hotels, community, partnersGrid } = evento;
 
-const showStories = stories.length >= 3;
+// ── schedule helpers ────────────────────────────────────────────────────────
+const diasMap: Record<string, string> = {
+  '18/05 Seg': 'dia1',
+  '19/05 Ter': 'dia2',
+};
+
+function formatTime(t: string) {
+  if (!t) return '';
+  const [h, m] = t.split(':');
+  const hi = parseInt(h);
+  if (isNaN(hi)) return t;
+  return m && m !== '00' ? `${hi}h${m}` : `${hi}h`;
+}
+
+function isConfirmed(status: string) {
+  return (status ?? '').toUpperCase().includes('CONFIRMAD');
+}
+
+// Only Anfiteatro Central for the landing page
+const sessoesPorDia: Record<string, typeof programacao.sessoes> = { dia1: [], dia2: [] };
+for (const s of programacao.sessoes) {
+  if (s.local !== 'Anfiteatro Central') continue;
+  const key = diasMap[s.dia];
+  if (key) sessoesPorDia[key].push(s);
+}
 
 const metadata = {
   title: `${conf.name} — Soberania.Digital`,
@@ -15,261 +39,346 @@ const metadata = {
 ---
 
 <style>
-  .encontro-page {
-    --enc-accent: #FFD400;
-    --enc-cta: #E31B23;
-    --enc-cta-hover: #b01015;
-    --enc-border-accent: #FFD400;
+  @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&display=swap');
+
+  .enc {
+    font-family: 'Overpass', Helvetica, Arial, sans-serif;
   }
+
+  /* ── form ── */
+  .enc-form input,
+  .enc-form select,
+  .enc-form textarea {
+    width: 100%;
+    background: #111;
+    border: 1px solid #333;
+    color: #e8e8e8;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .enc-form input:focus,
+  .enc-form select:focus,
+  .enc-form textarea:focus {
+    border-color: #FFD400;
+  }
+  .enc-form select option { background: #111; color: #e8e8e8; }
+  .enc-form label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .enc-form .required-mark { color: #E31B23; }
+
+  /* ── tabs (programação) ── */
+  .prog-tab { cursor: pointer; transition: all 0.15s; }
+  .prog-tab.active { background: #FFD400; color: #010101; }
+  .prog-panel { display: none; }
+  .prog-panel.active { display: block; }
 </style>
 
 <Layout metadata={metadata}>
-  <div class="overflow-x-hidden encontro-page">
+  <div class="enc overflow-x-hidden">
 
-    <!-- 1. MANIFESTO HERO -->
-    <section class="relative bg-[#010101]">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-16 md:py-24 lg:py-32">
-        <div class="max-w-3xl">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-sm mb-6">
+    <!-- ═══════════════════════════════════════════════════════════
+         1. HERO
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="bg-[#010101]">
+
+      <!-- mobile hero: imagem de banner full-width -->
+      <div class="md:hidden">
+        <img
+          src="/banner-encontro-1080.png"
+          alt="2º Encontro Nacional pela Soberania Digital — 18 e 19 de Maio, Brasília"
+          class="w-full block"
+          loading="eager"
+        />
+        <div class="px-5 py-8 text-center">
+          <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-4">
             2º Encontro Nacional pela Soberania Digital
           </p>
-          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase leading-none mb-8">
-            A soberania digital<br />é uma luta do povo
-          </h1>
-          <p class="text-lg md:text-xl text-[#E7E7D8] font-light leading-relaxed mb-10 max-w-xl">
-            {/* MANIFESTO COPY */}
-            O Brasil precisa ter mais controle sobre suas infraestruturas, seus dados,
-            suas plataformas e seus caminhos tecnológicos.
+          <div class="flex flex-wrap gap-3 justify-center mb-6">
+            <div class="text-center">
+              <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-0.5">Quando</p>
+              <p class="text-white font-bold text-lg">18 e 19 de Maio</p>
+            </div>
+            <div class="text-center">
+              <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-0.5">Onde</p>
+              <p class="text-white font-bold text-lg">Brasília / DF</p>
+            </div>
+          </div>
+          <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-3 px-8 border-l-4 border-[#FFD400] transition-colors w-full">
+            Inscreva-se
+          </a>
+        </div>
+      </div>
+
+      <!-- desktop hero: banner à esquerda, data + CTA à direita -->
+      <div class="hidden md:flex items-center gap-10 max-w-6xl mx-auto px-6 py-12 lg:py-16">
+        <div class="flex-1 min-w-0">
+          <img
+            src="/banner-encontro-1080.png"
+            alt="2º Encontro Nacional pela Soberania Digital"
+            class="w-full block"
+            loading="eager"
+          />
+        </div>
+        <div class="flex-shrink-0 w-72 xl:w-80">
+          <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-4">
+            2º Encontro Nacional pela Soberania Digital
           </p>
-          <div class="flex flex-wrap gap-3">
+          <h1 class="text-[#FFD400] font-black uppercase leading-none text-5xl xl:text-6xl mb-2">
+            18 E 19<br/>DE MAIO
+          </h1>
+          <p class="text-[#E7E7D8] font-black uppercase text-2xl xl:text-3xl mb-8">BRASÍLIA / DF</p>
+          <div class="flex flex-col gap-3">
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold py-3 px-8 text-lg transition-colors shadow-lg border-l-4 border-[#FFD400]">
+              class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-4 px-8 border-l-4 border-[#FFD400] transition-colors">
               Inscreva-se
             </a>
             <a href="#programacao"
-              class="inline-flex items-center justify-center min-h-[52px] border-2 border-[#FFD400] text-[#FFD400] hover:bg-[#FFD400] hover:text-[#010101] font-bold py-3 px-6 text-base transition-colors">
-              Ver Programação
+              class="inline-flex items-center justify-center min-h-[48px] border border-[#333] text-[#E7E7D8] hover:border-[#FFD400] hover:text-[#FFD400] font-bold uppercase py-3 px-6 transition-colors text-sm">
+              Ver Programação ↓
+            </a>
+            <a href="/encontro.ics" download
+              class="inline-flex items-center justify-center min-h-[44px] text-[#666] hover:text-[#888] font-bold uppercase py-2 px-4 transition-colors text-xs">
+              ↓ Adicionar à agenda (.ics)
             </a>
           </div>
         </div>
-        <div class="mt-12 md:mt-16 flex flex-wrap gap-6 md:gap-12">
-          <div>
-            <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-1">Quando</p>
-            <p class="text-white font-bold text-lg">18 e 19 de MAIO</p>
-          </div>
-          <div>
-            <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-1">Onde</p>
-            <p class="text-white font-bold text-lg">Brasília / DF</p>
-          </div>
-          <div>
-            <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-1">Inscrições</p>
-            <p class="text-white font-bold text-lg">Abertas</p>
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- 2. COMMUNITY STORIES -->
-    {showStories && (
-      <section class="bg-[var(--sd-section-alt-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6">
-          <div class="text-center mb-12">
-            <p class="text-[#E31B23] font-black uppercase tracking-widest text-sm mb-3">
-              Quem esteve lá
+    <!-- ═══════════════════════════════════════════════════════════
+         2. SOBRE O ENCONTRO
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="bg-white py-16 md:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="md:flex items-start gap-12 lg:gap-20">
+          <div class="md:basis-2/5 mb-8 md:mb-0 md:sticky md:top-20">
+            <p class="text-[#E31B23] font-black uppercase tracking-widest text-sm mb-4">
+              Sobre o Encontro
             </p>
-            <h2 class="text-3xl md:text-4xl font-black text-[var(--sd-text)] uppercase">
-              O que disseram
+            <h2 class="text-[#010101] font-black uppercase text-3xl md:text-4xl lg:text-5xl leading-none mb-6">
+              Uma luta<br/>do povo
             </h2>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {stories.map((story) => (
-              <div class="p-6 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)] border-l-4 border-l-[#FFD400]">
-                <p class="text-lg font-semibold text-[var(--sd-text)] leading-snug mb-4">
-                  "{story.quote}"
-                </p>
-                <p class="text-[#E31B23] font-bold text-sm">
-                  {story.name}
-                </p>
-                <p class="text-[var(--sd-text-muted)] text-sm">
-                  {story.city}{story.role ? ` · ${story.role}` : ''}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
-
-    <!-- 3. WHY THIS MATTERS -->
-    <section class="bg-[var(--sd-section-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        <div class="md:flex items-start gap-12">
-          <div class="md:basis-1/3 mb-8 md:mb-0">
-            <p class="text-[#E31B23] font-black uppercase tracking-widest text-sm mb-3">
-              Por que importa
-            </p>
-            <h2 class="text-3xl md:text-4xl font-black text-[var(--sd-text)] uppercase leading-tight">
-              Uma luta que já começou
-            </h2>
-          </div>
-          <div class="md:basis-2/3 min-w-0">
-            <p class="text-base text-[var(--sd-text-2)] leading-relaxed mb-6">
-              O encontro é parte de um processo de articulação para fazer com que a soberania digital entre de vez na pauta do país, esteja presente nos debates eleitorais, nos planos de governo e nas estratégias para o desenvolvimento nacional.
-            </p>
-            <p class="text-base text-[var(--sd-text-2)] leading-relaxed mb-6">
-              Esse movimento quer se fortalecer de forma enraizada e espraiada em todos os territórios, conectando lutas, experiências e propostas que nascem das comunidades, das universidades, dos movimentos sociais, do poder público e da sociedade civil organizada.
-            </p>
-            <blockquote class="text-xl md:text-2xl text-[var(--sd-text)] font-semibold italic leading-snug border-l-4 border-[#E31B23] pl-6">
-              {about.quote}
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. SCHEDULE -->
-    <section id="programacao" class="bg-[#010101] py-16 md:py-24">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        <div class="text-center mb-12">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-sm mb-3">
-            Programação
-          </p>
-          <h2 class="text-3xl md:text-4xl font-black text-white uppercase">
-            O que acontece
-          </h2>
-        </div>
-
-        <div class="space-y-12 lg:space-y-0 lg:flex lg:gap-8 lg:items-start">
-          {schedule.map((day) => (
-            <div class="lg:basis-1/2">
-              <h3 class="text-xl md:text-2xl font-bold text-[#FFD400] text-center mb-1">
-                {day.label} — {day.date}
-              </h3>
-              {day.room && (
-                <p class="text-center text-[#E7E7D8] text-sm mb-4">{day.room}</p>
-              )}
-              <div class="rounded overflow-hidden border border-[#292929]">
-                {day.slots.map((slot) => (
-                  <div class={`flex gap-3 md:gap-4 p-3 md:p-4 min-w-0 border-b border-[#292929] last:border-b-0 ${!slot.presentation ? 'bg-[#1a1a1a]' : 'bg-[#010101]'}`}>
-                    <div class="text-[#FFD400] font-mono text-sm whitespace-nowrap pt-0.5 w-14 shrink-0">
-                      {slot.time}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      {slot.presentation ? (
-                        <>
-                          <p class="text-white font-bold text-sm leading-snug mb-1">
-                            {slot.presentation.title}
-                          </p>
-                          {slot.presentation.description && (
-                            <p class="text-[#E7E7D8] text-xs leading-snug mb-2">
-                              {slot.presentation.description}
-                            </p>
-                          )}
-                          {slot.speakers && slot.speakers.length > 0 && (
-                            <div class="flex flex-wrap gap-x-3 gap-y-0.5">
-                              {slot.speakers.map((s) => (
-                                <span class="text-[#FFD400] text-xs md:text-sm font-semibold">
-                                  {s.role === 'mediação' && <span class="text-[#666] font-normal italic">med: </span>}
-                                  {s.name}{s.company ? ` · ${s.company}` : ''}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <p class="text-white font-bold text-sm">
-                          {slot.name}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div class="flex flex-wrap gap-3">
+              <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+                class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold uppercase py-3 px-6 border-l-4 border-[#FFD400] transition-colors text-sm">
+                Inscreva-se
+              </a>
+              <a href="#programacao"
+                class="inline-flex items-center justify-center min-h-[48px] border border-[#010101] text-[#010101] hover:bg-[#010101] hover:text-white font-bold uppercase py-3 px-5 transition-colors text-sm">
+                Ver Programação
+              </a>
             </div>
-          ))}
+          </div>
+          <div class="md:basis-3/5 min-w-0">
+            <p class="text-[#292929] text-lg md:text-xl leading-relaxed mb-6">
+              {conf.description}
+            </p>
+            <p class="text-[#292929] text-base leading-relaxed mb-8">
+              {about.text}
+            </p>
+            <blockquote class="border-l-4 border-[#E31B23] pl-6">
+              <p class="text-[#010101] text-xl md:text-2xl font-semibold italic leading-snug">
+                "{about.quote}"
+              </p>
+            </blockquote>
+
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 5. REGISTRATION CTA -->
+    <!-- ═══════════════════════════════════════════════════════════
+         3. PROGRAMAÇÃO
+    ═══════════════════════════════════════════════════════════ -->
+    <section id="programacao" class="bg-[#010101] py-16 md:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+          <div>
+            <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-3">
+              Programação Completa
+            </p>
+            <h2 class="text-white font-black uppercase text-3xl md:text-4xl lg:text-5xl leading-none">
+              O que acontece
+            </h2>
+          </div>
+          <a href="/programa"
+            class="inline-flex items-center gap-2 text-[#FFD400] hover:text-white font-bold uppercase tracking-wide text-sm border border-[#333] hover:border-[#FFD400] px-5 py-3 transition-colors self-start md:self-auto">
+            Ver programação detalhada →
+          </a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-6" role="tablist">
+          <button class="prog-tab active font-black uppercase text-sm px-6 py-3 border border-[#333] tracking-wide" data-tab="dia1" role="tab" aria-selected="true">
+            📅 Dia 1 — 18/05
+          </button>
+          <button class="prog-tab font-black uppercase text-sm px-6 py-3 border border-[#333] text-[#666] tracking-wide" data-tab="dia2" role="tab" aria-selected="false">
+            📅 Dia 2 — 19/05
+          </button>
+        </div>
+
+        <!-- Dia 1 panel -->
+        <div id="prog-dia1" class="prog-panel active">
+          <div class="space-y-0.5">
+            {sessoesPorDia.dia1.map(s => {
+              const isIntervalo = s.tipo === 'Intervalo';
+              const isEspecial  = s.tipo === 'Especial';
+              const confirmed   = s.palestrantes.filter((p: any) => isConfirmed(p.status));
+              return (
+                <div class={`flex gap-3 md:gap-4 p-3 md:p-4 border-l-2 ${isEspecial ? 'border-[#FFD400] bg-[#151000]' : isIntervalo ? 'border-[#222] bg-[#080808]' : 'border-[#E31B23] bg-[#0d0d0d]'}`}>
+                  <span class={`font-mono text-xs w-12 shrink-0 pt-0.5 ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-[#FFD400]'}`}>
+                    {formatTime(s.inicio)}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <p class={`font-bold text-sm leading-snug ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-white'}`}>
+                      {s.titulo}
+                    </p>
+                    {confirmed.length > 0 && (
+                      <p class="text-[#666] text-xs mt-0.5 leading-snug">
+                        {confirmed.map((p: any) => p.nome).join(' · ')}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- Dia 2 panel -->
+        <div id="prog-dia2" class="prog-panel">
+          <div class="space-y-0.5">
+            {sessoesPorDia.dia2.map(s => {
+              const isIntervalo = s.tipo === 'Intervalo';
+              const isEspecial  = s.tipo === 'Especial';
+              const confirmed   = s.palestrantes.filter((p: any) => isConfirmed(p.status));
+              return (
+                <div class={`flex gap-3 md:gap-4 p-3 md:p-4 border-l-2 ${isEspecial ? 'border-[#FFD400] bg-[#151000]' : isIntervalo ? 'border-[#222] bg-[#080808]' : 'border-[#1a5c2a] bg-[#0d0d0d]'}`}>
+                  <span class={`font-mono text-xs w-12 shrink-0 pt-0.5 ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-[#4ade80]'}`}>
+                    {formatTime(s.inicio)}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <p class={`font-bold text-sm leading-snug ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-white'}`}>
+                      {s.titulo}
+                    </p>
+                    {confirmed.length > 0 && (
+                      <p class="text-[#666] text-xs mt-0.5 leading-snug">
+                        {confirmed.map((p: any) => p.nome).join(' · ')}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href="/programa"
+            class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black uppercase text-lg py-4 px-10 border-l-4 border-[#FFD400] transition-colors">
+            Ver programação completa e detalhada
+          </a>
+          <p class="text-[#444] text-xs mt-3">Com palestrantes, auditórios paralelos e horários atualizados</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         4. INSCRIÇÃO CTA
+    ═══════════════════════════════════════════════════════════ -->
     <section class="bg-[#E31B23] py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-black text-white uppercase mb-4">
-          Garante sua vaga
+        <p class="text-pink-200 font-black uppercase tracking-widest text-xs mb-4">
+          Não perca
+        </p>
+        <h2 class="text-white font-black uppercase text-3xl md:text-4xl lg:text-5xl leading-none mb-4">
+          Garanta sua vaga
         </h2>
-        <p class="text-base md:text-lg text-pink-100 mb-8 max-w-xl mx-auto">
-          {conf.date} em {conf.venue}. Participe da construção de um futuro digital soberano para o Brasil.
+        <p class="text-pink-100 text-lg mb-8">
+          {conf.date} · {conf.venue} · {location.name}
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
           <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-bold py-3 px-12 text-xl transition-colors shadow-lg border-l-4 border-[#FFD400]">
+            class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg">
             {conf.callToAction.text}
           </a>
-          <a href="/encontro.ics" download
-            class="inline-flex items-center justify-center gap-2 min-h-[52px] border-2 border-white text-white hover:bg-white hover:text-[#E31B23] font-bold py-3 px-8 text-xl transition-colors">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            Baixar Programação (.ics)
+          <a href="#inscricao"
+            class="inline-flex items-center justify-center min-h-[52px] border-2 border-white text-white hover:bg-white hover:text-[#E31B23] font-bold uppercase py-4 px-8 transition-colors text-base">
+            Formulário de inscrição ↓
           </a>
         </div>
       </div>
     </section>
 
-    <!-- 6. LOCATION + HOTELS -->
-    <section id="local" class="bg-[var(--sd-section-bg)] py-16 md:py-24 border-t border-[var(--sd-card-border)]">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    <!-- ═══════════════════════════════════════════════════════════
+         5. LOCAL, MAPA E COMO CHEGAR
+    ═══════════════════════════════════════════════════════════ -->
+    <section id="local" class="bg-white py-16 md:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
         <div class="text-center mb-10">
           <p class="text-[#E31B23] font-black uppercase tracking-widest text-sm mb-3">
-            Local do evento
+            Local do Evento
           </p>
-          <h2 class="text-3xl md:text-4xl font-black text-[var(--sd-text)] mb-2">
+          <h2 class="text-[#010101] font-black uppercase text-3xl md:text-4xl leading-none mb-2">
             {location.name}
           </h2>
-          <p class="text-[var(--sd-text-2)] mb-6">{location.address}</p>
+          <p class="text-[#292929] text-lg">{location.address}</p>
+          <p class="text-[#888] text-sm mt-1">{location.room}</p>
         </div>
 
-        <!-- Mapa OpenStreetMap com Leaflet -->
-        <div class="mb-10">
-          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-          <div id="osm-map" class="w-full rounded overflow-hidden border border-[var(--sd-card-border)] shadow-lg" style="height: 420px;"></div>
-          <div class="flex flex-wrap gap-3 mt-4 justify-center text-sm">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
-              <span class="w-3 h-3 rounded-full bg-[#E31B23] inline-block"></span> Local do Encontro
+        <!-- Mapa Leaflet -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <div id="osm-map" class="w-full border border-[#E5E5E5] shadow" style="height:420px"></div>
+        <div class="flex flex-wrap gap-3 mt-4 justify-center text-xs">
+          {[
+            { color: '#E31B23', label: 'Local do Encontro' },
+            { color: '#45a2ca', label: 'Hotéis' },
+            { color: '#77b978', label: 'Aeroporto' },
+            { color: '#FFD400', label: 'Rodoviária' },
+          ].map(l => (
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E5E5E5] text-[#292929]">
+              <span class="w-3 h-3 rounded-full inline-block flex-shrink-0" style={`background:${l.color}`}></span>
+              {l.label}
             </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
-              <span class="w-3 h-3 rounded-full bg-[#45a2ca] inline-block"></span> Hotéis
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
-              <span class="w-3 h-3 rounded-full bg-[#77b978] inline-block"></span> Aeroporto
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)]">
-              <span class="w-3 h-3 rounded-full bg-[#FFD400] inline-block"></span> Rodoviária
-            </span>
-          </div>
+          ))}
         </div>
 
         <!-- Hotéis -->
-        <div class="border-t border-[var(--sd-card-border)] pt-10 mt-10">
-          <h3 class="text-xl md:text-2xl font-black text-[var(--sd-text)] text-center mb-8">
-            Onde se hospedar em Brasília
+        <div class="border-t border-[#F2F2F2] pt-12 mt-12">
+          <h3 class="text-[#010101] font-black uppercase text-2xl md:text-3xl text-center mb-8">
+            Onde se hospedar
           </h3>
-          <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {hotels.map((hotel) => (
-              <div class="bg-[var(--sd-card-bg)] p-5 border border-[var(--sd-card-border)]">
-                <h4 class="text-[var(--sd-text)] font-bold text-base mb-1">{hotel.name}</h4>
+              <div class="bg-[#F9F9F9] p-5 border border-[#EBEBEB]">
+                <h4 class="text-[#010101] font-bold text-base mb-1">{hotel.name}</h4>
                 {hotel.note && (
                   <p class="text-[#E31B23] font-semibold text-sm mb-2">{hotel.note}</p>
                 )}
-                <p class="text-[var(--sd-text-2)] text-sm mb-2">{hotel.address}</p>
+                <p class="text-[#292929] text-sm mb-2 leading-snug">{hotel.address}</p>
                 {hotel.email && (
-                  <p class="text-[var(--sd-text-muted)] text-sm mb-1">{hotel.email}</p>
+                  <p class="text-[#666] text-xs mb-1">{hotel.email}</p>
                 )}
                 {hotel.phone && (
-                  <p class="text-[var(--sd-text-muted)] text-sm mb-2">Tel: {hotel.phone}</p>
+                  <p class="text-[#666] text-xs mb-2">{hotel.phone}</p>
                 )}
                 {hotel.url && (
                   <a href={hotel.url} target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center min-h-[48px] mt-1 text-[#E31B23] font-semibold text-sm hover:underline">
-                    Site →
+                    class="inline-flex items-center gap-1 text-[#E31B23] font-bold text-sm hover:underline min-h-[44px]">
+                    Visitar site →
                   </a>
                 )}
               </div>
@@ -277,31 +386,31 @@ const metadata = {
           </div>
         </div>
 
-        <!-- Aeroporto e Rodoviária -->
-        <div class="border-t border-[var(--sd-card-border)] pt-10 mt-10">
-          <h3 class="text-xl md:text-2xl font-black text-[var(--sd-text)] text-center mb-8">
+        <!-- Como chegar -->
+        <div class="border-t border-[#F2F2F2] pt-12 mt-12">
+          <h3 class="text-[#010101] font-black uppercase text-2xl md:text-3xl text-center mb-8">
             Como Chegar
           </h3>
           <div class="grid sm:grid-cols-2 gap-6">
-            <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)]">
+            <div class="bg-[#F9F9F9] p-6 border border-[#EBEBEB]">
               <div class="flex items-center gap-2 mb-3">
-                <span class="text-2xl">✈️</span>
-                <h4 class="text-[var(--sd-text)] font-bold text-lg">Aeroporto de Brasília (BSB)</h4>
+                <span class="text-2xl" aria-hidden="true">✈️</span>
+                <h4 class="text-[#010101] font-bold text-lg">Aeroporto de Brasília (BSB)</h4>
               </div>
-              <p class="text-[var(--sd-text-2)] text-sm mb-2">Aeroporto Internacional Juscelino Kubitschek</p>
-              <p class="text-[var(--sd-text-muted)] text-sm mb-2">Lago Sul, Brasília — DF</p>
-              <p class="text-[var(--sd-text-2)] text-sm mb-1"><strong>Distância:</strong> ~15 km do local do evento (20-30 min de carro)</p>
-              <p class="text-[var(--sd-text-muted)] text-xs">Táxi/Uber disponível 24h. Ônibus executivo para Rodoviária do Plano Piloto.</p>
+              <p class="text-[#292929] text-sm mb-1">Aeroporto Internacional Juscelino Kubitschek</p>
+              <p class="text-[#666] text-sm mb-2">Lago Sul, Brasília — DF</p>
+              <p class="text-[#292929] text-sm"><strong>~15 km</strong> do local (20–30 min de carro)</p>
+              <p class="text-[#888] text-xs mt-2">Táxi/Uber disponível 24h. Ônibus executivo para Rodoviária do Plano Piloto.</p>
             </div>
-            <div class="bg-[var(--sd-card-bg)] p-6 border border-[var(--sd-card-border)]">
+            <div class="bg-[#F9F9F9] p-6 border border-[#EBEBEB]">
               <div class="flex items-center gap-2 mb-3">
-                <span class="text-2xl">🚌</span>
-                <h4 class="text-[var(--sd-text)] font-bold text-lg">Rodoviária do Plano Piloto</h4>
+                <span class="text-2xl" aria-hidden="true">🚌</span>
+                <h4 class="text-[#010101] font-bold text-lg">Rodoviária do Plano Piloto</h4>
               </div>
-              <p class="text-[var(--sd-text-2)] text-sm mb-2">Rodoviária Interestadual de Brasília</p>
-              <p class="text-[var(--sd-text-muted)] text-sm mb-2">SMAS, Trecho 4, Conjunto 5/6 — Asa Sul</p>
-              <p class="text-[var(--sd-text-2)] text-sm mb-1"><strong>Distância:</strong> ~7 km do local do evento (15 min de carro)</p>
-              <p class="text-[var(--sd-text-muted)] text-xs">Metrô (Estação Shopping) + caminhada. Táxi/Uber disponível.</p>
+              <p class="text-[#292929] text-sm mb-1">Rodoviária Interestadual de Brasília</p>
+              <p class="text-[#666] text-sm mb-2">SMAS, Trecho 4, Conjunto 5/6 — Asa Sul</p>
+              <p class="text-[#292929] text-sm"><strong>~7 km</strong> do local (15 min de carro)</p>
+              <p class="text-[#888] text-xs mt-2">Metrô (Estação Shopping) + caminhada. Táxi/Uber disponível.</p>
             </div>
           </div>
         </div>
@@ -310,98 +419,230 @@ const metadata = {
 
     <!-- Leaflet Map Script -->
     <script is:inline>
-      (function() {
+      (function () {
         var mapEl = document.getElementById('osm-map');
         if (!mapEl) return;
 
-        if (!document.querySelector('link[href*="leaflet"]')) {
-          var css = document.createElement('link');
-          css.rel = 'stylesheet';
-          css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-          document.head.appendChild(css);
-        }
-
         function initMap() {
           if (typeof L === 'undefined') {
-            var script = document.createElement('script');
-            script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-            script.onload = buildMap;
-            document.head.appendChild(script);
+            var s = document.createElement('script');
+            s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            s.onload = buildMap;
+            document.head.appendChild(s);
           } else {
             buildMap();
           }
         }
 
+        function mkIcon(bg, fg, emoji, size) {
+          size = size || 30;
+          return L.divIcon({
+            className: '',
+            html: '<div style="background:' + bg + ';color:' + fg + ';width:' + size + 'px;height:' + size + 'px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size * 0.5) + 'px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,.35)">' + emoji + '</div>',
+            iconSize: [size, size], iconAnchor: [size / 2, size / 2],
+          });
+        }
+
         function buildMap() {
           var map = L.map('osm-map').setView([-15.790, -47.888], 13);
-
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             maxZoom: 19,
           }).addTo(map);
 
-          var venueIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<div style="background:#E31B23;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)">📍</div>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15],
-          });
-          L.marker([-15.7993, -47.8905], { icon: venueIcon })
+          L.marker([-15.7993, -47.8905], { icon: mkIcon('#E31B23', '#fff', '📍', 34) })
             .addTo(map)
             .bindPopup('<strong>Sindicato e Teatro dos Bancários</strong><br>EQS 314/315, Asa Sul<br>📍 Local do 2º Encontro');
 
-          var hotelIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<div style="background:#45a2ca;color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">🏨</div>',
-            iconSize: [22, 22],
-            iconAnchor: [11, 11],
-          });
-
-          var hotels = [
-            { name: 'LIKE U HOTEIS', lat: -15.7895, lng: -47.8850, desc: 'SHS Quadra 04, Bloco F — 30% desc SESC' },
-            { name: 'Joy Hostels', lat: -15.7779, lng: -47.8920, desc: 'SCRN 702/703, Bloco H, Asa Norte' },
-            { name: 'Freeway Hostels', lat: -15.7670, lng: -47.8880, desc: 'SHCGN 708 bloco I, Asa Norte' },
-          ];
-
-          hotels.forEach(function(h) {
-            L.marker([h.lat, h.lng], { icon: hotelIcon })
-              .addTo(map)
+          var hiconH = mkIcon('#45a2ca', '#fff', '🏨', 24);
+          [
+            { name: 'LIKE U HOTEIS', lat: -15.7895, lng: -47.8850, desc: 'SHS Quadra 04 — 30% desc SESC' },
+            { name: 'Joy Hostels', lat: -15.7779, lng: -47.8920, desc: 'SCRN 702/703, Asa Norte' },
+            { name: 'Freeway Hostels', lat: -15.7670, lng: -47.8880, desc: 'SHCGN 708, Asa Norte' },
+          ].forEach(function (h) {
+            L.marker([h.lat, h.lng], { icon: hiconH }).addTo(map)
               .bindPopup('<strong>' + h.name + '</strong><br>' + h.desc);
           });
 
-          var airportIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<div style="background:#77b978;color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">✈️</div>',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13],
-          });
-          L.marker([-15.8697, -47.9177], { icon: airportIcon })
-            .addTo(map)
-            .bindPopup('<strong>✈️ Aeroporto de Brasília (BSB)</strong><br>~15 km do local | 20-30 min');
+          L.marker([-15.8697, -47.9177], { icon: mkIcon('#77b978', '#fff', '✈️', 28) })
+            .addTo(map).bindPopup('<strong>✈️ Aeroporto de Brasília (BSB)</strong><br>~15 km | 20–30 min');
 
-          var busIcon = L.divIcon({
-            className: 'custom-marker',
-            html: '<div style="background:#FFD400;color:#010101;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)">🚌</div>',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13],
-          });
-          L.marker([-15.7934, -47.8826], { icon: busIcon })
-            .addTo(map)
-            .bindPopup('<strong>🚌 Rodoviária do Plano Piloto</strong><br>~7 km do local | 15 min');
+          L.marker([-15.7934, -47.8826], { icon: mkIcon('#FFD400', '#010101', '🚌', 28) })
+            .addTo(map).bindPopup('<strong>🚌 Rodoviária do Plano Piloto</strong><br>~7 km | 15 min');
         }
 
         initMap();
       })();
     </script>
 
-    <!-- 7. COMMUNITY -->
-    <section class="bg-[#010101] py-16 border-t border-[#292929]">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <!-- ═══════════════════════════════════════════════════════════
+         6. FORMULÁRIO DE INSCRIÇÃO
+    ═══════════════════════════════════════════════════════════ -->
+    <section id="inscricao" class="bg-[#010101] py-16 md:py-24 border-t border-[#1a1a1a]">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6">
+
+        <div class="text-center mb-10">
+          <p class="text-[#FFD400] font-black uppercase tracking-widest text-sm mb-3">
+            Inscrições
+          </p>
+          <h2 class="text-white font-black uppercase text-3xl md:text-4xl leading-none mb-4">
+            Participar do Encontro
+          </h2>
+          <p class="text-[#E7E7D8] text-base">
+            Preencha o formulário abaixo ou{' '}
+            <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+              class="text-[#FFD400] hover:underline font-semibold">
+              acesse o Plantaformas
+            </a>.
+          </p>
+        </div>
+
+        <!-- Formulário Netlify -->
+        <form
+          name="inscricao-encontro"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="enc-form space-y-5"
+          id="form-inscricao"
+        >
+          <input type="hidden" name="form-name" value="inscricao-encontro" />
+          <p class="hidden" aria-hidden="true">
+            <label>Não preencha se for humano: <input name="bot-field" /></label>
+          </p>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="nome">Nome completo <span class="required-mark" aria-hidden="true">*</span></label>
+              <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Seu nome" />
+            </div>
+            <div>
+              <label for="email">E-mail <span class="required-mark" aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com" />
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="telefone">Telefone / WhatsApp</label>
+              <input type="tel" id="telefone" name="telefone" autocomplete="tel" placeholder="(11) 99999-9999" />
+            </div>
+            <div>
+              <label for="cidade">Cidade / UF <span class="required-mark" aria-hidden="true">*</span></label>
+              <input type="text" id="cidade" name="cidade" required placeholder="São Paulo / SP" />
+            </div>
+          </div>
+
+          <div>
+            <label for="ocupacao">Ocupação / Organização <span class="required-mark" aria-hidden="true">*</span></label>
+            <input type="text" id="ocupacao" name="ocupacao" required placeholder="Ex: estudante, professora, militante do MST, jornalista…" />
+          </div>
+
+          <div>
+            <label for="como-conheceu">Como conheceu o encontro?</label>
+            <select id="como-conheceu" name="como-conheceu">
+              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="telegram">Grupo do Telegram</option>
+              <option value="redes-sociais">Redes sociais</option>
+              <option value="organizacao">Pelo movimento / organização</option>
+              <option value="email">E-mail / newsletter</option>
+              <option value="amigo">Indicação de amigo(a)</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="acessibilidade">Necessidade de acessibilidade</label>
+            <textarea id="acessibilidade" name="acessibilidade" rows="2" placeholder="Ex: intérprete de Libras, espaço para cadeira de rodas, dieta especial…"></textarea>
+          </div>
+
+          <div>
+            <button type="submit"
+              class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-colors cursor-pointer">
+              Enviar inscrição
+            </button>
+            <p class="text-[#444] text-xs mt-3 text-center">
+              Campos com <span class="text-[#E31B23]">*</span> são obrigatórios. Seus dados são usados apenas para organização do evento.
+            </p>
+          </div>
+        </form>
+
+        <!-- Mensagem de sucesso (mostrada via JS após submit) -->
+        <div id="form-sucesso" class="hidden text-center py-10">
+          <div class="text-5xl mb-4">✅</div>
+          <h3 class="text-[#FFD400] font-black uppercase text-2xl mb-3">Inscrição Enviada!</h3>
+          <p class="text-[#E7E7D8]">
+            Obrigada! Sua inscrição foi recebida. Em breve você receberá mais informações por e-mail.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form submit handler -->
+    <script is:inline>
+      (function () {
+        var form = document.getElementById('form-inscricao');
+        var sucesso = document.getElementById('form-sucesso');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+          // Only intercept if not Netlify (no action attr means Netlify handles it)
+          // When on Netlify, the redirect/success is handled by Netlify;
+          // this fallback shows success state for non-Netlify environments.
+          if (!form.hasAttribute('data-netlify-confirmed')) {
+            e.preventDefault();
+            var data = new FormData(form);
+            fetch('/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams(data).toString(),
+            }).then(function () {
+              form.style.display = 'none';
+              sucesso.classList.remove('hidden');
+            }).catch(function () {
+              // Fallback: just show success (non-Netlify env)
+              form.style.display = 'none';
+              sucesso.classList.remove('hidden');
+            });
+          }
+        });
+      })();
+    </script>
+
+    <!-- Prog tabs script -->
+    <script is:inline>
+      (function () {
+        document.querySelectorAll('.prog-tab').forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            var target = this.getAttribute('data-tab');
+            document.querySelectorAll('.prog-tab').forEach(function (t) {
+              t.classList.remove('active');
+              t.classList.add('text-[#666]');
+              t.setAttribute('aria-selected', 'false');
+            });
+            document.querySelectorAll('.prog-panel').forEach(function (p) {
+              p.classList.remove('active');
+            });
+            this.classList.add('active');
+            this.classList.remove('text-[#666]');
+            this.setAttribute('aria-selected', 'true');
+            var panel = document.getElementById('prog-' + target);
+            if (panel) panel.classList.add('active');
+          });
+        });
+      })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         7. COMUNIDADE / FAÇA PARTE
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="bg-[#010101] py-16 border-t border-[#1a1a1a]">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-10">
           <p class="text-[#FFD400] font-black uppercase tracking-widest text-sm mb-3">
             Faça parte
           </p>
-          <h2 class="text-3xl md:text-4xl font-black text-white uppercase">
+          <h2 class="text-white font-black uppercase text-3xl md:text-4xl leading-none">
             Participe da <span class="text-[#E31B23]">Rede</span>
           </h2>
         </div>
@@ -411,39 +652,67 @@ const metadata = {
               href={item.url}
               target={item.url.startsWith('/') ? undefined : '_blank'}
               rel={item.url.startsWith('/') ? undefined : 'noopener noreferrer'}
-              class="flex items-center gap-4 p-4 transition-colors min-h-[48px]"
+              class="flex items-center gap-4 p-4 min-h-[64px] transition-opacity hover:opacity-90"
               style={`background-color: ${item.color}`}
             >
               {item.icon === 'telegram' && (
-                <svg class="w-8 h-8 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="w-7 h-7 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                 </svg>
               )}
-              {item.icon === 'matrix' && (
-                <svg class="w-8 h-8 text-[#E31B23] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M.632.55v22.9H2.28V24H0V0h2.28v.55zm7.043 7.26v1.157h.033c.309-.443.683-.784 1.117-1.024.433-.245.936-.365 1.5-.365.54 0 1.033.107 1.481.314.448.208.785.582 1.011 1.119.251-.373.591-.7.901-.981.42-.281.93-.422 1.533-.422.445 0 .855.055 1.232.166.376.111.697.29.963.537.267.247.472.572.617.976.145.403.217.893.217 1.47v5.991h-2.316v-5.08c0-.375-.023-.7-.07-.971a1.774 1.774 0 0 0-.254-.706 1.12 1.12 0 0 0-.511-.437c-.217-.1-.496-.15-.838-.15-.339 0-.62.058-.842.173a1.224 1.224 0 0 0-.511.463 1.862 1.862 0 0 0-.254.706c-.047.271-.07.596-.07.971v5.08h-2.316v-5.08c0-.37-.012-.697-.037-.974a1.812 1.812 0 0 0-.224-.737 1.1 1.1 0 0 0-.502-.484c-.217-.11-.505-.166-.863-.166a1.79 1.79 0 0 0-.478.074 1.513 1.513 0 0 0-.608.333c-.217.192-.397.472-.539.842-.142.37-.213.86-.213 1.47v5.08H7.675V7.81zm15.693 15.64V.55H21.72V0H24v24h-2.28v-.55z"/>
-                </svg>
-              )}
               {item.icon === 'carta' && (
-                <svg class="w-8 h-8 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-7 h-7 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
               )}
               {item.icon === 'plataformas' && (
-                <svg class="w-8 h-8 text-[#E31B23] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-7 h-7 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               )}
               <div class="min-w-0">
-                <div class={`font-bold text-base ${item.icon === 'carta' ? 'text-white' : item.icon === 'telegram' ? 'text-white uppercase' : 'text-white'}`}>
-                  {item.name}
-                </div>
-                <div class={`text-sm ${item.icon === 'carta' ? 'text-pink-200' : item.icon === 'telegram' ? 'text-blue-200' : 'text-gray-400'}`}>
-                  {item.subtitle}
-                </div>
+                <p class="text-white font-bold text-base leading-snug">{item.name}</p>
+                <p class="text-white/70 text-sm">{item.subtitle}</p>
               </div>
+              <svg class="w-5 h-5 text-white/50 flex-shrink-0 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
             </a>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         8. PARCEIROS E APOIO
+    ═══════════════════════════════════════════════════════════ -->
+    <section class="bg-[#080808] py-12 border-t border-[#1a1a1a]">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+        {[
+          { label: 'Realização', items: partnersGrid.realizacao },
+          { label: 'Produção', items: partnersGrid.producao },
+          { label: 'Patrocínio', items: partnersGrid.patrocinio },
+          { label: 'Apoio', items: partnersGrid.apoio },
+        ].map(group => (
+          <div class="mb-8 last:mb-0">
+            <p class="text-[#444] font-black uppercase tracking-widest text-xs mb-3">{group.label}</p>
+            <div class="flex flex-wrap gap-2">
+              {group.items.map(item => (
+                <span class="text-[#666] text-sm border border-[#222] px-3 py-1.5">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="border-t border-[#1a1a1a] pt-8 mt-8 text-center">
+          <p class="text-[#333] text-xs">
+            <a href="/" class="hover:text-[#666] transition-colors">soberania.digital</a>
+            {' · '}
+            <a href="/manifesto" class="hover:text-[#666] transition-colors">Manifesto</a>
+            {' · '}
+            <a href="/carta" class="hover:text-[#666] transition-colors">Carta ao Presidente</a>
+          </p>
         </div>
       </div>
     </section>
