@@ -138,16 +138,61 @@ const metadata = {
     --enc-placeholder:    #555555;
   }
 
+  /* ── 4-tone color ramp ── */
+  /* c1 = heading  c2 = body  c3 = secondary  c4 = hint/caption */
+  .enc {
+    --enc-c4: #aaaaaa;
+  }
+  :global(html.dark) .enc {
+    --enc-c4: #666666;
+  }
+
   /* ── theme-aware helpers ── */
-  .enc-surface    { background: var(--enc-surface); }
+  .enc-surface     { background: var(--enc-surface); }
   .enc-surface-alt { background: var(--enc-surface-alt); }
-  .enc-text       { color: var(--enc-text); }
-  .enc-text-body  { color: var(--enc-text-body); }
-  .enc-text-muted { color: var(--enc-text-muted); }
-  .enc-border     { border-color: var(--enc-border); }
-  .enc-card-item  {
+  .enc-text        { color: var(--enc-text); }        /* c1 */
+  .enc-text-body   { color: var(--enc-text-body); }   /* c2 */
+  .enc-text-muted  { color: var(--enc-text-muted); }  /* c3 */
+  .enc-text-hint   { color: var(--enc-c4); }          /* c4 */
+  .enc-border      { border-color: var(--enc-border); }
+  .enc-card-item   {
     background: var(--enc-card);
     border: 1px solid var(--enc-card-border);
+  }
+
+  /* ── type scale ─────────────────────────────────────────────
+     Minimum body text: 1rem (16px). Nothing below text-sm (14px)
+     in main content — only schedule grid is exempt (dense UI).
+     ─────────────────────────────────────────────────────────── */
+  .enc-label   {
+    font-size: 0.6875rem;        /* 11px */
+    font-weight: 700;            /* bold, NOT black — labels are small */
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .enc-caption { font-size: 0.8125rem; line-height: 1.5; } /* 13px */
+  .enc-body    { font-size: 1rem;      line-height: 1.7; } /* 16px — minimum for body */
+  .enc-lead    {
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    line-height: 1.65;
+  }
+  .enc-h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);  /* 20–28px */
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .enc-h2 {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);  /* 28–44px */
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  .enc-h1 {
+    font-size: clamp(2.5rem, 7vw, 4rem);      /* 40–64px */
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.0;
   }
 
   /* ── event brand stripe: red | yellow ── */
@@ -312,16 +357,16 @@ const metadata = {
           loading="eager"
         />
         <div class="px-5 py-8 text-center">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-4">
+          <p class="text-[#FFD400] enc-label mb-4">
             2º Encontro Nacional pela Soberania Digital
           </p>
           <div class="flex flex-wrap gap-3 justify-center mb-6">
             <div class="text-center">
-              <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-0.5">Quando</p>
+              <p class="text-[#FFD400] enc-label mb-0.5">Quando</p>
               <p class="text-white font-bold text-lg">18 e 19 de Maio</p>
             </div>
             <div class="text-center">
-              <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-0.5">Onde</p>
+              <p class="text-[#FFD400] enc-label mb-0.5">Onde</p>
               <p class="text-white font-bold text-lg">Brasília / DF</p>
             </div>
           </div>
@@ -343,13 +388,11 @@ const metadata = {
           />
         </div>
         <div class="flex-shrink-0 w-72 xl:w-80">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-4">
+          <p class="text-[#FFD400] enc-label mb-4">
             2º Encontro Nacional pela Soberania Digital
           </p>
-          <h1 class="text-[#FFD400] font-black uppercase leading-none text-5xl xl:text-6xl mb-2">
-            18 E 19<br/>DE MAIO
-          </h1>
-          <p class="text-[#E7E7D8] font-black uppercase text-2xl xl:text-3xl mb-8">BRASÍLIA / DF</p>
+          <h1 class="text-[#FFD400] enc-h1 mb-2">18 E 19<br/>DE MAIO</h1>
+          <p class="text-[#E7E7D8] enc-h3 mb-8">BRASÍLIA / DF</p>
           <div class="flex flex-col gap-3">
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
               class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-4 px-8 border-l-4 border-[#FFD400] transition-colors">
@@ -376,12 +419,8 @@ const metadata = {
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="md:flex items-start gap-12 lg:gap-20">
           <div class="md:basis-2/5 mb-8 md:mb-0 md:sticky md:top-20">
-            <p class="text-[#E31B23] font-black uppercase tracking-widest text-sm mb-4">
-              Sobre o Encontro
-            </p>
-            <h2 class="enc-text font-black uppercase text-3xl md:text-4xl lg:text-5xl leading-none mb-6">
-              Uma luta<br/>do povo
-            </h2>
+            <p class="text-[#E31B23] enc-label mb-4">Sobre o Encontro</p>
+            <h2 class="enc-text enc-h2 mb-6">Uma luta<br/>do povo</h2>
             <div class="flex flex-wrap gap-3">
               <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
                 class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold uppercase py-3 px-6 border-l-4 border-[#FFD400] transition-colors text-sm">
@@ -394,16 +433,10 @@ const metadata = {
             </div>
           </div>
           <div class="md:basis-3/5 min-w-0">
-            <p class="enc-text-body text-lg md:text-xl leading-relaxed mb-6">
-              {conf.description}
-            </p>
-            <p class="enc-text-body text-base leading-relaxed mb-8">
-              {about.text}
-            </p>
+            <p class="enc-text-body enc-lead mb-6">{conf.description}</p>
+            <p class="enc-text-body enc-body mb-8">{about.text}</p>
             <blockquote class="border-l-4 border-[#E31B23] pl-6">
-              <p class="enc-text text-xl md:text-2xl font-semibold italic leading-snug">
-                "{about.quote}"
-              </p>
+              <p class="enc-text enc-h3 font-semibold italic">"{about.quote}"</p>
             </blockquote>
 
           </div>
@@ -418,8 +451,8 @@ const metadata = {
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="mb-8">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-2">Programação Completa</p>
-          <h2 class="text-white font-black uppercase text-3xl md:text-4xl leading-none">O que acontece</h2>
+          <p class="text-[#FFD400] enc-label mb-2">Programação Completa</p>
+          <h2 class="text-white enc-h2">O que acontece</h2>
         </div>
 
         <!-- View tabs -->
@@ -481,7 +514,7 @@ const metadata = {
                     })}
                   </div>
                 </div>
-                {nCols > 1 && <p class="text-[#333] text-xs mt-2 text-right">← deslize para ver todos os auditórios →</p>}
+                {nCols > 1 && <p class="enc-text-muted enc-caption mt-2 text-right">← deslize para ver todos os auditórios →</p>}
               </div>
             );
           })}
@@ -581,13 +614,9 @@ const metadata = {
     ═══════════════════════════════════════════════════════════ -->
     <section class="bg-[#E31B23] py-16 md:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-pink-200 font-black uppercase tracking-widest text-xs mb-4">
-          Não perca
-        </p>
-        <h2 class="text-white font-black uppercase text-3xl md:text-4xl lg:text-5xl leading-none mb-4">
-          Garanta sua vaga
-        </h2>
-        <p class="text-pink-100 text-lg mb-8">
+        <p class="text-pink-200 enc-label mb-4">Não perca</p>
+        <h2 class="text-white enc-h2 mb-4">Garanta sua vaga</h2>
+        <p class="text-pink-100 enc-lead mb-8">
           {conf.date} · {conf.venue} · {location.name}
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
@@ -611,14 +640,10 @@ const metadata = {
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="text-center mb-10">
-          <p class="text-[#E31B23] font-black uppercase tracking-widest text-sm mb-3">
-            Local do Evento
-          </p>
-          <h2 class="enc-text font-black uppercase text-3xl md:text-4xl leading-none mb-2">
-            {location.name}
-          </h2>
-          <p class="enc-text-body text-lg">{location.address}</p>
-          <p class="enc-text-muted text-sm mt-1">{location.room}</p>
+          <p class="text-[#E31B23] enc-label mb-3">Local do Evento</p>
+          <h2 class="enc-text enc-h2 mb-2">{location.name}</h2>
+          <p class="enc-text-body enc-lead">{location.address}</p>
+          <p class="enc-text-muted enc-caption mt-1">{location.room}</p>
         </div>
 
         <!-- Mapa Leaflet -->
@@ -640,22 +665,20 @@ const metadata = {
 
         <!-- Hotéis -->
         <div class="border-t enc-border pt-12 mt-12">
-          <h3 class="enc-text font-black uppercase text-2xl md:text-3xl text-center mb-8">
-            Onde se hospedar
-          </h3>
+          <h3 class="enc-text enc-h3 text-center mb-8">Onde se hospedar</h3>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {hotels.map((hotel) => (
               <div class="enc-card-item p-5">
-                <h4 class="enc-text font-bold text-base mb-1">{hotel.name}</h4>
+                <h4 class="enc-text font-bold enc-body mb-1">{hotel.name}</h4>
                 {hotel.note && (
-                  <p class="text-[#E31B23] font-semibold text-sm mb-2">{hotel.note}</p>
+                  <p class="text-[#E31B23] font-semibold enc-caption mb-2">{hotel.note}</p>
                 )}
-                <p class="enc-text-body text-sm mb-2 leading-snug">{hotel.address}</p>
+                <p class="enc-text-body enc-caption mb-2 leading-snug">{hotel.address}</p>
                 {hotel.email && (
-                  <p class="enc-text-muted text-xs mb-1">{hotel.email}</p>
+                  <p class="enc-text-muted enc-caption mb-1">{hotel.email}</p>
                 )}
                 {hotel.phone && (
-                  <p class="enc-text-muted text-xs mb-2">{hotel.phone}</p>
+                  <p class="enc-text-muted enc-caption mb-2">{hotel.phone}</p>
                 )}
                 {hotel.url && (
                   <a href={hotel.url} target="_blank" rel="noopener noreferrer"
@@ -670,29 +693,27 @@ const metadata = {
 
         <!-- Como chegar -->
         <div class="border-t enc-border pt-12 mt-12">
-          <h3 class="enc-text font-black uppercase text-2xl md:text-3xl text-center mb-8">
-            Como Chegar
-          </h3>
+          <h3 class="enc-text enc-h3 text-center mb-8">Como Chegar</h3>
           <div class="grid sm:grid-cols-2 gap-6">
             <div class="enc-card-item p-6">
               <div class="flex items-center gap-2 mb-3">
                 <span class="text-2xl" aria-hidden="true">✈️</span>
-                <h4 class="enc-text font-bold text-lg">Aeroporto de Brasília (BSB)</h4>
+                <h4 class="enc-text font-bold enc-body">Aeroporto de Brasília (BSB)</h4>
               </div>
-              <p class="enc-text-body text-sm mb-1">Aeroporto Internacional Juscelino Kubitschek</p>
-              <p class="enc-text-muted text-sm mb-2">Lago Sul, Brasília — DF</p>
-              <p class="enc-text-body text-sm"><strong>~15 km</strong> do local (20–30 min de carro)</p>
-              <p class="enc-text-muted text-xs mt-2">Táxi/Uber disponível 24h. Ônibus executivo para Rodoviária do Plano Piloto.</p>
+              <p class="enc-text-body enc-caption mb-1">Aeroporto Internacional Juscelino Kubitschek</p>
+              <p class="enc-text-muted enc-caption mb-2">Lago Sul, Brasília — DF</p>
+              <p class="enc-text-body enc-caption"><strong>~15 km</strong> do local (20–30 min de carro)</p>
+              <p class="enc-text-hint enc-caption mt-2">Táxi/Uber disponível 24h. Ônibus executivo para Rodoviária do Plano Piloto.</p>
             </div>
             <div class="enc-card-item p-6">
               <div class="flex items-center gap-2 mb-3">
                 <span class="text-2xl" aria-hidden="true">🚌</span>
-                <h4 class="enc-text font-bold text-lg">Rodoviária do Plano Piloto</h4>
+                <h4 class="enc-text font-bold enc-body">Rodoviária do Plano Piloto</h4>
               </div>
-              <p class="enc-text-body text-sm mb-1">Rodoviária Interestadual de Brasília</p>
-              <p class="enc-text-muted text-sm mb-2">SMAS, Trecho 4, Conjunto 5/6 — Asa Sul</p>
-              <p class="enc-text-body text-sm"><strong>~7 km</strong> do local (15 min de carro)</p>
-              <p class="enc-text-muted text-xs mt-2">Metrô (Estação Shopping) + caminhada. Táxi/Uber disponível.</p>
+              <p class="enc-text-body enc-caption mb-1">Rodoviária Interestadual de Brasília</p>
+              <p class="enc-text-muted enc-caption mb-2">SMAS, Trecho 4, Conjunto 5/6 — Asa Sul</p>
+              <p class="enc-text-body enc-caption"><strong>~7 km</strong> do local (15 min de carro)</p>
+              <p class="enc-text-hint enc-caption mt-2">Metrô (Estação Shopping) + caminhada. Táxi/Uber disponível.</p>
             </div>
           </div>
         </div>
@@ -764,12 +785,8 @@ const metadata = {
       <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
         <div class="text-center mb-10">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-sm mb-3">
-            Inscrições
-          </p>
-          <h2 class="text-white font-black uppercase text-3xl md:text-4xl leading-none mb-4">
-            Participar do Encontro
-          </h2>
+          <p class="text-[#FFD400] enc-label mb-3">Inscrições</p>
+          <h2 class="text-white enc-h2 mb-4">Participar do Encontro</h2>
           <p class="text-[#E7E7D8] text-base">
             Preencha o formulário abaixo ou{' '}
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
@@ -930,12 +947,8 @@ const metadata = {
     <section class="bg-[#010101] py-16 border-t border-[#1a1a1a]">
       <div class="max-w-3xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-10">
-          <p class="text-[#FFD400] font-black uppercase tracking-widest text-sm mb-3">
-            Faça parte
-          </p>
-          <h2 class="text-white font-black uppercase text-3xl md:text-4xl leading-none">
-            Participe da <span class="text-[#E31B23]">Rede</span>
-          </h2>
+          <p class="text-[#FFD400] enc-label mb-3">Faça parte</p>
+          <h2 class="text-white enc-h2">Participe da <span class="text-[#E31B23]">Rede</span></h2>
         </div>
         <div class="space-y-3">
           {community.map((item) => (
@@ -987,22 +1000,22 @@ const metadata = {
           { label: 'Apoio', items: partnersGrid.apoio },
         ].map(group => (
           <div class="mb-8 last:mb-0">
-            <p class="text-[#444] font-black uppercase tracking-widest text-xs mb-3">{group.label}</p>
+            <p class="text-[#777] enc-label mb-3">{group.label}</p>
             <div class="flex flex-wrap gap-2">
               {group.items.map(item => (
-                <span class="text-[#666] text-sm border border-[#222] px-3 py-1.5">{item}</span>
+                <span class="text-[#777] enc-caption border border-[#222] px-3 py-1.5">{item}</span>
               ))}
             </div>
           </div>
         ))}
 
         <div class="border-t border-[#1a1a1a] pt-8 mt-8 text-center">
-          <p class="text-[#333] text-xs">
-            <a href="/" class="hover:text-[#666] transition-colors">soberania.digital</a>
+          <p class="text-[#555] enc-caption">
+            <a href="/" class="hover:text-[#888] transition-colors">soberania.digital</a>
             {' · '}
-            <a href="/manifesto" class="hover:text-[#666] transition-colors">Manifesto</a>
+            <a href="/manifesto" class="hover:text-[#888] transition-colors">Manifesto</a>
             {' · '}
-            <a href="/carta" class="hover:text-[#666] transition-colors">Carta ao Presidente</a>
+            <a href="/carta" class="hover:text-[#888] transition-colors">Carta ao Presidente</a>
           </p>
         </div>
       </div>
