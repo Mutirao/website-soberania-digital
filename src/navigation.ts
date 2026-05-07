@@ -62,14 +62,14 @@ export const footerData = {
         { text: 'PeerTube', href: 'https://videos.organica.social/a/soberania/' },
       ],
     },
-    {
-      title: 'Na Mídia',
-      links: [
-        { text: 'NeoFEED', href: 'https://neofeed.com.br/experts/e-preciso-falar-sobre-soberania-digital/' },
-        { text: 'Época Negócios', href: 'https://epocanegocios.globo.com/colunas/iagora/coluna/2023/10/democracia-e-soberania-digital.ghtml' },
-        { text: 'Outras Palavras', href: 'https://outraspalavras.net/tecnologiaemdisputa/nao-havera-soberania-digital-sem-o-estado/' },
-      ],
-    },
+    // {
+    //   title: 'Na Mídia',
+    //   links: [
+    //     { text: 'NeoFEED', href: 'https://neofeed.com.br/experts/e-preciso-falar-sobre-soberania-digital/' },
+    //     { text: 'Época Negócios', href: 'https://epocanegocios.globo.com/colunas/iagora/coluna/2023/10/democracia-e-soberania-digital.ghtml' },
+    //     { text: 'Outras Palavras', href: 'https://outraspalavras.net/tecnologiaemdisputa/nao-havera-soberania-digital-sem-o-estado/' },
+    //   ],
+    // },
   ],
   secondaryLinks: [],
   socialLinks: [
