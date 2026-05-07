@@ -23,13 +23,77 @@ function isConfirmed(status: string) {
   return (status ?? '').toUpperCase().includes('CONFIRMAD');
 }
 
-// Only Anfiteatro Central for the landing page
-const sessoesPorDia: Record<string, typeof programacao.sessoes> = { dia1: [], dia2: [] };
-for (const s of programacao.sessoes) {
-  if (s.local !== 'Anfiteatro Central') continue;
-  const key = diasMap[s.dia];
-  if (key) sessoesPorDia[key].push(s);
+function parseMin(t: string): number | null {
+  if (!t || t.toLowerCase().includes('tarde') || t === '?') return null;
+  const [h, m] = t.trim().split(':').map(n => parseInt(n));
+  if (isNaN(h)) return null;
+  return h * 60 + (isNaN(m) ? 0 : m);
 }
+
+function minToTime(m: number): string {
+  const h = Math.floor(m / 60), min = m % 60;
+  return min === 0 ? `${h}h` : `${h}h${String(min).padStart(2, '0')}`;
+}
+
+const BASE_MIN  = 8 * 60;
+const SLOT_MIN  = 15;
+const SLOT_H_PX = 36;
+const locaisOrder = ['Anfiteatro Central', 'Auditório 70 lug.', 'Auditório 50 lug.', 'Auditório 30 lug.'];
+const locaisShort = ['Anfiteatro', 'Aud. 70', 'Aud. 50', 'Aud. 30'];
+
+function toRow(min: number): number {
+  return Math.max(2, Math.round((min - BASE_MIN) / SLOT_MIN) + 2);
+}
+
+const diasConf = [
+  { key: 'dia1', diaVal: '18/05 Seg', label: '18 de Maio', color: '#CC2200', endMin: 20 * 60 + 30 },
+  { key: 'dia2', diaVal: '19/05 Ter', label: '19 de Maio', color: '#1a5c2a', endMin: 20 * 60 },
+];
+
+const sessoes = programacao.sessoes as any[];
+
+const diasData = diasConf.map(dConf => {
+  const ss = sessoes.filter((s: any) => s.dia === dConf.diaVal);
+  const locaisPresentes = locaisOrder.filter(l => ss.some((s: any) => s.local === l));
+
+  const processed = ss.map((s: any) => {
+    const startMin = parseMin(s.inicio);
+    if (startMin === null) return { ...s, _startRow: -1, _endRow: -1, _startMin: null };
+    let endMin = parseMin(s.fim);
+    if (endMin === null) {
+      const sameLocalLater = ss
+        .filter((x: any) => x.local === s.local && parseMin(x.inicio) !== null && (parseMin(x.inicio) as number) > startMin)
+        .map((x: any) => parseMin(x.inicio) as number)
+        .sort((a: number, b: number) => a - b);
+      endMin = sameLocalLater[0] ?? Math.min(startMin + 60, dConf.endMin);
+    }
+    return { ...s, _startMin: startMin, _endMin: endMin,
+      _startRow: toRow(startMin), _endRow: Math.max(toRow(startMin) + 1, toRow(endMin)) };
+  });
+
+  const nSlots = Math.ceil((dConf.endMin - BASE_MIN) / SLOT_MIN);
+  const timeAxis: { row: number; label: string; isHour: boolean }[] = [];
+  for (let m = BASE_MIN; m <= dConf.endMin; m += 30) {
+    timeAxis.push({ row: toRow(m), label: minToTime(m), isHour: m % 60 === 0 });
+  }
+
+  const palMap: Record<string, { nome: string; org: string; sessoes: string[] }> = {};
+  for (const s of ss) {
+    for (const p of (s.palestrantes || [])) {
+      if (!isConfirmed(p.status)) continue;
+      const key = p.nome.trim();
+      if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.organizacao || '', sessoes: [] };
+      if (!palMap[key].sessoes.includes(s.titulo)) palMap[key].sessoes.push(s.titulo);
+    }
+  }
+  const palList = Object.values(palMap).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+
+  const sessoesList = [...processed]
+    .filter((s: any) => s._startMin !== null)
+    .sort((a: any, b: any) => (a._startMin as number) - (b._startMin as number));
+
+  return { ...dConf, locaisPresentes, processed, nSlots, timeAxis, palList, sessoesList };
+});
 
 const metadata = {
   title: `${conf.name} — Soberania.Digital`,
@@ -76,11 +140,108 @@ const metadata = {
   }
   .enc-form .required-mark { color: #E31B23; }
 
-  /* ── tabs (programação) ── */
-  .prog-tab { cursor: pointer; transition: all 0.15s; }
-  .prog-tab.active { background: #FFD400; color: #010101; }
-  .prog-panel { display: none; }
-  .prog-panel.active { display: block; }
+  /* ── view tabs (grade/sessões/palestrantes) ── */
+  .view-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px;
+    text-transform: uppercase; padding: 8px 20px;
+    border: 1px solid #333; background: transparent; color: #555;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .view-tab:hover { color: #ccc; border-color: #555; }
+  .view-tab.active { background: #FFD400; color: #000; border-color: #FFD400; font-weight: 900; }
+
+  .day-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 0.9rem; text-transform: uppercase;
+    letter-spacing: 1px; padding: 8px 20px; border: none;
+    cursor: pointer; opacity: 0.45; transition: opacity 0.15s; color: white;
+  }
+  .day-tab.active { opacity: 1; }
+
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  /* ── time grid ── */
+  .time-grid-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #1e1e1e; }
+  .time-grid { display: grid; min-width: 480px; }
+  .tg-corner { background: #0d0d0d; position: sticky; left: 0; z-index: 20; }
+  .tg-room-hdr {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
+    color: #888; padding: 10px 8px; border-bottom: 1px solid #252525;
+    border-left: 1px solid #1a1a1a; background: #111; display: flex; align-items: center;
+  }
+  .tg-time {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; color: #444;
+    background: #0d0d0d; position: sticky; left: 0; z-index: 10;
+    display: flex; align-items: flex-start; padding: 3px 6px 0;
+    border-right: 1px solid #1a1a1a;
+  }
+  .tg-time.is-hour { color: #555; border-top: 1px solid #1e1e1e; }
+  .tg-time.is-half { border-top: 1px solid #161616; }
+  .tg-hour-line { border-top: 1px solid #1a1a1a; pointer-events: none; z-index: 1; }
+  .tg-half-line { border-top: 1px solid #131313; pointer-events: none; z-index: 1; }
+  .tg-session {
+    margin: 2px 3px; padding: 5px 7px;
+    border-left: 3px solid var(--dc, #CC2200); background: #141414;
+    overflow: hidden; cursor: default; z-index: 5;
+    font-size: 0.72rem; line-height: 1.3; position: relative; transition: background 0.1s;
+  }
+  .tg-session:hover { background: #1c1c1c; }
+  .tg-session.intervalo { background: #0a0a0a; border-left-color: #222; }
+  .tg-session.especial { background: #111000; border-left-color: #FFD400; }
+  .tg-time-badge {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.68rem;
+    background: var(--dc, #CC2200); color: white; padding: 1px 5px; border-radius: 2px;
+    display: inline-block; margin-bottom: 3px;
+  }
+  .tg-session.intervalo .tg-time-badge { background: #252525; color: #555; }
+  .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
+  .tg-title {
+    display: block; font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.8rem; color: #ddd; line-height: 1.25; margin-bottom: 3px;
+  }
+  .tg-session.intervalo .tg-title { color: #444; font-weight: 400; }
+  .tg-session.especial  .tg-title { color: #FFD400; }
+  .tg-speakers { display: block; font-size: 0.65rem; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ── sessions list ── */
+  .sl-session { display: flex; gap: 12px; padding: 10px 12px; background: #141414; border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
+  .sl-session.intervalo { border-left-color: #222; background: #0a0a0a; }
+  .sl-session.especial  { border-left-color: #FFD400; background: #0f0f00; }
+  .sl-time {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.78rem;
+    background: var(--dc, #CC2200); color: white; padding: 2px 8px; border-radius: 2px;
+    flex-shrink: 0; min-width: 44px; text-align: center; white-space: nowrap; margin-top: 1px;
+  }
+  .sl-session.intervalo .sl-time { background: #252525; color: #555; }
+  .sl-session.especial  .sl-time { background: #FFD400; color: #000; }
+  .sl-body { flex: 1; min-width: 0; }
+  .sl-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.95rem; color: #e0e0e0; line-height: 1.3; margin-bottom: 3px; display: block; }
+  .sl-session.intervalo .sl-title { color: #444; font-weight: 400; }
+  .sl-session.especial  .sl-title { color: #FFD400; }
+  .sl-local { font-size: 0.68rem; color: #444; font-style: italic; margin-bottom: 4px; display: block; }
+  .sl-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .sl-chip { background: #0f2a1a; border: 1px solid #1e4a2a; color: #6fcf97; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; }
+
+  /* ── palestrantes ── */
+  .pal-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #161616; align-items: flex-start; }
+  .pal-avatar {
+    width: 36px; height: 36px; border-radius: 50%; background: #1a1a1a; border: 1px solid #2a2a2a;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1rem; color: #444;
+  }
+  .pal-nome { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.95rem; color: #e0e0e0; display: block; line-height: 1.2; }
+  .pal-org { font-size: 0.72rem; color: #555; display: block; margin-bottom: 3px; }
+  .pal-sess { font-size: 0.7rem; color: #FFD400; display: block; line-height: 1.3; }
+
+  /* ── period header ── */
+  .period-hdr { display: flex; align-items: center; gap: 8px; padding: 14px 0 6px; }
+  .period-hdr span { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+  .period-line { flex: 1; height: 1px; background: #1e1e1e; }
 </style>
 
 <Layout metadata={metadata}>
@@ -199,99 +360,167 @@ const metadata = {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         3. PROGRAMAÇÃO
+         3. PROGRAMAÇÃO — 3 VIEWS
     ═══════════════════════════════════════════════════════════ -->
-    <section id="programacao" class="bg-[#010101] py-16 md:py-24">
+    <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-          <div>
-            <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-3">
-              Programação Completa
-            </p>
-            <h2 class="text-white font-black uppercase text-3xl md:text-4xl lg:text-5xl leading-none">
-              O que acontece
-            </h2>
+        <div class="mb-8">
+          <p class="text-[#FFD400] font-black uppercase tracking-widest text-xs mb-2">Programação Completa</p>
+          <h2 class="text-white font-black uppercase text-3xl md:text-4xl leading-none">O que acontece</h2>
+        </div>
+
+        <!-- View tabs -->
+        <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Modo de visualização">
+          <button class="view-tab active" data-view="grade" role="tab" aria-selected="true">⊞ Grade</button>
+          <button class="view-tab" data-view="sessoes" role="tab" aria-selected="false">☰ Sessões</button>
+          <button class="view-tab" data-view="palestrantes" role="tab" aria-selected="false">◉ Palestrantes</button>
+        </div>
+
+        <!-- VIEW: GRADE -->
+        <div class="view-panel active" id="view-grade">
+          <div class="flex mb-0" role="tablist">
+            {diasData.map((dia, i) => (
+              <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="grade"
+                style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
+                📅 {dia.label}
+              </button>
+            ))}
           </div>
-          <a href="/programa"
-            class="inline-flex items-center gap-2 text-[#FFD400] hover:text-white font-bold uppercase tracking-wide text-sm border border-[#333] hover:border-[#FFD400] px-5 py-3 transition-colors self-start md:self-auto">
-            Ver programação detalhada →
-          </a>
-        </div>
-
-        <!-- Tabs -->
-        <div class="flex gap-2 mb-6" role="tablist">
-          <button class="prog-tab active font-black uppercase text-sm px-6 py-3 border border-[#333] tracking-wide" data-tab="dia1" role="tab" aria-selected="true">
-            📅 Dia 1 — 18/05
-          </button>
-          <button class="prog-tab font-black uppercase text-sm px-6 py-3 border border-[#333] text-[#666] tracking-wide" data-tab="dia2" role="tab" aria-selected="false">
-            📅 Dia 2 — 19/05
-          </button>
-        </div>
-
-        <!-- Dia 1 panel -->
-        <div id="prog-dia1" class="prog-panel active">
-          <div class="space-y-0.5">
-            {sessoesPorDia.dia1.map(s => {
-              const isIntervalo = s.tipo === 'Intervalo';
-              const isEspecial  = s.tipo === 'Especial';
-              const confirmed   = s.palestrantes.filter((p: any) => isConfirmed(p.status));
-              return (
-                <div class={`flex gap-3 md:gap-4 p-3 md:p-4 border-l-2 ${isEspecial ? 'border-[#FFD400] bg-[#151000]' : isIntervalo ? 'border-[#222] bg-[#080808]' : 'border-[#E31B23] bg-[#0d0d0d]'}`}>
-                  <span class={`font-mono text-xs w-12 shrink-0 pt-0.5 ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-[#FFD400]'}`}>
-                    {formatTime(s.inicio)}
-                  </span>
-                  <div class="flex-1 min-w-0">
-                    <p class={`font-bold text-sm leading-snug ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-white'}`}>
-                      {s.titulo}
-                    </p>
-                    {confirmed.length > 0 && (
-                      <p class="text-[#666] text-xs mt-0.5 leading-snug">
-                        {confirmed.map((p: any) => p.nome).join(' · ')}
-                      </p>
-                    )}
+          {diasData.map((dia, di) => {
+            const nCols = dia.locaisPresentes.length;
+            const gridCols = `56px repeat(${nCols}, minmax(160px, 1fr))`;
+            const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
+            return (
+              <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`grade-${dia.key}`}>
+                <div class="time-grid-wrapper">
+                  <div class="time-grid" style={`grid-template-columns:${gridCols};grid-template-rows:${gridRows};`}>
+                    <div class="tg-corner" style="grid-row:1;grid-column:1;"></div>
+                    {dia.locaisPresentes.map((local, li) => (
+                      <div class="tg-room-hdr" style={`grid-row:1;grid-column:${li+2};border-top:3px solid ${dia.color};`}>
+                        {locaisShort[locaisOrder.indexOf(local)]}
+                      </div>
+                    ))}
+                    {dia.timeAxis.map(t => (
+                      <>
+                        <div class={`tg-time ${t.isHour ? 'is-hour' : 'is-half'}`} style={`grid-row:${t.row};grid-column:1;align-self:start;`}>
+                          {t.isHour ? t.label : ''}
+                        </div>
+                        <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`}></div>
+                      </>
+                    ))}
+                    {dia.processed.map((s: any) => {
+                      if (s._startRow < 2) return null;
+                      const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
+                      if (colIdx < 2) return null;
+                      const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
+                      const isIntervalo = s.tipo === 'Intervalo';
+                      const isEspecial  = s.tipo === 'Especial';
+                      return (
+                        <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
+                          style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={s.titulo}>
+                          <span class="tg-time-badge">{minToTime(s._startMin)}</span>
+                          <span class="tg-title">{s.titulo}</span>
+                          {confirmed.length > 0 && !isIntervalo && (
+                            <span class="tg-speakers">{confirmed.map((p: any) => p.nome).join(' · ')}</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                {nCols > 1 && <p class="text-[#333] text-xs mt-2 text-right">← deslize para ver todos os auditórios →</p>}
+              </div>
+            );
+          })}
         </div>
 
-        <!-- Dia 2 panel -->
-        <div id="prog-dia2" class="prog-panel">
-          <div class="space-y-0.5">
-            {sessoesPorDia.dia2.map(s => {
-              const isIntervalo = s.tipo === 'Intervalo';
-              const isEspecial  = s.tipo === 'Especial';
-              const confirmed   = s.palestrantes.filter((p: any) => isConfirmed(p.status));
-              return (
-                <div class={`flex gap-3 md:gap-4 p-3 md:p-4 border-l-2 ${isEspecial ? 'border-[#FFD400] bg-[#151000]' : isIntervalo ? 'border-[#222] bg-[#080808]' : 'border-[#1a5c2a] bg-[#0d0d0d]'}`}>
-                  <span class={`font-mono text-xs w-12 shrink-0 pt-0.5 ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-[#4ade80]'}`}>
-                    {formatTime(s.inicio)}
-                  </span>
-                  <div class="flex-1 min-w-0">
-                    <p class={`font-bold text-sm leading-snug ${isEspecial ? 'text-[#FFD400]' : isIntervalo ? 'text-[#444]' : 'text-white'}`}>
-                      {s.titulo}
-                    </p>
-                    {confirmed.length > 0 && (
-                      <p class="text-[#666] text-xs mt-0.5 leading-snug">
-                        {confirmed.map((p: any) => p.nome).join(' · ')}
-                      </p>
-                    )}
+        <!-- VIEW: SESSÕES -->
+        <div class="view-panel" id="view-sessoes">
+          <div class="flex mb-4" role="tablist">
+            {diasData.map((dia, i) => (
+              <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="sessoes"
+                style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
+                📅 {dia.label}
+              </button>
+            ))}
+          </div>
+          {diasData.map((dia, di) => (
+            <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`sessoes-${dia.key}`}>
+              {[
+                { label: 'Manhã', icon: '☀️', test: (m: number | null) => m !== null && m < 13 * 60 },
+                { label: 'Tarde', icon: '🌤️', test: (m: number | null) => m !== null && m >= 13 * 60 && m < 18 * 60 },
+                { label: 'Noite', icon: '🌙', test: (m: number | null) => m !== null && m >= 18 * 60 },
+              ].map(period => {
+                const items = dia.sessoesList.filter((s: any) => period.test(s._startMin));
+                if (items.length === 0) return null;
+                return (
+                  <div>
+                    <div class="period-hdr">
+                      <span style="font-size:1rem">{period.icon}</span>
+                      <span>{period.label}</span>
+                      <div class="period-line"></div>
+                    </div>
+                    {items.map((s: any) => {
+                      const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
+                      const isIntervalo = s.tipo === 'Intervalo';
+                      const isEspecial  = s.tipo === 'Especial';
+                      return (
+                        <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
+                          <span class="sl-time">{minToTime(s._startMin as number)}</span>
+                          <div class="sl-body">
+                            <span class="sl-title">{s.titulo}</span>
+                            {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
+                            {confirmed.length > 0 && !isIntervalo && (
+                              <div class="sl-chips">
+                                {confirmed.map((p: any) => (
+                                  <span class="sl-chip">{p.nome}{p.organizacao && p.organizacao !== '—' ? ` · ${p.organizacao}` : ''}</span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ))}
         </div>
 
-        <div class="mt-8 text-center">
-          <a href="/programa"
-            class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black uppercase text-lg py-4 px-10 border-l-4 border-[#FFD400] transition-colors">
-            Ver programação completa e detalhada
-          </a>
-          <p class="text-[#444] text-xs mt-3">Com palestrantes, auditórios paralelos e horários atualizados</p>
+        <!-- VIEW: PALESTRANTES -->
+        <div class="view-panel" id="view-palestrantes">
+          <div class="flex mb-4" role="tablist">
+            {diasData.map((dia, i) => (
+              <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="palestrantes"
+                style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
+                📅 {dia.label}
+              </button>
+            ))}
+          </div>
+          {diasData.map((dia, di) => (
+            <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`palestrantes-${dia.key}`}>
+              {dia.palList.length === 0 ? (
+                <p class="text-[#444] text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
+              ) : (
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-[#161616]">
+                  {dia.palList.map((pal: any) => (
+                    <div class="pal-item bg-[#0d0d0d]">
+                      <div class="pal-avatar">{pal.nome.trim()[0]}</div>
+                      <div class="flex-1 min-w-0">
+                        <span class="pal-nome">{pal.nome}</span>
+                        {pal.org && pal.org !== '—' && <span class="pal-org">{pal.org}</span>}
+                        {pal.sessoes.map((t: string) => <span class="pal-sess">→ {t}</span>)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
+
       </div>
     </section>
 
@@ -609,24 +838,33 @@ const metadata = {
       })();
     </script>
 
-    <!-- Prog tabs script -->
+    <!-- Schedule tabs script -->
     <script is:inline>
       (function () {
-        document.querySelectorAll('.prog-tab').forEach(function (tab) {
+        document.querySelectorAll('.view-tab').forEach(function (tab) {
           tab.addEventListener('click', function () {
-            var target = this.getAttribute('data-tab');
-            document.querySelectorAll('.prog-tab').forEach(function (t) {
-              t.classList.remove('active');
-              t.classList.add('text-[#666]');
-              t.setAttribute('aria-selected', 'false');
+            var view = this.getAttribute('data-view');
+            document.querySelectorAll('.view-tab').forEach(function (t) {
+              t.classList.remove('active'); t.setAttribute('aria-selected', 'false');
             });
-            document.querySelectorAll('.prog-panel').forEach(function (p) {
-              p.classList.remove('active');
+            document.querySelectorAll('.view-panel').forEach(function (p) { p.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected', 'true');
+            var panel = document.getElementById('view-' + view);
+            if (panel) panel.classList.add('active');
+          });
+        });
+
+        document.querySelectorAll('.day-tab').forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            var day = this.getAttribute('data-day');
+            var viewTarget = this.getAttribute('data-view-target');
+            var vp = this.closest('.view-panel');
+            if (vp) vp.querySelectorAll('.day-tab').forEach(function (t) {
+              t.classList.remove('active'); t.setAttribute('aria-selected', 'false');
             });
-            this.classList.add('active');
-            this.classList.remove('text-[#666]');
-            this.setAttribute('aria-selected', 'true');
-            var panel = document.getElementById('prog-' + target);
+            document.querySelectorAll('[id^="' + viewTarget + '-"]').forEach(function (p) { p.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected', 'true');
+            var panel = document.getElementById(viewTarget + '-' + day);
             if (panel) panel.classList.add('active');
           });
         });
