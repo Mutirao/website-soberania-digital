@@ -1,7 +1,7 @@
 site:
   name: Soberania Digital
   site: 'https://soberania.digital'
-  base: '/'
+  base: '/encontro'
   trailingSlash: false
 
 metadata:

@@ -5,6 +5,10 @@ export const headerData = {
       href: '#programacao',
     },
     {
+      text: 'Inscrições',
+      href: '#inscricao',
+    },
+    {
       text: 'Local',
       href: '#local',
     },

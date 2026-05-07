@@ -6,8 +6,9 @@ import { existsSync } from 'fs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 8080;
+const BASE_PATH = (process.env.BASE_PATH || '/encontro').replace(/\/$/, '');
 
-const BASE_URL = 'https://plantaformas.org';
+const PLANTAFORMAS = 'https://plantaformas.org';
 const CONF_ID = '61';
 const CONF_SLUG = 'SoberaniaDigital';
 const CACHE_TTL_MS = 60_000;
@@ -17,13 +18,13 @@ let cacheTime = 0;
 
 async function login() {
   const jar = [];
-  const loginPage = await fetch(`${BASE_URL}/users/sign_in`);
+  const loginPage = await fetch(`${PLANTAFORMAS}/users/sign_in`);
   const html = await loginPage.text();
   const csrf = html.match(/name="authenticity_token" value="([^"]+)"/)?.[1];
   if (!csrf) throw new Error('CSRF token não encontrado');
   for (const c of loginPage.headers.getSetCookie?.() ?? []) jar.push(c.split(';')[0]);
 
-  const res = await fetch(`${BASE_URL}/users/sign_in`, {
+  const res = await fetch(`${PLANTAFORMAS}/users/sign_in`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Cookie': jar.join('; ') },
     body: new URLSearchParams({
@@ -48,7 +49,7 @@ async function login() {
 
 async function fetchParceiros(cookie) {
   const query = `{ conference(id: "${CONF_ID}") { partners { id name partnerType weight logo link } } }`;
-  const r = await fetch(`${BASE_URL}/api`, {
+  const r = await fetch(`${PLANTAFORMAS}/api`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Cookie': cookie },
     body: JSON.stringify({ query }),
@@ -58,7 +59,7 @@ async function fetchParceiros(cookie) {
 }
 
 async function fetchInscritos(cookie) {
-  const r = await fetch(`${BASE_URL}/admin/conferences/${CONF_SLUG}/components`, {
+  const r = await fetch(`${PLANTAFORMAS}/admin/conferences/${CONF_SLUG}/components`, {
     headers: { 'Cookie': cookie },
   });
   const html = await r.text();
@@ -78,25 +79,30 @@ async function getDados() {
   return cache;
 }
 
-app.get('/api/dados', async (req, res) => {
+// API
+app.get(`${BASE_PATH}/api/dados`, async (_req, res) => {
   if (!process.env.PLANTAFORMAS_EMAIL || !process.env.PLANTAFORMAS_PASSWORD) {
     return res.status(503).json({ error: 'Credenciais não configuradas' });
   }
   try {
-    const dados = await getDados();
-    res.json(dados);
+    res.json(await getDados());
   } catch (err) {
     console.error('API error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-app.use(express.static(path.join(__dirname, 'dist')));
+// Redirect raiz → base path
+app.get('/', (_req, res) => res.redirect(301, `${BASE_PATH}/`));
 
-app.use((req, res) => {
+// Arquivos estáticos sob BASE_PATH
+app.use(BASE_PATH, express.static(path.join(__dirname, 'dist')));
+
+// 404
+app.use((_req, res) => {
   const p = path.join(__dirname, 'dist', '404.html');
   if (existsSync(p)) res.status(404).sendFile(p);
   else res.status(404).send('Not found');
 });
 
-app.listen(PORT, () => console.log(`Servidor ouvindo em :${PORT}`));
+app.listen(PORT, () => console.log(`Servidor ouvindo em :${PORT} (base: ${BASE_PATH})`));

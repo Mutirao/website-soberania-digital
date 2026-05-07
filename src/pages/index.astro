@@ -1136,7 +1136,7 @@ const metadata = {
 </Layout>
 
 <script>
-fetch('/api/dados')
+fetch(import.meta.env.BASE_URL + '/api/dados')
   .then(r => r.ok ? r.json() : null)
   .then(dados => {
     if (!dados) return;
