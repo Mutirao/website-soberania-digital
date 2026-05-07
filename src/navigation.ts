@@ -77,6 +77,6 @@ export const footerData = {
     { ariaLabel: 'Telegram', icon: 'tabler:brand-telegram', href: 'https://t.me/SoberaniaDigitalBR' },
   ],
   footNote: `
-    Rede pela Soberania Digital · Código aberto
+    Rede pela Soberania Digital
   `,
 };
