@@ -3,6 +3,43 @@
 
 @config "../../tailwind.config.js";
 
+@theme {
+  --color-enc: #010101;
+  --color-grade: #0d0d0d;
+  --color-parceiros: #080808;
+  --color-enc-card: #141414;
+  --color-cta: #E31B23;
+  --color-cta-hover: #b01015;
+  --color-sinal: #FFD400;
+  --color-quente: #E7E7D8;
+  --color-azimute: #45a2ca;
+  --color-teal: #59c3c3;
+  --color-verde: #77b978;
+  --color-telegram: #004a8e;
+  --color-linha: #1e1e1e;
+  --color-linha-light: #e5e5e5;
+  --color-surface: #f4f4f4;
+  --color-card: #f9f9f9;
+  --color-enc-input: #111111;
+  --color-enc-grid: #0a0a0a;
+  --color-enc-especial: #0f0f00;
+  --color-chip-bg: #0f2a1a;
+  --color-chip-border: #1e4a2a;
+  --color-chip-text: #6fcf97;
+
+  --color-enc-body: #292929;
+  --color-enc-muted: #555555;
+  --color-enc-muted-alt: #666666;
+  --color-enc-label: #888888;
+  --color-enc-text-light: #e8e8e8;
+  --color-enc-line: #1a1a1a;
+  --color-enc-border: #333333;
+  --color-enc-input-light: #f8f8f8;
+  --color-enc-grid-bg: #161616;
+
+  --font-grade: 'Barlow Condensed', sans-serif;
+}
+
 @utility bg-page {
   background-color: var(--aw-color-bg-page);
 }

@@ -67,4 +67,42 @@ import '@fontsource-variable/inter';
     letter-spacing: 0.02em;
     text-wrap: balance;
   }
+
+  :root {
+    --enc-text: #010101;
+    --enc-text-body: #292929;
+    --enc-text-muted: #666666;
+    --enc-c4: #aaaaaa;
+    --enc-surface: #ffffff;
+    --enc-surface-alt: #f7f7f7;
+    --enc-card-bg: #ffffff;
+    --enc-card-border: #e5e7eb;
+  }
+
+  .dark {
+    --enc-text: #ffffff;
+    --enc-text-body: #d1d5db;
+    --enc-text-muted: #9ca3af;
+    --enc-c4: #666666;
+    --enc-surface: #010101;
+    --enc-surface-alt: #010101;
+    --enc-card-bg: #111111;
+    --enc-card-border: #1e1e1e;
+  }
+
+  .enc-stripe {
+    display: block;
+    height: 4px;
+    flex-shrink: 0;
+    background: linear-gradient(to right, #E31B23 60%, #FFD400 60%);
+  }
+
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(2rem); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .enc-fade {
+    animation: fadeInUp 1s both;
+  }
 </style>

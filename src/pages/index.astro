@@ -3,10 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
 import programacao from '~/data/programacao-gerado.json';
 import assinaturas from '~/data/assinaturas.json';
-import parceirosData from '~/data/parceiros.json';
-
-const { conf, about, location, hotels, community } = evento;
-const partnersGrid = parceirosData;
+const { conf, about, location, hotels, community, partnersGrid } = evento;
 
 const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
@@ -111,25 +108,21 @@ const metadata = {
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap');
 
-  .enc { font-family: 'Overpass', Helvetica, Arial, sans-serif; }
-
   /* ── view tabs (grade/sessões/palestrantes) ── */
   .view-tab {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px;
+    font-family: var(--font-grade); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px;
     text-transform: uppercase; padding: 8px 14px; min-height: 44px;
-    border: 1px solid #333; background: transparent; color: #555;
+    border: 1px solid var(--color-enc-border); background: transparent; color: var(--color-enc-muted);
     cursor: pointer; transition: all 0.15s;
   }
   @media (min-width: 400px) {
     .view-tab { font-size: 0.85rem; padding: 10px 18px; }
   }
-  .view-tab:hover { color: #ccc; border-color: #555; }
-  .view-tab.active { background: #FFD400; color: #000; border-color: #FFD400; font-weight: 900; }
+  .view-tab:hover { color: #ccc; border-color: var(--color-enc-muted); }
+  .view-tab.active { background: var(--color-sinal); color: #000; border-color: var(--color-sinal); font-weight: 900; }
 
   .day-tab {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900; font-size: 0.95rem; text-transform: uppercase;
+    font-family: var(--font-grade); font-weight: 900; font-size: 0.95rem; text-transform: uppercase;
     letter-spacing: 1px; padding: 10px 20px; min-height: 44px; border: none;
     cursor: pointer; opacity: 0.45; transition: opacity 0.15s; color: white;
     flex: 1 1 0; min-width: 0; text-align: center;
@@ -145,34 +138,34 @@ const metadata = {
   .day-panel.active { display: block; }
 
   /* ── time grid ── */
-  .time-grid-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #1e1e1e; scroll-behavior: smooth; }
+  .time-grid-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--color-linha); scroll-behavior: smooth; }
   .time-grid { display: grid; min-width: 480px; }
-  .tg-corner { background: #0d0d0d; position: sticky; left: 0; z-index: 20; }
+  .tg-corner { background: var(--color-grade); position: sticky; left: 0; z-index: 20; }
   .tg-room-hdr {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-family: var(--font-grade); font-weight: 900;
     font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;
-    color: #888; padding: 10px 6px; border-bottom: 1px solid #252525;
-    border-left: 1px solid #1a1a1a; background: #111; display: flex; align-items: center;
+    color: var(--color-enc-label); padding: 10px 6px; border-bottom: 1px solid #252525;
+    border-left: 1px solid var(--color-enc-line); background: var(--color-enc-input); display: flex; align-items: center;
   }
   @media (min-width: 640px) {
     .tg-room-hdr { font-size: 1rem; padding: 10px 8px; }
   }
   .tg-time {
-    font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; color: #444;
-    background: #0d0d0d; position: sticky; left: 0; z-index: 10;
+    font-family: var(--font-grade); font-size: 0.72rem; color: var(--color-enc-border);
+    background: var(--color-grade); position: sticky; left: 0; z-index: 10;
     display: flex; align-items: flex-start; padding: 3px 4px 0;
-    border-right: 1px solid #1a1a1a;
+    border-right: 1px solid var(--color-enc-line);
   }
   @media (min-width: 640px) {
     .tg-time { font-size: 1rem; padding: 3px 6px 0; }
   }
-  .tg-time.is-hour { color: #555; border-top: 1px solid #1e1e1e; }
-  .tg-time.is-half { border-top: 1px solid #161616; }
-  .tg-hour-line { border-top: 1px solid #1a1a1a; pointer-events: none; z-index: 1; }
+  .tg-time.is-hour { color: var(--color-enc-muted); border-top: 1px solid var(--color-linha); }
+  .tg-time.is-half { border-top: 1px solid var(--color-enc-grid-bg); }
+  .tg-hour-line { border-top: 1px solid var(--color-enc-line); pointer-events: none; z-index: 1; }
   .tg-half-line { border-top: 1px solid #131313; pointer-events: none; z-index: 1; }
   .tg-session {
     margin: 2px 3px; padding: 4px 6px;
-    border-left: 3px solid var(--dc, #CC2200); background: #141414;
+    border-left: 3px solid var(--dc, #CC2200); background: var(--color-enc-card);
     overflow: hidden; cursor: default; z-index: 5;
     font-size: 0.72rem; line-height: 1.35; position: relative; transition: background 0.1s;
   }
@@ -180,87 +173,86 @@ const metadata = {
     .tg-session { padding: 6px 8px; font-size: 1rem; }
   }
   .tg-session:hover { background: #1c1c1c; }
-  .tg-session.intervalo { background: #0a0a0a; border-left-color: #222; }
-  .tg-session.especial { background: #111000; border-left-color: #FFD400; }
+  .tg-session.intervalo { background: var(--color-enc-grid); border-left-color: #222; }
+  .tg-session.especial { background: var(--color-enc-especial); border-left-color: var(--color-sinal); }
   .tg-time-badge {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.7rem;
+    font-family: var(--font-grade); font-weight: 700; font-size: 0.7rem;
     background: var(--dc, #CC2200); color: white; padding: 1px 4px; border-radius: 2px;
     display: inline-block; margin-bottom: 2px;
   }
   @media (min-width: 640px) {
     .tg-time-badge { font-size: 1rem; padding: 1px 5px; margin-bottom: 3px; }
   }
-  .tg-session.intervalo .tg-time-badge { background: #252525; color: #555; }
-  .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
+  .tg-session.intervalo .tg-time-badge { background: #252525; color: var(--color-enc-muted); }
+  .tg-session.especial  .tg-time-badge { background: var(--color-sinal); color: #000; }
   .tg-title {
-    display: block; font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700; font-size: 0.82rem; color: #ddd; line-height: 1.25; margin-bottom: 2px;
+    display: block; font-family: var(--font-grade); font-weight: 700; font-size: 0.82rem; color: #ddd; line-height: 1.25; margin-bottom: 2px;
   }
   @media (min-width: 640px) {
     .tg-title { font-size: 1.25rem; margin-bottom: 3px; }
   }
-  .tg-session.intervalo .tg-title { color: #444; font-weight: 400; }
-  .tg-session.especial  .tg-title { color: #FFD400; }
-  .tg-speakers { display: block; font-size: 0.7rem; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tg-session.intervalo .tg-title { color: var(--color-enc-border); font-weight: 400; }
+  .tg-session.especial  .tg-title { color: var(--color-sinal); }
+  .tg-speakers { display: block; font-size: 0.7rem; color: var(--color-enc-muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   @media (min-width: 640px) {
     .tg-speakers { font-size: 1.25rem; }
   }
 
   /* ── sessions list ── */
-  .sl-session { display: flex; gap: 12px; padding: 10px 12px; background: #141414; border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
-  .sl-session.intervalo { border-left-color: #222; background: #0a0a0a; }
-  .sl-session.especial  { border-left-color: #FFD400; background: #0f0f00; }
+  .sl-session { display: flex; gap: 12px; padding: 10px 12px; background: var(--color-enc-card); border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
+  .sl-session.intervalo { border-left-color: #222; background: var(--color-enc-grid); }
+  .sl-session.especial  { border-left-color: var(--color-sinal); background: var(--color-enc-especial); }
   .sl-time {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.78rem;
+    font-family: var(--font-grade); font-weight: 700; font-size: 0.78rem;
     background: var(--dc, #CC2200); color: white; padding: 2px 6px; border-radius: 2px;
     flex-shrink: 0; min-width: 38px; text-align: center; white-space: nowrap; margin-top: 1px;
   }
   @media (min-width: 640px) {
     .sl-time { font-size: 1rem; padding: 2px 8px; min-width: 44px; }
   }
-  .sl-session.intervalo .sl-time { background: #252525; color: #555; }
-  .sl-session.especial  .sl-time { background: #FFD400; color: #000; }
+  .sl-session.intervalo .sl-time { background: #252525; color: var(--color-enc-muted); }
+  .sl-session.especial  .sl-time { background: var(--color-sinal); color: #000; }
   .sl-body { flex: 1; min-width: 0; }
-  .sl-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
+  .sl-title { font-family: var(--font-grade); font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
   @media (min-width: 640px) {
     .sl-title { font-size: 1.25rem; }
   }
-  .sl-session.intervalo .sl-title { color: #444; font-weight: 400; }
-  .sl-session.especial  .sl-title { color: #FFD400; }
-  .sl-local { font-size: 0.78rem; color: #444; font-style: italic; margin-bottom: 4px; display: block; }
+  .sl-session.intervalo .sl-title { color: var(--color-enc-border); font-weight: 400; }
+  .sl-session.especial  .sl-title { color: var(--color-sinal); }
+  .sl-local { font-size: 0.78rem; color: var(--color-enc-border); font-style: italic; margin-bottom: 4px; display: block; }
   @media (min-width: 640px) {
     .sl-local { font-size: 1rem; }
   }
   .sl-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-  .sl-chip { background: #0f2a1a; border: 1px solid #1e4a2a; color: #6fcf97; font-size: 0.72rem; padding: 2px 6px; border-radius: 10px; }
+  .sl-chip { background: var(--color-chip-bg); border: 1px solid var(--color-chip-border); color: var(--color-chip-text); font-size: 0.72rem; padding: 2px 6px; border-radius: 10px; }
   @media (min-width: 640px) {
     .sl-chip { font-size: 1rem; padding: 2px 8px; }
   }
 
   /* ── palestrantes ── */
-  .pal-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #161616; align-items: flex-start; }
+  .pal-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--color-enc-grid-bg); align-items: flex-start; }
   .pal-avatar {
-    width: 36px; height: 36px; border-radius: 50%; background: #1a1a1a; border: 1px solid #2a2a2a;
+    width: 36px; height: 36px; border-radius: 50%; background: var(--color-enc-line); border: 1px solid #2a2a2a;
     flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1rem; color: #444;
+    font-family: var(--font-grade); font-weight: 900; font-size: 1rem; color: var(--color-enc-border);
   }
-  .pal-nome { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; display: block; line-height: 1.2; }
+  .pal-nome { font-family: var(--font-grade); font-weight: 700; font-size: 1rem; color: #e0e0e0; display: block; line-height: 1.2; }
   @media (min-width: 640px) {
     .pal-nome { font-size: 1.25rem; }
   }
-  .pal-org { font-size: 0.78rem; color: #555; display: block; margin-bottom: 3px; }
+  .pal-org { font-size: 0.78rem; color: var(--color-enc-muted); display: block; margin-bottom: 3px; }
   @media (min-width: 640px) {
     .pal-org { font-size: 1rem; }
   }
-  .pal-sess { font-size: 0.78rem; color: #FFD400; display: block; line-height: 1.3; }
+  .pal-sess { font-size: 0.78rem; color: var(--color-sinal); display: block; line-height: 1.3; }
   @media (min-width: 640px) {
     .pal-sess { font-size: 1rem; }
   }
 
   /* ── period header ── */
   .period-hdr { display: flex; align-items: center; gap: 8px; padding: 14px 0 6px; }
-  .period-hdr span { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
-  .period-line { flex: 1; height: 1px; background: #1e1e1e; }
+  .period-hdr span { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-enc-muted); }
+  .period-line { flex: 1; height: 1px; background: var(--color-linha); }
 </style>
 
 <Layout metadata={metadata}>
@@ -269,7 +261,7 @@ const metadata = {
 <!-- ═══════════════════════════════════════════════════════════════
      1. HERO — Identidade + CTA imediato
      ═══════════════════════════════════════════════════════════════ -->
-    <section class="bg-[#010101]">
+    <section class="bg-white dark:bg-enc">
 
       <!-- mobile hero: imagem de banner full-width -->
       <div class="md:hidden">
@@ -280,21 +272,24 @@ const metadata = {
           loading="eager"
         />
         <div class="px-5 py-8 text-center">
-          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">
+          <p class="text-white text-lg font-black uppercase leading-tight mb-2">
+            O Brasil vai decidir<br/>seu futuro digital.
+          </p>
+          <p class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-4">
             2º Encontro Nacional pela Soberania Digital
           </p>
           <div class="flex flex-wrap gap-3 justify-center mb-6">
             <div class="text-center">
-              <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-0.5">Quando</p>
+              <p class="text-sinal text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-0.5">Quando</p>
               <p class="text-white font-bold text-lg">18 e 19 de Maio</p>
             </div>
             <div class="text-center">
-              <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-0.5">Onde</p>
+              <p class="text-sinal text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-0.5">Onde</p>
               <p class="text-white font-bold text-lg">Brasília / DF</p>
             </div>
           </div>
           <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-3 px-8 border-l-4 border-[#FFD400] transition-colors w-full">
+            class="inline-flex items-center justify-center min-h-[52px] bg-cta hover:bg-cta-hover text-white font-black text-lg uppercase py-3 px-8 border-l-4 border-sinal transition-colors w-full">
             Inscreva-se
           </a>
         </div>
@@ -311,22 +306,25 @@ const metadata = {
           />
         </div>
         <div class="flex-shrink-0 w-72 xl:w-80 self-center">
-          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">
+          <p class="text-white text-xl md:text-2xl font-black uppercase leading-tight mb-3">
+            O Brasil vai decidir<br/>seu futuro digital.
+          </p>
+          <p class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-4">
             2º Encontro Nacional pela Soberania Digital
           </p>
-          <h1 class="text-[#FFD400] text-4xl md:text-6xl font-black uppercase leading-none mb-2">18 E 19<br/>DE MAIO</h1>
-          <p class="text-[#E7E7D8] text-2xl md:text-4xl font-black uppercase leading-tight mb-8">BRASÍLIA / DF</p>
+          <h1 class="text-sinal text-4xl md:text-6xl font-black uppercase leading-none mb-2">18 E 19<br/>DE MAIO</h1>
+          <p class="text-quente text-2xl md:text-4xl font-black uppercase leading-tight mb-8">BRASÍLIA / DF</p>
           <div class="flex flex-col gap-3">
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center justify-center min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] text-white font-black text-lg uppercase py-4 px-8 border-l-4 border-[#FFD400] transition-colors">
+              class="inline-flex items-center justify-center min-h-[52px] bg-cta hover:bg-cta-hover text-white font-black text-lg uppercase py-4 px-8 border-l-4 border-sinal transition-colors">
               Inscreva-se
             </a>
             <a href="#programacao"
-              class="inline-flex items-center justify-center min-h-[48px] border border-[#333] text-[#E7E7D8] hover:border-[#FFD400] hover:text-[#FFD400] font-bold uppercase py-3 px-6 transition-colors text-sm">
+              class="inline-flex items-center justify-center min-h-[48px] border border-enc-border text-quente hover:border-sinal hover:text-sinal font-bold uppercase py-3 px-6 transition-colors text-sm">
               Ver Programação ↓
             </a>
             <a href={asset('/encontro.ics')} download
-              class="inline-flex items-center justify-center min-h-[44px] text-[#666] hover:text-[#888] font-bold uppercase py-2 px-4 transition-colors text-xs">
+              class="inline-flex items-center justify-center min-h-[44px] text-enc-muted-alt hover:text-enc-label font-bold uppercase py-2 px-4 transition-colors text-xs">
               ↓ Adicionar à agenda (.ics)
             </a>
           </div>
@@ -334,46 +332,46 @@ const metadata = {
       </div>
     </section>
 
-    <span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
+    <span class="enc-stripe"></span>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     2. TEORIA DA MUDANÇA — PASSO 1: DEFINIR O PROBLEMA
+     2. A VERDADE QUE NINGUÉM TE CONTA
      ═══════════════════════════════════════════════════════════════ -->
-    <section class="bg-[#010101] py-16 md:py-24">
+    <section class="bg-surface dark:bg-grade py-16 md:py-20 enc-fade">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="md:flex items-start gap-12 lg:gap-20">
           <div class="md:basis-2/5 mb-8 md:mb-0">
-            <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Passo 1 — O Problema</p>
-            <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">
+            <p class="text-cta text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">A verdade que ninguém te conta</p>
+            <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">
               Você acha que<br/>o Brasil é<br/>soberano?
             </h2>
-            <p class="text-[#999] text-base leading-relaxed">
-              Nossa economia, democracia e comunicação dependem de plataformas e infraestruturas estrangeiras. Isso não é tecnologia. <strong class="text-[#FFD400]">É poder.</strong>
+            <p class="text-enc-label text-base leading-relaxed">
+              Nossa economia, democracia e comunicação dependem de plataformas e infraestruturas estrangeiras. Isso não é tecnologia. <strong class="text-sinal">É poder.</strong>
             </p>
           </div>
           <div class="md:basis-3/5 min-w-0 space-y-4">
-            <div class="bg-[#141414] border border-[#1e1e1e] p-5 flex gap-5 items-start">
-              <p class="text-[#E31B23] text-3xl font-black flex-shrink-0">🔴</p>
+            <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
+              <p class="text-cta text-3xl font-black flex-shrink-0">🔴</p>
               <div>
-                <h3 class="text-[#FFD400] text-base font-black uppercase mb-1">Seus Dados Estão Fora do País</h3>
-                <p class="text-[#999] text-sm leading-relaxed">Fora da nossa lei. Fora do nosso controle. Empresas estrangeiras armazenam e monetizam informações de milhões de brasileiros.</p>
+                <h3 class="text-sinal text-base font-black uppercase mb-1">Seus Dados Estão Fora do País</h3>
+                <p class="text-enc-muted-alt dark:text-enc-label text-sm leading-relaxed">Fora da nossa lei. Fora do nosso controle. Empresas estrangeiras armazenam e monetizam informações de milhões de brasileiros.</p>
               </div>
             </div>
-            <div class="bg-[#141414] border border-[#1e1e1e] p-5 flex gap-5 items-start">
-              <p class="text-[#FFD400] text-3xl font-black flex-shrink-0">💠</p>
+            <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
+              <p class="text-sinal text-3xl font-black flex-shrink-0">💠</p>
               <div>
-                <h3 class="text-[#FFD400] text-base font-black uppercase mb-1">Seus Algoritmos São Controlados por Estrangeiros</h3>
-                <p class="text-[#999] text-sm leading-relaxed">Big Techs decidem o que você vê, o que é amplificado e o que é silenciado — sem qualquer controle democrático.</p>
+                <h3 class="text-sinal text-base font-black uppercase mb-1">Seus Algoritmos São Controlados por Estrangeiros</h3>
+                <p class="text-enc-label text-sm leading-relaxed">Big Techs decidem o que você vê, o que é amplificado e o que é silenciado — sem qualquer controle democrático.</p>
               </div>
             </div>
-            <div class="bg-[#141414] border border-[#1e1e1e] p-5 flex gap-5 items-start">
-              <p class="text-[#888] text-3xl font-black flex-shrink-0">👁️</p>
+            <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
+              <p class="text-enc-label text-3xl font-black flex-shrink-0">👁️</p>
               <div>
-                <h3 class="text-[#FFD400] text-base font-black uppercase mb-1">Sua Informação É Manipulada Todos os Dias</h3>
-                <p class="text-[#999] text-sm leading-relaxed">Censura algorítmica, desinformação e manipulação do debate público moldam opiniões e decisões no Brasil.</p>
+                <h3 class="text-sinal text-base font-black uppercase mb-1">Sua Informação É Manipulada Todos os Dias</h3>
+                <p class="text-enc-label text-sm leading-relaxed">Censura algorítmica, desinformação e manipulação do debate público moldam opiniões e decisões no Brasil.</p>
               </div>
             </div>
-            <blockquote class="border-l-4 border-[#FFD400] pl-6 mt-6">
+            <blockquote class="border-l-4 border-sinal pl-6 mt-6">
               <p class="text-white text-xl md:text-2xl font-black uppercase leading-tight">"Quem controla o digital, controla o país."</p>
             </blockquote>
           </div>
@@ -382,23 +380,22 @@ const metadata = {
     </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     3. TEORIA DA MUDANÇA — PASSO 2: O QUE VAMOS FAZER
-     Inputs → Activities → Outputs
+     3. É HORA DE AGIR
      ═══════════════════════════════════════════════════════════════ -->
 
-    <!-- 3a. INPUTS — Quem se mobiliza -->
-    <section class="bg-[#111] py-12 md:py-16 border-y border-[#222]">
+    <!-- 3a. INPUTS — Quem está nessa luta -->
+    <section class="bg-white dark:bg-enc py-16 md:py-20 border-y border-enc-line enc-fade">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="md:flex items-start gap-10">
           <div class="md:basis-1/3 mb-6 md:mb-0">
-            <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Passo 2 — O que vamos fazer</p>
-            <h3 class="text-white text-2xl md:text-3xl font-black uppercase leading-tight">Quem se mobiliza</h3>
-            <p class="text-[#666] text-sm mt-2">Movimentos, organizações e pessoas se unindo para agir.</p>
+            <p class="text-cta text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">É hora de agir</p>
+            <h3 class="text-enc dark:text-white text-2xl md:text-3xl font-black uppercase leading-tight">Quem está nessa luta</h3>
+            <p class="text-enc-muted-alt text-sm mt-2">De todas as frentes, de todos os cantos do país.</p>
           </div>
           <div class="md:basis-2/3">
             <div class="flex flex-wrap gap-3">
               {['Movimentos Sociais', 'Sindicatos e Trabalhadores', 'Juventude', 'Pesquisadores e Educadores', 'Desenvolvedores e Coletivos'].map((grupo) => (
-                <span class="border border-[#333] text-[#d1d5db] px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-[#FFD400] hover:text-[#FFD400] transition-colors">
+                <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors">
                   {grupo}
                 </span>
               ))}
@@ -409,13 +406,15 @@ const metadata = {
     </section>
 
     <!-- 3b. ACTIVITIES — Programação completa (grade/sessões/palestrantes) -->
-    <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
+    <section id="programacao" class="bg-surface dark:bg-grade py-16 md:py-20 enc-fade">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="mb-8">
-          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">Programação Completa</p>
-          <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">Dois dias de debates, articulação e construção coletiva</h2>
+          <p class="text-sinal text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">A agenda da mudança</p>
+          <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight">Dois dias. Quatro auditórios. Mais de 130 vozes.</h2>
         </div>
+
+        <div class="dark">
 
         <!-- View tabs -->
         <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Modo de visualização">
@@ -476,7 +475,7 @@ const metadata = {
                     })}
                   </div>
                 </div>
-                {nCols > 1 && <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-2 text-right">← deslize para ver todos os auditórios →</p>}
+                {nCols > 1 && <p class="text-enc-muted-alt dark:text-gray-400 text-[0.8125rem] leading-relaxed mt-2 text-right">← deslize para ver todos os auditórios →</p>}
               </div>
             );
           })}
@@ -549,11 +548,11 @@ const metadata = {
           {diasData.map((dia, di) => (
             <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`palestrantes-${dia.key}`}>
               {dia.palList.length === 0 ? (
-                <p class="text-[#444] text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
+                <p class="text-enc-border text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
               ) : (
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-[#161616]">
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-enc-grid-bg">
                   {dia.palList.map((pal: any) => (
-                    <div class="pal-item bg-[#0d0d0d]">
+                    <div class="pal-item bg-grade">
                       <div class="pal-avatar">{pal.nome.trim()[0]}</div>
                       <div class="flex-1 min-w-0">
                         <span class="pal-nome">{pal.nome}</span>
@@ -569,13 +568,15 @@ const metadata = {
         </div>
 
       </div>
+
+        </div>
     </section>
 
     <!-- 3c. OUTPUTS — O que vamos produzir -->
-    <section class="bg-[#E31B23] py-12 md:py-16">
+    <section class="bg-cta py-16 md:py-20 enc-fade">
       <div class="max-w-4xl mx-auto px-4 sm:px-6">
-        <p class="text-pink-200 text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">O que vamos produzir juntos</p>
-        <h2 class="text-white text-3xl md:text-4xl font-black uppercase leading-tight mb-6">Não é um evento comum.</h2>
+        <p class="text-pink-200 text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Da conversa à ação</p>
+        <h2 class="text-white text-3xl md:text-4xl font-black uppercase leading-tight mb-6">Não é um evento. É um plano para o Brasil.</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div class="text-center">
             <p class="text-white text-4xl font-black mb-2">📋</p>
@@ -597,39 +598,89 @@ const metadata = {
     </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     4. TEORIA DA MUDANÇA — PASSO 3: QUE DIFERENÇA VAI FAZER
-     Resultado imediato → Resultado de médio prazo
+     4. O QUE CONSTRUÍMOS JUNTOS / MEMÓRIA
      ═══════════════════════════════════════════════════════════════ -->
-    <section class="bg-[#0d0d0d] py-16 md:py-24">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Passo 3 — Que diferença vai fazer</p>
-        <h2 class="text-white text-3xl md:text-4xl font-black uppercase leading-tight mb-10">Unindo vozes de todo o país</h2>
+    <section class="bg-surface dark:bg-grade py-16 md:py-20 enc-fade">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-        <div class="space-y-6">
-          <div class="bg-[#141414] border border-[#1e1e1e] p-6 md:flex gap-6 items-start">
-            <div class="flex-shrink-0 mb-4 md:mb-0">
-              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#E31B23]/20 text-[#E31B23] font-black text-lg">1</span>
-            </div>
-            <div>
-              <h3 class="text-[#FFD400] text-lg font-black uppercase mb-2">Resultado Imediato</h3>
-              <p class="text-[#d1d5db] text-base leading-relaxed">
-                Movimentos sociais, sindicatos, pesquisadores, juventude e coletivos debatem juntos o cenário da soberania digital,
-                constroem propostas e fortalecem a articulação nacional pela soberania digital do Brasil.
-              </p>
+        <div class="mb-8">
+          <p class="text-cta text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">O que construímos juntos</p>
+          <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight">Unindo vozes de todo o país</h2>
+        </div>
+
+        <!-- Mídia — fotos e vídeos misturados com legendas -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <video
+              src={asset('/01_telegram_4875.mp4')}
+              muted loop autoplay playsinline
+              class="w-full h-full object-cover block"
+            ></video>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Movimentos, sindicatos, juventude e coletivos debatem juntos</span>
             </div>
           </div>
-
-          <div class="bg-[#141414] border border-[#1e1e1e] p-6 md:flex gap-6 items-start">
-            <div class="flex-shrink-0 mb-4 md:mb-0">
-              <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#FFD400]/20 text-[#FFD400] font-black text-lg">2</span>
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <img
+              src={asset('/2026-05-08_00-51.png')}
+              alt="2º Encontro Nacional pela Soberania Digital"
+              class="w-full h-full object-cover block"
+              loading="lazy"
+            />
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Fortalecendo a articulação nacional pela soberania digital</span>
             </div>
-            <div>
-              <h3 class="text-[#FFD400] text-lg font-black uppercase mb-2">Resultado de Médio Prazo</h3>
-              <p class="text-[#d1d5db] text-base leading-relaxed">
-                As propostas construídas no encontro são entregues à Presidência da República,
-                colocando a soberania digital no centro da agenda do Estado brasileiro e influenciando
-                políticas públicas, regulação e investimento em infraestrutura nacional.
-              </p>
+          </div>
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <video
+              src={asset('/02_telegram_5784.mp4')}
+              muted loop autoplay playsinline
+              class="w-full h-full object-cover block"
+            ></video>
+            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Cenário da soberania digital — propostas construídas no encontro</span>
+            </div>
+          </div>
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <img
+              src={asset('/2026-05-08_00-52.png')}
+              alt="2º Encontro Nacional pela Soberania Digital"
+              class="w-full h-full object-cover block"
+              loading="lazy"
+            />
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Propostas entregues à Presidência da República</span>
+            </div>
+          </div>
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <video
+              src={asset('/03_telegram_5594.mp4')}
+              muted loop autoplay playsinline
+              class="w-full h-full object-cover block"
+            ></video>
+            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Soberania digital no centro da agenda do Estado brasileiro</span>
+            </div>
+          </div>
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <img
+              src={asset('/2026-05-08_00-52_1.png')}
+              alt="2º Encontro Nacional pela Soberania Digital"
+              class="w-full h-full object-cover block"
+              loading="lazy"
+            />
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Políticas públicas, regulação e infraestrutura nacional</span>
+            </div>
+          </div>
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <video
+              src={asset('/04_telegram_4571.mp4')}
+              muted loop autoplay playsinline
+              class="w-full h-full object-cover block"
+            ></video>
+            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
+              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Unindo vozes de todo o país — o Brasil vai decidir</span>
             </div>
           </div>
         </div>
@@ -637,12 +688,11 @@ const metadata = {
     </section>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     5. TEORIA DA MUDANÇA — PASSO 4: IMPACTO DE LONGO PRAZO
-     + CTA de inscrição
+     5. O BRASIL QUE QUEREMOS
      ═══════════════════════════════════════════════════════════════ -->
-    <section class="bg-[#E31B23] py-16 md:py-20">
+    <section class="bg-cta py-16 md:py-20 enc-fade">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Passo 4 — Impacto de longo prazo</p>
+        <p class="text-sinal text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">O Brasil que queremos</p>
         <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">
           Sem soberania digital,<br/>não há soberania nacional
         </h2>
@@ -650,33 +700,33 @@ const metadata = {
           {conf.date} · {conf.venue} · {location.name}
         </p>
         <p class="text-pink-200 text-base leading-relaxed mb-8 max-w-xl mx-auto">
-          Um Brasil com controle sobre seus dados, seus algoritmos e sua infraestrutura digital —
-          tecnologia a serviço da vida, dos direitos e da autonomia do povo.
+          Um Brasil que controla seus dados, seus algoritmos e sua infraestrutura.
+          Tecnologia a serviço da vida, dos direitos e da autonomia do povo.
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
           <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg">
-            {conf.callToAction.text}
+            class="inline-flex items-center justify-center min-h-[52px] bg-enc hover:bg-enc-body text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-sinal transition-colors shadow-lg">
+            Eu quero fazer parte
           </a>
         </div>
       </div>
     </section>
 
 <!-- 6. LOCAL, MAPA E COMO CHEGAR -->
-    <span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
-    <section id="local" class="bg-white dark:bg-[#010101] py-16 md:py-24">
+    <span class="enc-stripe"></span>
+    <section id="local" class="bg-white dark:bg-enc py-16 md:py-20 enc-fade">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="text-center mb-10">
-          <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Local do Evento</p>
-          <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-2">{location.name}</h2>
-          <p class="text-[#292929] dark:text-[#d1d5db] text-lg leading-relaxed">{location.address}</p>
-          <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-1">{location.room}</p>
+          <p class="text-cta text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Local do Evento</p>
+          <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-2">{location.name}</h2>
+          <p class="text-enc-body dark:text-gray-300 text-lg leading-relaxed">{location.address}</p>
+          <p class="text-enc-muted-alt dark:text-gray-400 text-[0.8125rem] leading-relaxed mt-1">{location.room}</p>
         </div>
 
         <!-- Mapa Leaflet -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-        <div id="osm-map" class="w-full border-[#e5e7eb] dark:border-[#1f2937] border shadow h-[260px] sm:h-[340px] md:h-[420px]"></div>
+        <div id="osm-map" class="w-full border-gray-200 dark:border-gray-800 border shadow h-[260px] sm:h-[340px] md:h-[420px]"></div>
         <div class="flex flex-wrap gap-3 mt-4 justify-center text-xs">
           {[
             { color: '#E31B23', label: 'Local do Encontro' },
@@ -684,7 +734,7 @@ const metadata = {
             { color: '#77b978', label: 'Aeroporto' },
             { color: '#FFD400', label: 'Rodoviária' },
           ].map(l => (
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#f9f9f9] dark:bg-[#111111] border border-[#ebebeb] dark:border-[#1e1e1e] text-[#292929] dark:text-[#d1d5db]">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-card dark:bg-enc-input border border-gray-200 dark:border-linha-light dark:border-linha text-enc-body dark:text-gray-300">
               <span class="w-3 h-3 rounded-full inline-block flex-shrink-0" style={`background:${l.color}`}></span>
               {l.label}
             </span>
@@ -753,13 +803,13 @@ const metadata = {
     </script>
 
 <!-- 6. FORMULÁRIO DE INSCRIÇÃO -->
-    <section id="inscricao" class="hidden bg-[#010101] py-16 md:py-24 border-t border-[#1a1a1a]">
+    <section id="inscricao" class="hidden bg-enc py-16 md:py-20 border-t border-enc-line enc-fade">
       <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
         <div class="text-center mb-10">
-          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Inscrições</p>
+          <p class="text-sinal text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Inscrições</p>
           <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">Participar do Encontro</h2>
-          <p class="text-[#E7E7D8] text-base">
+          <p class="text-quente text-base">
             Preencha o formulário abaixo
           </p>
         </div>
@@ -769,85 +819,85 @@ const metadata = {
           <!-- Nome + Data de Nascimento -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="nome" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Nome Completo <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="nome" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Nome Completo <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Seu nome completo"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
             <div>
-              <label for="data_nascimento" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Data de Nascimento <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="data_nascimento" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Data de Nascimento <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="data_nascimento" name="data_nascimento" required placeholder="dd/mm/aaaa"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
           </div>
 
           <!-- CPF + E-mail -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="cpf" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">CPF <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="cpf" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">CPF <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
             <div>
-              <label for="email" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">E-mail <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="email" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">E-mail <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
           </div>
 
           <!-- Telefone + Estado -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="telefone" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Telefone / WhatsApp <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="telefone" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Telefone / WhatsApp <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="tel" id="telefone" name="telefone" required autocomplete="tel" placeholder="(11) 99999-9999"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
             <div>
-              <label for="estado" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Estado <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="estado" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Estado <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="estado" name="estado" required placeholder="SP, RJ, DF…"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
           </div>
 
           <!-- Cidade + Comunidade -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="cidade" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Cidade <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="cidade" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Cidade <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="cidade" name="cidade" required placeholder="São Paulo"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
             <div>
-              <label for="comunidade" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Comunidade que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="comunidade" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Comunidade que representa <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="comunidade" name="comunidade" required placeholder="Ex: Aldeia Tekoa Pyau, Favela da Maré…"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
           </div>
 
           <!-- Coletivo/Organização + Função/Atuação -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label for="coletivo_organizacao" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Coletivo/Organização que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="coletivo_organizacao" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Coletivo/Organização que representa <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="coletivo_organizacao" name="coletivo_organizacao" required placeholder="Ex: MST, MTST, Marcha Mundial das Mulheres…"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
             <div>
-              <label for="funcao_atuacao" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Função/Atuação <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
+              <label for="funcao_atuacao" class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">Função/Atuação <span class="text-cta" aria-hidden="true">*</span></label>
               <input type="text" id="funcao_atuacao" name="funcao_atuacao" required placeholder="Ex: professor, estudante, liderança comunitária…"
-                class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+                class="w-full bg-enc-input-light dark:bg-enc-input border border-gray-300 dark:border-enc-border text-enc dark:text-enc-text-light px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-sinal focus:ring-2 focus:ring-sinal/20 placeholder:text-enc-label dark:placeholder:text-enc-muted" />
             </div>
           </div>
 
           <!-- Participação no evento -->
           <fieldset>
-            <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-3">Participação no evento</legend>
+            <legend class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-3">Participação no evento</legend>
             <div class="flex flex-wrap gap-x-6 gap-y-2">
-              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-enc-text-light dark:text-gray-300 text-sm hover:text-white dark:hover:text-white transition-colors">
                 <input type="checkbox" id="participacao_dia18" name="participacao_dia18" value="1" checked
-                  class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                  class="w-4 h-4 rounded accent-sinal focus:ring-2 focus:ring-sinal/30 focus:ring-offset-0" />
                 Dia 18 de Maio
               </label>
-              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+              <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-enc-text-light dark:text-gray-300 text-sm hover:text-white dark:hover:text-white transition-colors">
                 <input type="checkbox" id="participacao_dia19" name="participacao_dia19" value="1"
-                  class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                  class="w-4 h-4 rounded accent-sinal focus:ring-2 focus:ring-sinal/30 focus:ring-offset-0" />
                 Dia 19 de Maio
               </label>
             </div>
@@ -855,24 +905,24 @@ const metadata = {
 
           <!-- Condições para Deslocamento e Hospedagem -->
           <fieldset>
-            <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">
-              Condições para Deslocamento e Hospedagem <span class="text-[#E31B23]" aria-hidden="true">*</span>
+            <legend class="block text-xs font-bold uppercase tracking-wider text-enc-muted dark:text-enc-label mb-1.5">
+              Condições para Deslocamento e Hospedagem <span class="text-cta" aria-hidden="true">*</span>
             </legend>
-            <p class="text-[#666] dark:text-[#777] text-xs mb-3">Informe abaixo suas condições para ir ao evento e nos ajude a prever a demanda e organizar o deslocamento e hospedagem de todes.</p>
+            <p class="text-enc-muted-alt dark:text-enc-muted-alt text-xs mb-3">Informe abaixo suas condições para ir ao evento e nos ajude a prever a demanda e organizar o deslocamento e hospedagem de todes.</p>
             <div class="space-y-2.5">
-              <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none text-enc-text-light dark:text-gray-300 text-sm hover:text-white dark:hover:text-white transition-colors">
                 <input type="radio" name="condicoes_deslocamento" value="conta_propria" required
-                  class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                  class="w-4 h-4 mt-0.5 accent-sinal focus:ring-2 focus:ring-sinal/30 focus:ring-offset-0" />
                 <span>Consigo ir por conta própria</span>
               </label>
-              <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none text-enc-text-light dark:text-gray-300 text-sm hover:text-white dark:hover:text-white transition-colors">
                 <input type="radio" name="condicoes_deslocamento" value="apoio_transporte"
-                  class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                  class="w-4 h-4 mt-0.5 accent-sinal focus:ring-2 focus:ring-sinal/30 focus:ring-offset-0" />
                 <span>Preciso de Apoio com Transporte e Hospedagem para ir ao evento</span>
               </label>
-              <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none text-enc-text-light dark:text-gray-300 text-sm hover:text-white dark:hover:text-white transition-colors">
                 <input type="radio" name="condicoes_deslocamento" value="convite_oficial"
-                  class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+                  class="w-4 h-4 mt-0.5 accent-sinal focus:ring-2 focus:ring-sinal/30 focus:ring-offset-0" />
                 <span>Preciso de Convite Oficial para viabilizar Transporte e Hospedagem pela minha organização</span>
               </label>
             </div>
@@ -881,43 +931,43 @@ const metadata = {
           <!-- Termos de Serviço -->
           <label for="tos_agreement" class="flex items-start gap-3 cursor-pointer select-none group">
             <input type="checkbox" id="tos_agreement" name="tos_agreement" value="1" required
-              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
-            <span class="text-[#e8e8e8] dark:text-[#d1d5db] text-sm leading-relaxed group-hover:text-white dark:group-hover:text-white transition-colors">
-              Ao participar, você aceita os seus <strong class="text-white dark:text-white">Termos de Serviço</strong> <span class="text-[#E31B23]" aria-hidden="true">*</span>
+              class="w-4 h-4 mt-0.5 accent-sinal focus:ring-2 focus:ring-sinal/30 focus:ring-offset-0" />
+            <span class="text-enc-text-light dark:text-gray-300 text-sm leading-relaxed group-hover:text-white dark:group-hover:text-white transition-colors">
+              Ao participar, você aceita os seus <strong class="text-white dark:text-white">Termos de Serviço</strong> <span class="text-cta" aria-hidden="true">*</span>
             </span>
           </label>
 
           <div>
             <button type="submit" id="btn-submit"
-              class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+              class="w-full min-h-[52px] bg-cta hover:bg-cta-hover focus-visible:outline-2 focus-visible:outline-sinal text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-sinal transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
               Enviar inscrição
             </button>
-            <p class="text-[#555] dark:text-[#666] text-xs mt-3 text-center">
-              Campos com <span class="text-[#E31B23]">*</span> são obrigatórios. Seus dados são usados apenas para organização do evento.
+            <p class="text-enc-muted dark:text-enc-muted-alt text-xs mt-3 text-center">
+              Campos com <span class="text-cta">*</span> são obrigatórios. Seus dados são usados apenas para organização do evento.
             </p>
           </div>
         </form>
 
         <div id="form-sucesso" class="hidden text-center py-10">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#FFD400]/10 text-3xl mb-6">✅</div>
-          <h3 class="text-[#FFD400] font-black uppercase text-2xl mb-3">Inscrição Enviada!</h3>
-          <p class="text-[#d1d5db] text-sm leading-relaxed max-w-md mx-auto">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sinal/10 text-3xl mb-6">✅</div>
+          <h3 class="text-sinal font-black uppercase text-2xl mb-3">Inscrição Enviada!</h3>
+          <p class="text-gray-300 text-sm leading-relaxed max-w-md mx-auto">
             Obrigada! Sua inscrição foi recebida. Em breve você receberá mais informações por e-mail.
           </p>
         </div>
 
         <div id="form-erro" class="hidden text-center py-10">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#E31B23]/10 text-3xl mb-6">⚠️</div>
-          <h3 class="text-[#E31B23] font-black uppercase text-2xl mb-3">Erro ao enviar</h3>
-          <p class="text-[#d1d5db] text-sm leading-relaxed max-w-md mx-auto">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cta/10 text-3xl mb-6">⚠️</div>
+          <h3 class="text-cta font-black uppercase text-2xl mb-3">Erro ao enviar</h3>
+          <p class="text-gray-300 text-sm leading-relaxed max-w-md mx-auto">
             Não foi possível enviar sua inscrição. Por favor, tente novamente ou{' '}
             <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-              class="text-[#FFD400] hover:underline font-semibold transition-colors">
+              class="text-sinal hover:underline font-semibold transition-colors">
               inscreva-se pelo Plantaformas
             </a>.
           </p>
           <button id="btn-tentar-novamente" type="button"
-            class="mt-6 bg-[#292929] hover:bg-[#444] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-bold uppercase text-sm py-3 px-8 rounded-lg transition-all duration-200 cursor-pointer">
+            class="mt-6 bg-enc-body hover:bg-enc-border focus-visible:outline-2 focus-visible:outline-sinal text-white font-bold uppercase text-sm py-3 px-8 transition-all duration-200 cursor-pointer">
             Tentar novamente
           </button>
         </div>
@@ -1093,13 +1143,13 @@ const metadata = {
 
 
 <!-- 7. PARCEIROS E APOIO -->
-    <section class="bg-white dark:bg-[#080808] py-16 md:py-20 border-t border-[#e5e7eb] dark:border-[#1a1a1a]">
+    <section class="bg-white dark:bg-parceiros py-16 md:py-20 border-t border-gray-200 dark:border-enc-line enc-fade">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <!-- LINHA 1: REALIZAÇÃO + APOIO INSTITUCIONAL -->
         <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 mb-12 justify-center items-start">
           <div class="text-center flex-1">
-            <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
+            <p class="text-cta text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
             <div class="flex justify-center gap-8 flex-wrap items-center">
               {partnersGrid.realizacao.map((org: any) => (
                 org.logo ? (
@@ -1112,26 +1162,26 @@ const metadata = {
                     />
                   </a>
                 ) : (
-                  <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+                  <span class="text-enc-muted dark:text-enc-label font-bold text-sm">{org.nome}</span>
                 )
-              ))}
-            </div>
-          </div>
-          <div class="text-center flex-1">
-            <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
-            <div class="flex justify-center gap-8 flex-wrap items-center">
-              {partnersGrid.patrocinio.map((org: any) => (
-                org.logo ? (
-                  <a href={org.url} target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center">
-                    <img
-                      src={asset(org.logo)}
-                      alt={org.nome}
-                      class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
-                    />
-                  </a>
-                ) : (
-                  <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+               ))}
+             </div>
+           </div>
+           <div class="text-center flex-1">
+             <p class="text-cta text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
+             <div class="flex justify-center gap-8 flex-wrap items-center">
+               {partnersGrid.patrocinio.map((org: any) => (
+                 org.logo ? (
+                   <a href={org.url} target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center justify-center">
+                     <img
+                       src={asset(org.logo)}
+                       alt={org.nome}
+                       class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                     />
+                   </a>
+                 ) : (
+                   <span class="text-enc-muted dark:text-enc-label font-bold text-sm">{org.nome}</span>
                 )
               ))}
             </div>
@@ -1139,8 +1189,8 @@ const metadata = {
         </div>
 
         <!-- LINHA 2: ORGANIZAÇÃO -->
-        <div class="mb-12 text-center border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
-          <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Organização</p>
+        <div class="mb-12 text-center border-t border-gray-200 dark:border-enc-line pt-10">
+            <p class="text-enc-label dark:text-enc-muted-alt text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Organização</p>
           <div class="flex justify-center gap-8 flex-wrap items-center">
             {[...partnersGrid.producao].reverse().map((org: any) => (
               org.logo ? (
@@ -1153,18 +1203,18 @@ const metadata = {
                   />
                 </a>
               ) : (
-                <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+                <span class="text-enc-muted dark:text-enc-label font-bold text-sm">{org.nome}</span>
               )
             ))}
           </div>
         </div>
 
         <!-- LINHA 3: APOIO -->
-        <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
-          <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
+        <div class="border-t border-gray-200 dark:border-enc-line pt-10">
+          <p class="text-enc-label dark:text-enc-muted-alt text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
           <div class="flex flex-wrap gap-2">
             {partnersGrid.apoio.map((org: any) => (
-              <span class="border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 py-1.5 text-xs">
+              <span class="border border-gray-200 dark:border-enc-border text-enc-muted dark:text-enc-label px-3 py-1.5 text-xs">
                 {org.nome}
               </span>
             ))}

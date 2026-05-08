@@ -1,31 +1,7 @@
 {
-  "organizadores": [
-    {
-      "url": "https://soberania.digital",
-      "logo": "https://plantaformas.org/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhhRGhoTldsNWJXaG5kRGh0TURSd2VuRnBiemcxZW1wck1qSTFhZ1k2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpYzJsdWJHbHVaVHNnWm1sc1pXNWhiV1U5SW14dloyOHRhV1F0ZG1semRXRnNMV2RsYm1WeWFXTmhJQ1V5T0RFbE1qa3VhbkJuSWpzZ1ptbHNaVzVoYldVcVBWVlVSaTA0Snlkc2IyZHZMV2xrTFhacGMzVmhiQzFuWlc1bGNtbGpZU1V5TUNVeU9ERWxNamt1YW5CbkJqc0dWRG9SWTI5dWRHVnVkRjkwZVhCbFNTSVBhVzFoWjJVdmFuQmxad1k3QmxRNkVYTmxjblpwWTJWZmJtRnRaVG9LYkc5allXdz0iLCJleHAiOiIyMDI2LTA1LTE0VDE5OjIyOjU3LjAxMFoiLCJwdXIiOiJibG9iX2tleSJ9fQ==--cf50b695ba950907c93c7633bd6cf70b1f028115/logo-id-visual-generica%20(1).jpg",
-      "nome": "Rede pela Soberania Digital"
-    },
-    {
-      "url": "https://cgi.br",
-      "logo": "https://plantaformas.org/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhaM1p2Y2pSc1pXUm5jSFp2ZUROc2VIVnVjRFl6TVhCMGVqUTFiZ1k2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpUjJsdWJHbHVaVHNnWm1sc1pXNWhiV1U5SW14dloyOWZRMGRKWW5JdWNHNW5JanNnWm1sc1pXNWhiV1VxUFZWVVJpMDRKeWRzYjJkdlgwTkhTV0p5TG5CdVp3WTdCbFE2RVdOdmJuUmxiblJmZEhsd1pVa2lEbWx0WVdkbEwzQnVad1k3QmxRNkVYTmxjblpwWTJWZmJtRnRaVG9LYkc5allXdz0iLCJleHAiOiIyMDI2LTA1LTE0VDE5OjIyOjU3LjAxOFoiLCJwdXIiOiJibG9iX2tleSJ9fQ==--7cab96761d656afb9b17287efcea2355ffd99278/logo_CGIbr.png",
-      "nome": "CGI.BR"
-    },
-    {
-      "url": "https://coletivodigital.org.br",
-      "logo": "https://plantaformas.org/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhiak52ZWpoMU1IRjRPVFJwZURBNWIzZHJjWFZrTW5rMGRqaHJhZ1k2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpWFdsdWJHbHVaVHNnWm1sc1pXNWhiV1U5SW14dloyOHRZMjlzWldsMGIzWXRaR2xuYVhSaGJDNXdibWNpT3lCbWFXeGxibUZ0WlNvOVZWUkdMVGduSjJ4dloyOHRZMjlzWldsMGIzWXRaR2xuYVhSaGJDNXdibWNHT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc1cGJXRm5aUzl3Ym1jR093WlVPaEZ6WlhKMmFXTmxYMjVoYldVNkNteHZZMkZzIiwiZXhwIjoiMjAyNi0wNS0xNFQxOToyMjo1Ny4wMjZaIiwicHVyIjoiYmxvYl9rZXkifX0=--1e38924b7b31f0866517bb0a1310443b7b08b38e/logo-coleitov-digital.png",
-      "nome": "Coletivo DIgital"
-    },
-    {
-      "url": "https://fenadados.org.br/",
-      "logo": "https://plantaformas.org/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhaR3A2YjNBMU9XVnJkSGR2ZWpWeGJ6aDJielZzTlhvMllXTjNjQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpVDJsdWJHbHVaVHNnWm1sc1pXNWhiV1U5SW14dloyOHRabVZ1WVdSaFpHOXpMbkJ1WnlJN0lHWnBiR1Z1WVcxbEtqMVZWRVl0T0NjbmJHOW5ieTFtWlc1aFpHRmtiM011Y0c1bkJqc0dWRG9SWTI5dWRHVnVkRjkwZVhCbFNTSU9hVzFoWjJVdmNHNW5CanNHVkRvUmMyVnlkbWxqWlY5dVlXMWxPZ3BzYjJOaGJBPT0iLCJleHAiOiIyMDI2LTA1LTE0VDE5OjIyOjU3LjAzNFoiLCJwdXIiOiJibG9iX2tleSJ9fQ==--34400675fb3cb66bc8df7e7f5d3150ee748775b7/logo-fenadados.png",
-      "nome": "Fenadados"
-    },
-    {
-      "url": "https://mutirao.org.br",
-      "logo": "https://plantaformas.org/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhlV041YkdFMGVUUnVZMjgxYzJFNE56aGxjbXN5YlhseGRIQnROZ1k2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpWldsdWJHbHVaVHNnWm1sc1pXNWhiV1U5SW14dloyOHRiWFYwYVhKaGJ5MWpZWEJoTFhOcGRHVXRNRFV1Y0c1bklqc2dabWxzWlc1aGJXVXFQVlZVUmkwNEp5ZHNiMmR2TFcxMWRHbHlZVzh0WTJGd1lTMXphWFJsTFRBMUxuQnVad1k3QmxRNkVXTnZiblJsYm5SZmRIbHdaVWtpRG1sdFlXZGxMM0J1WndZN0JsUTZFWE5sY25acFkyVmZibUZ0WlRvS2JHOWpZV3c9IiwiZXhwIjoiMjAyNi0wNS0xNFQxOToyMjo1Ny4wNDJaIiwicHVyIjoiYmxvYl9rZXkifX0=--648976634dbab25e6bd8384a4026ae7417333589/logo-mutirao-capa-site-05.png",
-      "nome": "Instituto Mutirão"
-    }
-  ],
-  "atualizadoEm": "2026-05-07T19:22:57.877Z",
-  "fonte": "https://plantaformas.org/conferences/SoberaniaDigital — #conference-partners-main_promotor"
+  "realizacao": [],
+  "producao": [],
+  "patrocinio": [],
+  "apoio": [],
+  "atualizadoEm": "2026-05-08T04:56:38.551Z"
 }
