@@ -396,19 +396,19 @@ const metadata = {
           <div class="md:basis-2/3">
             <div class="flex flex-wrap gap-3">
               <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon icon="tabler:users" class="w-4 h-4 opacity-70" /> Movimentos Sociais
+                <Icon name="tabler:users" class="w-4 h-4 opacity-70" /> Movimentos Sociais
               </span>
               <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon icon="tabler:building-factory-2" class="w-4 h-4 opacity-70" /> Sindicatos e Trabalhadores
+                <Icon name="tabler:building-factory-2" class="w-4 h-4 opacity-70" /> Sindicatos e Trabalhadores
               </span>
               <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon icon="tabler:sparkles" class="w-4 h-4 opacity-70" /> Juventude
+                <Icon name="tabler:sparkles" class="w-4 h-4 opacity-70" /> Juventude
               </span>
               <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon icon="tabler:book" class="w-4 h-4 opacity-70" /> Pesquisadores e Educadores
+                <Icon name="tabler:book" class="w-4 h-4 opacity-70" /> Pesquisadores e Educadores
               </span>
               <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon icon="tabler:code" class="w-4 h-4 opacity-70" /> Desenvolvedores e Coletivos
+                <Icon name="tabler:code" class="w-4 h-4 opacity-70" /> Desenvolvedores e Coletivos
               </span>
             </div>
           </div>
@@ -440,7 +440,7 @@ const metadata = {
             {diasData.map((dia, i) => (
               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="grade"
                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                <Icon icon="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
+                <Icon name="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
               </button>
             ))}
           </div>
@@ -498,7 +498,7 @@ const metadata = {
             {diasData.map((dia, i) => (
               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="sessoes"
                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                <Icon icon="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
+                <Icon name="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
               </button>
             ))}
           </div>
@@ -552,7 +552,7 @@ const metadata = {
             {diasData.map((dia, i) => (
               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="palestrantes"
                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                <Icon icon="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
+                <Icon name="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
               </button>
             ))}
           </div>
