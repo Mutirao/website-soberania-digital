@@ -144,7 +144,7 @@ const metadata = {
   .tg-corner { background: var(--color-grade); position: sticky; left: 0; z-index: 20; }
   .tg-room-hdr {
     font-family: var(--font-grade); font-weight: 900;
-    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;
+    font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.5px;
     color: var(--color-enc-label); padding: 10px 6px; border-bottom: 1px solid #252525;
     border-left: 1px solid var(--color-enc-line); background: var(--color-enc-input); display: flex; align-items: center;
   }
@@ -152,9 +152,9 @@ const metadata = {
     .tg-room-hdr { font-size: 1rem; padding: 10px 8px; }
   }
   .tg-time {
-    font-family: var(--font-grade); font-size: 0.72rem; color: var(--color-enc-border);
+    font-family: var(--font-grade); font-size: 0.82rem; color: var(--color-enc-border);
     background: var(--color-grade); position: sticky; left: 0; z-index: 10;
-    display: flex; align-items: flex-start; padding: 3px 4px 0;
+    display: flex; align-items: flex-start; padding: 3px 5px 0;
     border-right: 1px solid var(--color-enc-line);
   }
   @media (min-width: 640px) {
@@ -165,10 +165,10 @@ const metadata = {
   .tg-hour-line { border-top: 1px solid var(--color-enc-line); pointer-events: none; z-index: 1; }
   .tg-half-line { border-top: 1px solid #131313; pointer-events: none; z-index: 1; }
   .tg-session {
-    margin: 2px 3px; padding: 4px 6px;
+    margin: 2px 3px; padding: 5px 7px;
     border-left: 3px solid var(--dc, #CC2200); background: var(--color-enc-card);
     overflow: hidden; cursor: default; z-index: 5;
-    font-size: 0.72rem; line-height: 1.35; position: relative; transition: background 0.1s;
+    font-size: 0.82rem; line-height: 1.35; position: relative; transition: background 0.1s;
   }
   @media (min-width: 640px) {
     .tg-session { padding: 6px 8px; font-size: 1rem; }
@@ -177,9 +177,9 @@ const metadata = {
   .tg-session.intervalo { background: var(--color-enc-grid); border-left-color: #222; }
   .tg-session.especial { background: var(--color-enc-especial); border-left-color: var(--color-sinal); }
   .tg-time-badge {
-    font-family: var(--font-grade); font-weight: 700; font-size: 0.7rem;
-    background: var(--dc, #CC2200); color: white; padding: 1px 4px; border-radius: 2px;
-    display: inline-block; margin-bottom: 2px;
+    font-family: var(--font-grade); font-weight: 700; font-size: 0.82rem;
+    background: var(--dc, #CC2200); color: white; padding: 1px 5px; border-radius: 2px;
+    display: inline-block; margin-bottom: 3px;
   }
   @media (min-width: 640px) {
     .tg-time-badge { font-size: 1rem; padding: 1px 5px; margin-bottom: 3px; }
@@ -187,26 +187,26 @@ const metadata = {
   .tg-session.intervalo .tg-time-badge { background: #252525; color: var(--color-enc-muted); }
   .tg-session.especial  .tg-time-badge { background: var(--color-sinal); color: #000; }
   .tg-title {
-    display: block; font-family: var(--font-grade); font-weight: 700; font-size: 0.82rem; color: #ddd; line-height: 1.25; margin-bottom: 2px;
+    display: block; font-family: var(--font-grade); font-weight: 700; font-size: 0.92rem; color: #ddd; line-height: 1.25; margin-bottom: 2px;
   }
   @media (min-width: 640px) {
     .tg-title { font-size: 1.25rem; margin-bottom: 3px; }
   }
   .tg-session.intervalo .tg-title { color: var(--color-enc-border); font-weight: 400; }
   .tg-session.especial  .tg-title { color: var(--color-sinal); }
-  .tg-speakers { display: block; font-size: 0.7rem; color: var(--color-enc-muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tg-speakers { display: block; font-size: 0.82rem; color: var(--color-enc-muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   @media (min-width: 640px) {
     .tg-speakers { font-size: 1.25rem; }
   }
 
   /* ── sessions list ── */
-  .sl-session { display: flex; gap: 12px; padding: 10px 12px; background: var(--color-enc-card); border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
+  .sl-session { display: flex; gap: 12px; padding: 12px 14px; background: var(--color-enc-card); border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
   .sl-session.intervalo { border-left-color: #222; background: var(--color-enc-grid); }
   .sl-session.especial  { border-left-color: var(--color-sinal); background: var(--color-enc-especial); }
   .sl-time {
-    font-family: var(--font-grade); font-weight: 700; font-size: 0.78rem;
-    background: var(--dc, #CC2200); color: white; padding: 2px 6px; border-radius: 2px;
-    flex-shrink: 0; min-width: 38px; text-align: center; white-space: nowrap; margin-top: 1px;
+    font-family: var(--font-grade); font-weight: 700; font-size: 0.9rem;
+    background: var(--dc, #CC2200); color: white; padding: 2px 8px; border-radius: 2px;
+    flex-shrink: 0; min-width: 42px; text-align: center; white-space: nowrap; margin-top: 1px;
   }
   @media (min-width: 640px) {
     .sl-time { font-size: 1rem; padding: 2px 8px; min-width: 44px; }
@@ -214,40 +214,46 @@ const metadata = {
   .sl-session.intervalo .sl-time { background: #252525; color: var(--color-enc-muted); }
   .sl-session.especial  .sl-time { background: var(--color-sinal); color: #000; }
   .sl-body { flex: 1; min-width: 0; }
-  .sl-title { font-family: var(--font-grade); font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
+  .sl-title { font-family: var(--font-grade); font-weight: 700; font-size: 1.05rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
   @media (min-width: 640px) {
     .sl-title { font-size: 1.25rem; }
   }
   .sl-session.intervalo .sl-title { color: var(--color-enc-border); font-weight: 400; }
   .sl-session.especial  .sl-title { color: var(--color-sinal); }
-  .sl-local { font-size: 0.78rem; color: var(--color-enc-border); font-style: italic; margin-bottom: 4px; display: block; }
+  .sl-local { font-size: 0.88rem; color: var(--color-enc-border); font-style: italic; margin-bottom: 4px; display: block; }
   @media (min-width: 640px) {
     .sl-local { font-size: 1rem; }
   }
-  .sl-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-  .sl-chip { background: var(--color-chip-bg); border: 1px solid var(--color-chip-border); color: var(--color-chip-text); font-size: 0.72rem; padding: 2px 6px; border-radius: 10px; }
+  .sl-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .sl-chip { background: var(--color-chip-bg); border: 1px solid var(--color-chip-border); color: var(--color-chip-text); font-size: 0.85rem; padding: 3px 8px; border-radius: 10px; }
   @media (min-width: 640px) {
     .sl-chip { font-size: 1rem; padding: 2px 8px; }
   }
 
   /* ── palestrantes ── */
-  .pal-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--color-enc-grid-bg); align-items: flex-start; }
+  .pal-item { display: flex; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--color-enc-grid-bg); align-items: flex-start; }
   .pal-avatar {
-    width: 36px; height: 36px; border-radius: 50%; background: var(--color-enc-line); border: 1px solid #2a2a2a;
+    width: 44px; height: 44px; border-radius: 50%; background: var(--color-enc-line); border: 1px solid #2a2a2a;
     flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-grade); font-weight: 900; font-size: 1rem; color: var(--color-enc-border);
+    font-family: var(--font-grade); font-weight: 900; font-size: 1.1rem; color: var(--color-enc-border);
   }
-  .pal-nome { font-family: var(--font-grade); font-weight: 700; font-size: 1rem; color: #e0e0e0; display: block; line-height: 1.2; }
+  .pal-nome { font-family: var(--font-grade); font-weight: 700; font-size: 1.05rem; color: #e0e0e0; display: block; line-height: 1.2; }
   @media (min-width: 640px) {
     .pal-nome { font-size: 1.25rem; }
   }
-  .pal-org { font-size: 0.78rem; color: var(--color-enc-muted); display: block; margin-bottom: 3px; }
+  .pal-org { font-size: 0.88rem; color: var(--color-enc-muted); display: block; margin-bottom: 3px; }
   @media (min-width: 640px) {
     .pal-org { font-size: 1rem; }
   }
-  .pal-sess { font-size: 0.78rem; color: var(--color-sinal); display: block; line-height: 1.3; }
+  .pal-sess { font-size: 0.88rem; color: var(--color-sinal); display: block; line-height: 1.3; }
   @media (min-width: 640px) {
     .pal-sess { font-size: 1rem; }
+  }
+
+  /* ── media collage ── */
+  @media (min-width: 640px) {
+    .collage-grid { grid-auto-rows: 220px; }
+    .collage-grid > div { aspect-ratio: unset; }
   }
 
   /* ── period header ── */
@@ -352,21 +358,21 @@ const metadata = {
           </div>
           <div class="md:basis-3/5 min-w-0 space-y-4">
             <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
-              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-cta/10 text-cta"><Icon name="tabler:cloud-off" class="w-6 h-6" /></span>
+              <span class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-cta/10 text-cta"><Icon name="tabler:cloud-off" class="w-8 h-8" /></span>
               <div>
                 <h3 class="text-sinal text-base font-black uppercase mb-1">Seus Dados Estão Fora do País</h3>
                 <p class="text-enc-muted-alt dark:text-enc-label text-sm leading-relaxed">Fora da nossa lei. Fora do nosso controle. Empresas estrangeiras armazenam e monetizam informações de milhões de brasileiros.</p>
               </div>
             </div>
             <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
-              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-sinal/10 text-sinal"><Icon name="tabler:code" class="w-6 h-6" /></span>
+              <span class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-sinal/10 text-sinal"><Icon name="tabler:code" class="w-8 h-8" /></span>
               <div>
                 <h3 class="text-sinal text-base font-black uppercase mb-1">Seus Algoritmos São Controlados por Estrangeiros</h3>
                 <p class="text-enc-label text-sm leading-relaxed">Big Techs decidem o que você vê, o que é amplificado e o que é silenciado — sem qualquer controle democrático.</p>
               </div>
             </div>
             <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
-              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-azimute/10 text-azimute"><Icon name="tabler:eye-exclamation" class="w-6 h-6" /></span>
+              <span class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-azimute/10 text-azimute"><Icon name="tabler:eye-exclamation" class="w-8 h-8" /></span>
               <div>
                 <h3 class="text-sinal text-base font-black uppercase mb-1">Sua Informação É Manipulada Todos os Dias</h3>
                 <p class="text-enc-label text-sm leading-relaxed">Censura algorítmica, desinformação e manipulação do debate público moldam opiniões e decisões no Brasil.</p>
@@ -386,33 +392,33 @@ const metadata = {
 
     <!-- 3a. INPUTS — Quem está nessa luta -->
     <section class="bg-white dark:bg-enc py-16 md:py-20 border-y border-enc-line enc-fade">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        <div class="md:flex items-start gap-10">
-          <div class="md:basis-1/3 mb-6 md:mb-0">
-            <p class="text-cta text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">É hora de agir</p>
-            <h3 class="text-enc dark:text-white text-2xl md:text-3xl font-black uppercase leading-tight">Quem está nessa luta</h3>
-            <p class="text-enc-muted-alt text-sm mt-2">De todas as frentes, de todos os cantos do país.</p>
-          </div>
-          <div class="md:basis-2/3">
-            <div class="flex flex-wrap gap-3">
-              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon name="tabler:users" class="w-4 h-4 opacity-70" /> Movimentos Sociais
-              </span>
-              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon name="tabler:building-factory-2" class="w-4 h-4 opacity-70" /> Sindicatos e Trabalhadores
-              </span>
-              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon name="tabler:sparkles" class="w-4 h-4 opacity-70" /> Juventude
-              </span>
-              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon name="tabler:book" class="w-4 h-4 opacity-70" /> Pesquisadores e Educadores
-              </span>
-              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
-                <Icon name="tabler:code" class="w-4 h-4 opacity-70" /> Desenvolvedores e Coletivos
-              </span>
-            </div>
-          </div>
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+
+        <p class="text-cta text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">É hora de agir</p>
+        <h3 class="text-enc dark:text-white text-2xl md:text-3xl font-black uppercase leading-tight mb-10">Quem está nessa luta</h3>
+
+        <!-- Big number -->
+        <div class="mb-10">
+          <p id="inscritos-count" class="text-sinal text-7xl md:text-8xl font-black leading-none tabular-nums">—</p>
+          <p class="text-enc-muted-alt dark:text-enc-label text-sm font-bold uppercase tracking-[0.12em] mt-3">pessoas já assinaram pela soberania digital</p>
         </div>
+
+        <!-- Divisor -->
+        <div class="flex items-center gap-4 mb-10">
+          <div class="flex-1 h-px bg-enc-border dark:bg-enc-line"></div>
+          <p class="text-enc-muted-alt text-[0.6875rem] font-bold uppercase tracking-[0.12em] flex-shrink-0">com o apoio de</p>
+          <div class="flex-1 h-px bg-enc-border dark:bg-enc-line"></div>
+        </div>
+
+        <!-- Logos -->
+        <div id="quem-logos" class="flex flex-wrap gap-4 items-center justify-center">
+          {partnersGrid.apoio.map((org: any) => (
+            <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors">
+              {org.nome}
+            </span>
+          ))}
+        </div>
+
       </div>
     </section>
 
@@ -422,7 +428,7 @@ const metadata = {
 
         <div class="mb-8">
           <p class="text-sinal text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">A agenda da mudança</p>
-          <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight">Dois dias. Quatro auditórios. Mais de 130 vozes.</h2>
+          <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight">Dois dias. Quatro auditórios.</h2>
         </div>
 
         <div class="dark">
@@ -590,19 +596,19 @@ const metadata = {
          <h2 class="text-white text-3xl md:text-4xl font-black uppercase leading-tight mb-10">Não é um evento. É um plano para o Brasil.</h2>
          <div class="space-y-6 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
            <div class="md:text-center">
-             <span class="inline-flex items-center justify-center w-12 h-12 border border-white/20 mb-3"><Icon name="tabler:clipboard-list" class="w-6 h-6 text-white" /></span>
+             <span class="inline-flex items-center justify-center w-16 h-16 border border-white/20 mb-3"><Icon name="tabler:clipboard-list" class="w-8 h-8 text-white" /></span>
              <h3 class="text-white text-base font-black uppercase mb-1">Propostas Concretas</h3>
              <p class="text-white/70 text-sm leading-relaxed">Para o Brasil debater e implementar.</p>
            </div>
            <div class="md:text-center">
-             <span class="inline-flex items-center justify-center w-12 h-12 border border-white/20 mb-3"><Icon name="tabler:route-2" class="w-6 h-6 text-white" /></span>
+             <span class="inline-flex items-center justify-center w-16 h-16 border border-white/20 mb-3"><Icon name="tabler:route-2" class="w-8 h-8 text-white" /></span>
              <h3 class="text-white text-base font-black uppercase mb-1">Plano de Ação</h3>
              <p class="text-white/70 text-sm leading-relaxed">Construído coletivamente por todos os participantes.</p>
            </div>
            <div class="md:text-center">
-             <span class="inline-flex items-center justify-center w-12 h-12 border border-sinal mb-3"><Icon name="tabler:flag-check" class="w-6 h-6 text-sinal" /></span>
+             <span class="inline-flex items-center justify-center w-16 h-16 border border-sinal mb-3"><Icon name="tabler:flag-check" class="w-8 h-8 text-sinal" /></span>
              <h3 class="text-white text-base font-black uppercase mb-1">Entrega ao Governo</h3>
-             <p class="text-white/70 text-sm leading-relaxed">Propostas entregues à Presidência da República.</p>
+             <p class="text-white/70 text-sm leading-relaxed">Propostas entregues a ministra da Ciência de Tecnologia.</p>
            </div>
          </div>
        </div>
@@ -619,81 +625,65 @@ const metadata = {
           <h2 class="text-enc dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight">Unindo vozes de todo o país</h2>
         </div>
 
-        <!-- Mídia — fotos e vídeos misturados com legendas -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:col-span-2 lg:col-span-2">
-            <video
-              src={asset('/01_telegram_4875.mp4')}
-              muted loop autoplay playsinline
-              class="w-full h-full object-cover block"
-            ></video>
+        <!-- Mídia — colagem de vídeos e fotos -->
+        <div class="collage-grid grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
+
+          <!-- item 1: vídeo grande (2×2) -->
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video col-span-2 sm:col-span-2 sm:row-span-2">
+            <video src={asset('/01_telegram_4875.mp4')} muted loop autoplay playsinline class="w-full h-full object-cover block"></video>
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
               <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Movimentos, sindicatos, juventude e coletivos debatem juntos</span>
             </div>
           </div>
+
+          <!-- item 2: foto pequena (1×1) -->
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
-            <img
-              src={asset('/2026-05-08_00-51.png')}
-              alt="2º Encontro Nacional pela Soberania Digital"
-              class="w-full h-full object-cover block"
-              loading="lazy"
-            />
+            <img src={asset('/2026-05-08_00-51.png')} alt="2º Encontro Nacional pela Soberania Digital" class="w-full h-full object-cover block" loading="lazy" />
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
               <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Fortalecendo a articulação nacional pela soberania digital</span>
             </div>
           </div>
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
-            <video
-              src={asset('/02_telegram_5784.mp4')}
-              muted loop autoplay playsinline
-              class="w-full h-full object-cover block"
-            ></video>
+
+          <!-- item 3: vídeo alto (1×2) -->
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:row-span-2">
+            <video src={asset('/02_telegram_5784.mp4')} muted loop autoplay playsinline class="w-full h-full object-cover block"></video>
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
               <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Cenário da soberania digital — propostas construídas no encontro</span>
             </div>
           </div>
+
+          <!-- item 4: foto pequena (1×1) -->
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
-            <img
-              src={asset('/2026-05-08_00-52.png')}
-              alt="2º Encontro Nacional pela Soberania Digital"
-              class="w-full h-full object-cover block"
-              loading="lazy"
-            />
+            <img src={asset('/2026-05-08_00-52.png')} alt="2º Encontro Nacional pela Soberania Digital" class="w-full h-full object-cover block" loading="lazy" />
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
-              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Propostas entregues à Presidência da República</span>
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Propostas entregues à Ministra de Ciência e Tecnologia.</span>
             </div>
           </div>
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:col-span-2 lg:col-span-2">
-            <video
-              src={asset('/03_telegram_5594.mp4')}
-              muted loop autoplay playsinline
-              class="w-full h-full object-cover block"
-            ></video>
+
+          <!-- item 5: vídeo largo (2×1) -->
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video col-span-2 sm:col-span-2">
+            <video src={asset('/03_telegram_5594.mp4')} muted loop autoplay playsinline class="w-full h-full object-cover block"></video>
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
               <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Soberania digital no centro da agenda do Estado brasileiro</span>
             </div>
           </div>
+
+          <!-- item 6: foto pequena (1×1) -->
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
-            <img
-              src={asset('/2026-05-08_00-52_1.png')}
-              alt="2º Encontro Nacional pela Soberania Digital"
-              class="w-full h-full object-cover block"
-              loading="lazy"
-            />
+            <img src={asset('/2026-05-08_00-52_1.png')} alt="2º Encontro Nacional pela Soberania Digital" class="w-full h-full object-cover block" loading="lazy" />
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
               <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Políticas públicas, regulação e infraestrutura nacional</span>
             </div>
           </div>
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:col-span-2 lg:col-span-2">
-            <video
-              src={asset('/04_telegram_4571.mp4')}
-              muted loop autoplay playsinline
-              class="w-full h-full object-cover block"
-            ></video>
+
+          <!-- item 7: vídeo (1×1) -->
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+            <video src={asset('/04_telegram_4571.mp4')} muted loop autoplay playsinline class="w-full h-full object-cover block"></video>
             <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
               <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Unindo vozes de todo o país — o Brasil vai decidir</span>
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -1158,18 +1148,18 @@ const metadata = {
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <!-- LINHA 1: REALIZAÇÃO + APOIO INSTITUCIONAL -->
-        <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 mb-12 justify-center items-start">
+        <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 mb-12 justify-center items-center sm:items-start">
           <div class="text-center flex-1">
             <p class="text-cta text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
             <div class="flex justify-center gap-8 flex-wrap items-center">
               {partnersGrid.realizacao.map((org: any) => (
                 org.logo ? (
                   <a href={org.url} target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center">
+                    class="inline-flex items-center justify-center bg-white px-4 py-3 transition-opacity hover:opacity-80">
                     <img
                       src={asset(org.logo)}
                       alt={org.nome}
-                      class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                      class="h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain"
                     />
                   </a>
                 ) : (
@@ -1184,11 +1174,11 @@ const metadata = {
                {partnersGrid.patrocinio.map((org: any) => (
                  org.logo ? (
                    <a href={org.url} target="_blank" rel="noopener noreferrer"
-                     class="inline-flex items-center justify-center">
+                     class="inline-flex items-center justify-center bg-white px-4 py-3 transition-opacity hover:opacity-80">
                      <img
                        src={asset(org.logo)}
                        alt={org.nome}
-                       class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                       class="h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain"
                      />
                    </a>
                  ) : (
@@ -1206,11 +1196,11 @@ const metadata = {
             {[...partnersGrid.producao].reverse().map((org: any) => (
               org.logo ? (
                 <a href={org.url} target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center">
+                  class="inline-flex items-center justify-center bg-white px-4 py-3 transition-opacity hover:opacity-80">
                   <img
                     src={asset(org.logo)}
                     alt={org.nome}
-                    class={`h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                    class="h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain"
                   />
                 </a>
               ) : (
@@ -1220,17 +1210,6 @@ const metadata = {
           </div>
         </div>
 
-        <!-- LINHA 3: APOIO -->
-        <div class="border-t border-gray-200 dark:border-enc-line pt-10">
-          <p class="text-enc-label dark:text-enc-muted-alt text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
-          <div class="flex flex-wrap gap-2">
-            {partnersGrid.apoio.map((org: any) => (
-              <span class="border border-gray-200 dark:border-enc-border text-enc-muted dark:text-enc-label px-3 py-1.5 text-xs">
-                {org.nome}
-              </span>
-            ))}
-          </div>
-        </div>
 
       </div>
     </section>
@@ -1252,6 +1231,27 @@ fetch('/encontro/api/dados')
         timeEl.textContent = 'atualizado em ' + d.toLocaleDateString('pt-BR', {
           day: '2-digit', month: '2-digit', year: 'numeric',
           hour: '2-digit', minute: '2-digit',
+        });
+      }
+    }
+    const colaboradores = (dados.parceiros ?? []).filter((p: any) => p.partnerType === 'collaborator');
+    if (colaboradores.length) {
+      const container = document.getElementById('quem-logos');
+      if (container) {
+        container.innerHTML = '';
+        colaboradores.forEach((p: any) => {
+          const a = document.createElement('a');
+          a.href = p.link || '#';
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.className = 'inline-flex items-center justify-center bg-white px-4 py-3 opacity-90 hover:opacity-100 transition-opacity';
+          const img = document.createElement('img');
+          img.src = p.logo;
+          img.alt = p.name;
+          img.className = 'h-16 w-auto max-w-[160px] object-contain';
+          img.loading = 'lazy';
+          a.appendChild(img);
+          container.appendChild(a);
         });
       }
     }
