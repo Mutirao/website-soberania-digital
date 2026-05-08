@@ -395,11 +395,21 @@ const metadata = {
           </div>
           <div class="md:basis-2/3">
             <div class="flex flex-wrap gap-3">
-              {['Movimentos Sociais', 'Sindicatos e Trabalhadores', 'Juventude', 'Pesquisadores e Educadores', 'Desenvolvedores e Coletivos'].map((grupo) => (
-                <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors">
-                  {grupo}
-                </span>
-              ))}
+              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
+                <Icon icon="tabler:users" class="w-4 h-4 opacity-70" /> Movimentos Sociais
+              </span>
+              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
+                <Icon icon="tabler:building-factory-2" class="w-4 h-4 opacity-70" /> Sindicatos e Trabalhadores
+              </span>
+              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
+                <Icon icon="tabler:sparkles" class="w-4 h-4 opacity-70" /> Juventude
+              </span>
+              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
+                <Icon icon="tabler:book" class="w-4 h-4 opacity-70" /> Pesquisadores e Educadores
+              </span>
+              <span class="border border-enc-border text-gray-300 px-5 py-3 font-bold text-sm uppercase tracking-wide hover:border-sinal hover:text-sinal transition-colors inline-flex items-center gap-2">
+                <Icon icon="tabler:code" class="w-4 h-4 opacity-70" /> Desenvolvedores e Coletivos
+              </span>
             </div>
           </div>
         </div>
@@ -430,7 +440,7 @@ const metadata = {
             {diasData.map((dia, i) => (
               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="grade"
                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                📅 {dia.label}
+                <Icon icon="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
               </button>
             ))}
           </div>
@@ -488,7 +498,7 @@ const metadata = {
             {diasData.map((dia, i) => (
               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="sessoes"
                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                📅 {dia.label}
+                <Icon icon="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
               </button>
             ))}
           </div>
@@ -542,7 +552,7 @@ const metadata = {
             {diasData.map((dia, i) => (
               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="palestrantes"
                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                📅 {dia.label}
+                <Icon icon="tabler:calendar-event" class="w-4 h-4 inline -mt-0.5" /> {dia.label}
               </button>
             ))}
           </div>
@@ -611,14 +621,14 @@ const metadata = {
 
         <!-- Mídia — fotos e vídeos misturados com legendas -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:col-span-2 lg:col-span-2">
             <video
               src={asset('/01_telegram_4875.mp4')}
               muted loop autoplay playsinline
               class="w-full h-full object-cover block"
             ></video>
-            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Movimentos, sindicatos, juventude e coletivos debatem juntos</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Movimentos, sindicatos, juventude e coletivos debatem juntos</span>
             </div>
           </div>
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
@@ -628,8 +638,8 @@ const metadata = {
               class="w-full h-full object-cover block"
               loading="lazy"
             />
-            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Fortalecendo a articulação nacional pela soberania digital</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Fortalecendo a articulação nacional pela soberania digital</span>
             </div>
           </div>
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
@@ -638,8 +648,8 @@ const metadata = {
               muted loop autoplay playsinline
               class="w-full h-full object-cover block"
             ></video>
-            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Cenário da soberania digital — propostas construídas no encontro</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Cenário da soberania digital — propostas construídas no encontro</span>
             </div>
           </div>
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
@@ -649,18 +659,18 @@ const metadata = {
               class="w-full h-full object-cover block"
               loading="lazy"
             />
-            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Propostas entregues à Presidência da República</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Propostas entregues à Presidência da República</span>
             </div>
           </div>
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:col-span-2 lg:col-span-2">
             <video
               src={asset('/03_telegram_5594.mp4')}
               muted loop autoplay playsinline
               class="w-full h-full object-cover block"
             ></video>
-            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Soberania digital no centro da agenda do Estado brasileiro</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Soberania digital no centro da agenda do Estado brasileiro</span>
             </div>
           </div>
           <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
@@ -670,18 +680,18 @@ const metadata = {
               class="w-full h-full object-cover block"
               loading="lazy"
             />
-            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Políticas públicas, regulação e infraestrutura nacional</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Políticas públicas, regulação e infraestrutura nacional</span>
             </div>
           </div>
-          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video">
+          <div class="border border-linha-light dark:border-linha bg-card dark:bg-enc-card overflow-hidden relative aspect-video sm:col-span-2 lg:col-span-2">
             <video
               src={asset('/04_telegram_4571.mp4')}
               muted loop autoplay playsinline
               class="w-full h-full object-cover block"
             ></video>
-            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5" style="background:linear-gradient(transparent, rgba(0,0,0,0.7) 80%)">
-              <span class="text-sinal text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Unindo vozes de todo o país — o Brasil vai decidir</span>
+            <div class="absolute bottom-0 left-0 right-0 px-3 py-2" style="background:linear-gradient(transparent, rgba(0,0,0,0.85) 70%)">
+              <span class="text-white text-[0.6875rem] font-bold uppercase tracking-[0.12em]">Unindo vozes de todo o país — o Brasil vai decidir</span>
             </div>
           </div>
         </div>
