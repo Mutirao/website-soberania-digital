@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
 import evento from '~/data/evento.json';
 import programacao from '~/data/programacao-gerado.json';
 import assinaturas from '~/data/assinaturas.json';
@@ -351,21 +352,21 @@ const metadata = {
           </div>
           <div class="md:basis-3/5 min-w-0 space-y-4">
             <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
-              <p class="text-cta text-3xl font-black flex-shrink-0">🔴</p>
+              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-cta/10 text-cta"><Icon name="tabler:cloud-off" class="w-6 h-6" /></span>
               <div>
                 <h3 class="text-sinal text-base font-black uppercase mb-1">Seus Dados Estão Fora do País</h3>
                 <p class="text-enc-muted-alt dark:text-enc-label text-sm leading-relaxed">Fora da nossa lei. Fora do nosso controle. Empresas estrangeiras armazenam e monetizam informações de milhões de brasileiros.</p>
               </div>
             </div>
             <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
-              <p class="text-sinal text-3xl font-black flex-shrink-0">💠</p>
+              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-sinal/10 text-sinal"><Icon name="tabler:code" class="w-6 h-6" /></span>
               <div>
                 <h3 class="text-sinal text-base font-black uppercase mb-1">Seus Algoritmos São Controlados por Estrangeiros</h3>
                 <p class="text-enc-label text-sm leading-relaxed">Big Techs decidem o que você vê, o que é amplificado e o que é silenciado — sem qualquer controle democrático.</p>
               </div>
             </div>
             <div class="bg-card dark:bg-enc-card border border-linha-light dark:border-linha p-5 flex gap-5 items-start">
-              <p class="text-enc-label text-3xl font-black flex-shrink-0">👁️</p>
+              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-azimute/10 text-azimute"><Icon name="tabler:eye-exclamation" class="w-6 h-6" /></span>
               <div>
                 <h3 class="text-sinal text-base font-black uppercase mb-1">Sua Informação É Manipulada Todos os Dias</h3>
                 <p class="text-enc-label text-sm leading-relaxed">Censura algorítmica, desinformação e manipulação do debate público moldam opiniões e decisões no Brasil.</p>
