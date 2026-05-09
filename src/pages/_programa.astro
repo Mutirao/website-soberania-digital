@@ -1,9 +1,28 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import data from '~/data/programacao-gerado.json';
 import evento from '~/data/evento.json';
+import { fetchAndTransformConferenceData } from '~/lib/plataformas-api';
 
 const { conf } = evento;
+
+// Determine if we should fetch from Plataformas API or use local data
+// This can be controlled by environment variable or configuration
+const usePlataformasAPI = process.env.USE_PLATAFORMAS_API === 'true';
+
+// Fetch data either from API or local file
+let data;
+if (usePlataformasAPI) {
+  try {
+    // This may need to be refactored for Astro, as this fetch happens client-side
+    data = await fetchAndTransformConferenceData('SoberaniaDigital');
+  } catch (error) {
+    console.error('Failed to fetch from Plataformas API, falling back to local data:', error);
+    // Fall back to local data
+    data = await import('~/data/programacao-gerado.json');
+  }
+} else {
+  data = await import('~/data/programacao-gerado.json');
+}
 
 // ── helpers ────────────────────────────────────────────────────────────────
 const sessoes = data.sessoes as any[];

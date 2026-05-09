@@ -44,8 +44,8 @@ function minToTime(m: number): string {
 const BASE_MIN  = 8 * 60;
 const SLOT_MIN  = 15;
 const SLOT_H_PX = 36;
-const locaisOrder = ['Anfiteatro Central', 'Auditório 70 lug.', 'Auditório 50 lug.', 'Auditório 30 lug.'];
-const locaisShort = ['Anfiteatro', 'Aud. 70', 'Aud. 50', 'Aud. 30'];
+const locaisOrder = ['Anfiteatro', 'Auditório 1 (60 lugares)', 'Auditório 2 (60 lugares - sem internet)', 'Sala de Reuniões VIP'];
+const locaisShort = ['Anfiteatro', 'Aud. 1', 'Aud. 2', 'Sala VIP'];
 
 function toRow(min: number): number {
   return Math.max(2, Math.round((min - BASE_MIN) / SLOT_MIN) + 2);
@@ -194,16 +194,16 @@ const metadata = {
   .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
   .tg-title {
     display: block; font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700; font-size: 0.82rem; color: #ddd; line-height: 1.25; margin-bottom: 2px;
+    font-weight: 500; font-size: 1.2rem; color: #ddd; line-height: 1; margin-bottom: 2px;
   }
   @media (min-width: 640px) {
-    .tg-title { font-size: 1.25rem; margin-bottom: 3px; }
+    .tg-title { font-size: 1.2rem; margin-bottom: 3px; }
   }
   .tg-session.intervalo .tg-title { color: #444; font-weight: 400; }
   .tg-session.especial  .tg-title { color: #FFD400; }
-  .tg-speakers { display: block; font-size: 0.7rem; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tg-speakers { display: block; font-size: 1rem; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   @media (min-width: 640px) {
-    .tg-speakers { font-size: 1.25rem; }
+    .tg-speakers { font-size: 1rem; }
   }
 
   /* ── sessions list ── */
