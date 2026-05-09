@@ -1,290 +1,78 @@
-# Design System - Soberania Digital
+# Design System — Soberania Digital
 
-> Documentação de design para projeto Astro com Tailwind CSS utilizando o template [AstroWind](https://github.com/onwidget/astrowind)
+## Product Context
+- **What this is:** Site do 2o Encontro Nacional pela Soberania Digital — landing page com programacao, iniciativas soberanas, inscricoes e informacoes logisticas.
+- **Who it's for:** Movimentos sociais, sindicatos, coletivos de tecnologia livre, estudantes, pesquisadores, militantes de esquerda.
+- **Space/industry:** Evento politico-ativista brasileiro. Pares: Foro Social Mundial, ABONG, Intervozes.
+- **Project type:** Landing page / marketing site (single-page event site)
+- **Memorable thing:** "Poder coletivo — somos muitos, somos organizados." Cada decisao de design serve isto.
 
----
+## Aesthetic Direction
+- **Direction:** Brutalist/Raw + Editorial/Magazine
+- **Decoration level:** Minimal — tipografia e contraste fazem o trabalho. Sem gradientes, sem sombras decorativas, sem blobs.
+- **Mood:** Poster de propaganda: escuro, urgente, combativo. O usuario deve sentir que entrou num espaco de organizacao popular, nao num site de conferencia generico.
+- **Reference sites:** Cartazes do MST, jornais de movimento, design de campanha eleitoral brasileira.
 
-## Índice
+## Typography
+- **Display/Hero:** Barlow Condensed 900 — apertado, energia de manchete de jornal. Para "18 E 19 DE MAIO", titulos de secao, labels de programacao.
+- **Body:** Overpass 400/700 — sans-serif amigavel mas seria. Para descricoes longas de iniciativas, textos sobre o encontro.
+- **UI/Labels:** Barlow Condensed 700 — all-caps, letter-spaced 0.12em, tamanho pequeno (0.8125rem). Usado em "INICIATIVAS SOBERANAS", "SOBRE O ENCONTRO", "PROGRAMACAO COMPLETA".
+- **Data/Badges:** Barlow Condensed 700 + tabular-nums para horarios da programacao (14h, 19h30).
+- **Code:** N/A — site de evento, nao app tecnico.
+- **Loading:** Google Fonts via `<link>`.
+- **Scale:**
+  - H1: clamp(2rem, 5vw, 3.5rem), weight 900, uppercase
+  - H2: clamp(1.5rem, 4vw, 3rem), weight 900, uppercase
+  - H3: 1.15rem, weight 700
+  - Body: 1rem-1.1rem, weight 400, line-height 1.7
+  - Labels: 0.8125rem, weight 700, uppercase, letter-spacing 0.12em
 
-1. [Visão Geral](#visão-geral)
-2. [Paleta de Cores](#paleta-de-cores)
-3. [Tipografia](#tipografia)
-4. [Componentes](#componentes)
-5. [Layout](#layout)
-6. [Responsividade](#responsividade)
-7. [Boas Práticas](#boas-práticas)
+## Color
+- **Approach:** Restrained — sistema de 3 cores: preto, vermelho, dourado. Cada cor tem um papel claro.
+- **Background:** `#010101` (superficie principal) / `#0d0d0d` (cards/secoes) / `#0a0a0a` (secoes alternadas)
+- **Primary text:** `#E7E7D8` — off-white quente (NAO branco puro — feel de papel/poster)
+- **Muted text:** `#555` / `#666` / `#888` — hierarquia por nivel de cinza
+- **Accent 1 — Red (Action):** `#E31B23` — EXCLUSIVAMENTE para elementos interativos (botoes CTA, borders de acao, enfase critica). Hover: `#b01015`.
+- **Accent 2 — Gold (Identity):** `#FFD400` — labels, taglines, badges, assinatura visual. "Estamos aqui" energy. Texto sobre fundo escuro.
+- **Semantic:** success `#1a5c2a` (dia 2 da programacao), warning `#FFD400`, error `#E31B23`
+- **Dark mode:** Nao ha light mode. O site e exclusivamente escuro. A estetica militante e o ponto. Para acessibilidade em luz solar, manter razao de contraste > 4.5:1 em todos os textos sobre fundo escuro.
 
----
+### WCAG Contrast
+| Elemento | Razao | Conformidade |
+|----------|-------|-------------|
+| #E7E7D8 on #010101 | 14.5:1 | AAA |
+| #888 on #010101 | 4.7:1 | AA |
+| #fff on #E31B23 | 4.6:1 | AA |
+| #000 on #FFD400 | 10.2:1 | AAA |
 
-## Visão Geral
-
-```yaml
-Projeto: Soberania Digital
-Framework: Astro 5.x
-Estilização: Tailwind CSS 3.x
-Template Base: AstroWind
-Build: Static
-Dark Mode: class-based (.dark on html)
-```
-
-### Objetivos de Design
-
-- Identidade visual forte e coerente
-- Acessibilidade WCAG 2.1 AA
-- Performance otimizada (Lighthouse 90+)
-- Mobile-first responsivo
-- Dark mode nativo
-
----
-
-## Paleta de Cores
-
-### Cores Primárias
-
-```css
-/* Primárias */
---aw-color-primary: #45a2ca;    /* Cyan blue - cor principal da marca */
---aw-color-secondary: #59c3c3;  /* Teal - acento secundário */
---aw-color-accent: #77b978;       /* Green - acento terciário */
-
-/* CTA / Ação */
---c60548: #c60548;               /* Rosa-vermelho - botões de ação */
---a0043c: #a0043c;               /* Hover do CTA */
-```
-
-### Cores de Seção
-
-```css
-/* Light Mode */
---sd-section-bg: #ffffff;       /* Fundo principal */
---sd-section-alt-bg: #f7f7f7;    /* Fundo alternado */
---sd-text: #010101;              /* Texto primário */
---sd-text-2: #555555;            /* Texto secundário */
---sd-text-muted: #888888;       /* Texto terciário/muted */
---sd-card-bg: #ffffff;           /* Fundo de cards */
---sd-card-border: #e5e7eb;       /* Bordas de cards */
---sd-primary: #004a8e;          /* Botão Telegram */
---sd-primary-hover: #003d73;
-```
-
-### Dark Mode
-
-```css
-.dark {
-  --aw-color-text-heading: #ffffff;
-  --aw-color-text-default: #e0e0e0;
-  --aw-color-bg-page: #010101;
-  --sd-section-bg: #010101;
-  --sd-section-alt-bg: #010101;
-  --sd-text: #ffffff;
-  --sd-text-2: #d1d5db;
-  --sd-text-muted: #9ca3af;
-  --sd-card-bg: #111827;
-  --sd-card-border: #1f2937;
-  --sd-primary: #45a2ca;
-  --sd-primary-hover: #3a8ab0;
-}
-```
-
-### Paleta Consolidada
-
-| Nome | Hex | Uso |
-|------|-----|-----|
-| Primary Blue | `#45a2ca` | Links, destaques, ícones |
-| Deep Pink-Red | `#c60548` | CTA buttons, ênfase |
-| Dark Blue | `#004a8e` | Botão Telegram |
-| Darker Pink | `#a0043c` | CTA hover |
-| Section BG | `#ffffff` / `#010101` | Fundos de seção |
-| Section Alt | `#f7f7f7` | Fundos alternados |
-| Text Primary | `#010101` / `#ffffff` | Títulos |
-| Text Secondary | `#555555` / `#d1d5db` | Corpo de texto |
-| Text Muted | `#888888` / `#9ca3af` | Legendas, metadados |
-
-### Contraste WCAG
-
-| Elemento | Razão | Conformidade |
-|----------|-------|--------------|
-| Body text (#333 on #fff) | 9.4:1 | AAA |
-| Text on dark (#fff on #010) | 20:1 | AAA |
-| Primary buttons (#c60548 on white) | 4.6:1 | AA |
-
----
-
-## Tipografia
-
-### Fontes
-
-```css
---aw-font-sans: 'Overpass', 'Inter Variable', sans-serif;
---aw-font-serif: 'Overpass', 'Inter Variable', sans-serif;
---aw-font-heading: 'Overpass', 'Inter Variable', sans-serif;
-```
-
-**Overpass** (Google Fonts) - weights 400, 500, 700, 900
-**Fallback:** Inter Variable (from `@fontsource-variable/inter`)
-
-### Escala Tipográfica
-
-```css
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  text-wrap: balance;
-}
-```
-
-| Elemento | Tamanho | Weight | Transform |
-|----------|---------|--------|-----------|
-| H1 | 4xl-5xl | 900 | uppercase |
-| H2 | 3xl-4xl | 900 | uppercase |
-| H3 | 2xl-3xl | 900 | uppercase |
-| Body | base-lg (16-18px) | 400 | none |
-
-### Line Heights
-
-- Headings: `1.1-1.3`
-- Body text: `1.5-1.7`
-- UI labels: `1.2-1.4`
-
----
-
-## Componentes
-
-### Buttons
-
-**CTA Primário:**
-```html
-class="bg-[#c60548] hover:bg-[#a0043c] text-white font-bold py-4 px-8 text-lg transition-colors shadow-lg"
-```
-
-**CTA Secundário:**
-```html
-class="bg-white hover:bg-gray-200 text-[#010101] font-bold py-4 px-10 text-xl transition-colors shadow-lg"
-```
-
-**Botão Telegram:**
-```html
-class="flex items-center gap-4 p-5 bg-[var(--sd-primary)] hover:bg-[var(--sd-primary-hover)] transition-colors group"
-```
-
-### Cards
-
-```html
-class="bg-[var(--sd-card-bg)] border border-[var(--sd-card-border)] p-6"
-```
-
-### Icon System
-
-Tamanhos (inline SVG com `currentColor`):
-
-| Tamanho | Valor | Uso |
-|---------|-------|-----|
-| xs | 12px | Indicadores |
-| sm | 16px | Labels |
-| md | 20px | Default |
-| lg | 24px | Ícones de features |
-| xl | 32px | Ícones de seção |
-| 2xl | 40px | Destaques |
-
----
+## Spacing
+- **Base unit:** 4px
+- **Density:** Compact-to-comfortable — muita informacao visivel reforca "somos muitos".
+- **Scale:** xs(4px) sm(8px) md(16px) lg(24px) xl(32px) 2xl(48px) 3xl(64px)
+- **Section padding:** py-16 (mobile) / py-24 (desktop)
+- **Container:** max-w-6xl (1152px), px-4 sm:px-6
 
 ## Layout
+- **Approach:** Hybrid — grid-disciplined para dados (programacao, iniciativas), creative-editorial para momentos emocionais (hero, about quote, CTA).
+- **Grid:** 3 colunas para iniciativas, 2 colunas para about, grid CSS para programacao horario x auditório.
+- **Max content width:** 6xl (1152px) para secoes, 7xl para programacao grid.
+- **Border radius:** sm(2px) badges, md(4px) swatches, lg(8px) cards, full(9999px) chips/tags.
 
-### Estrutura de Seção
+## Motion
+- **Approach:** Minimal-functional — apenas transicoes que ajudam compreensao.
+- **Easing:** N/A — sem animacoes complexas.
+- **Duration:** Instant para hovers (0.15s transition-colors), fadeIn via intersect-once para scroll reveal.
+- **Nao adicionar mais animacoes.** O site deve parecer decisivo e instantaneo.
 
-```html
-<section class="py-16 bg-[var(--sd-section-bg)]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
-    <!-- content -->
-  </div>
-</section>
-```
+## Visual Signature
+- **Border-left accent:** `border-left: 4px solid #FFD400` em CTAs, blockquotes, cards de sessao. Assinatura visual do site — marca de marca-texto em pagina impressa.
+- **Gradient divider:** `linear-gradient(to right, #E31B23 60%, #FFD400 60%)` entre secoes. Uma faixa de 4px que separa momentos do site.
+- **3-color rule:** Preto, vermelho, dourado. Toda cor adicional dilui o impacto.
 
-### Max Widths
-
-| Container | Max Width | Uso |
-|-----------|-----------|-----|
-| Content | 65ch | Blocos de texto |
-| Cards | 6xl (72rem) | Seções de features |
-| Wide | 7xl (80rem) | Hero, seções principais |
-| Full | None | Video embeds, imagens |
-
-### Breakpoints
-
-- Mobile: default (0-639px)
-- sm: 640px
-- md: 768px
-- lg: 1024px
-- xl: 1280px
-
----
-
-## Responsividade
-
-### Padrões
-
-```html
-<!-- Grid responsivo -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-
-<!-- Tipografia fluida -->
-<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-
-<!-- Espaçamento adaptativo -->
-<section class="py-8 px-4 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
-```
-
-### Touch Targets
-
-Mínimo de 44x44px para acessibilidade mobile.
-
----
-
-## Boas Práticas
-
-### Seleção de Cor
-
-```css
-::selection {
-  background-color: #45a2ca / 40%;
-}
-```
-
-### Scroll Suave
-
-```css
-html {
-  scroll-behavior: smooth;
-}
-```
-
-### Animation
-
-```css
-animation: fadeInUp 1s both;
-
-@keyframes fadeInUp {
-  0% { opacity: 0, transform: 'translateY(2rem)'; }
-  100% { opacity: 1, transform: 'translateY(0)'; }
-}
-```
-
-### Checklist de Lançamento
-
-- [x] Paleta de cores aplicada consistentemente
-- [x] Tipografia configurada com fallbacks
-- [x] Dark mode funcional
-- [x] Responsividade testada
-- [ ] Acessibilidade: navegação por teclado
-- [ ] SEO: meta tags
-
----
-
-## Recursos
-
-- [Tailwind CSS](https://tailwindcss.com/docs)
-- [Overpass Font](https://overpassfont.org/)
-- [Fontsource Inter](https://fontsource.org/)
-- [WCAG Contrast Checker](https://webaim.org/resources/contrastchecker/)
-- [AstroWind Template](https://github.com/onwidget/astrowind)
+## Decisions Log
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-05-09 | Design system atualizado via /design-consultation | Reescreveu DESIGN.md que documentava AstroWind default para refletir a identidade real do site: brutalist/raw, 3 cores, dark-only |
+| 2026-05-09 | No light mode | Estetica militante e o ponto. Light mode diluiria "poder coletivo" em "brochure de conferencia" |
+| 2026-05-09 | Red = interactive only | Restringir vermelho a elementos clicaveis cria gramatica visual clara. Gold = ler, red = agir |
+| 2026-05-09 | Border-left-4 as universal accent | Extender border-left dos CTAs para blockquotes, cards, secoes. Assinatura visual reconhecivel |
