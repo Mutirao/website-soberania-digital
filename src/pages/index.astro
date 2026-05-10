@@ -31,6 +31,23 @@ function isConfirmed(status: string) {
   return (status ?? '').toUpperCase().includes('CONFIRMAD');
 }
 
+function mesaLabel(s: any): string {
+  if (s.tipo === 'Intervalo') return 'Intervalo';
+  if (s.tipo === 'Especial') return 'Especial';
+  if (s.tipo === 'Palestra') return 'Palestra';
+  if (s.tipo === 'Roda de conversa') return 'Roda de Conversa';
+  if (s.mesa) {
+    if (String(s.mesa).toLowerCase() === 'abertura') return 'Mesa de Abertura';
+    if (String(s.mesa).toLowerCase().startsWith('rc')) return 'Roda de Conversa';
+    return `Mesa ${s.mesa}`;
+  }
+  return s.tipo || 'Atividade';
+}
+
+function cleanTitle(t: string): string {
+  return t.replace(/^Mesa\s+\d+\s*[-–—:]\s*/, '');
+}
+
 function parseMin(t: string): number | null {
   if (!t || t.toLowerCase().includes('tarde') || t === '?') return null;
   const [h, m] = t.trim().split(':').map(n => parseInt(n));
@@ -194,6 +211,26 @@ const metadata = {
   }
   .tg-session.intervalo .tg-time-badge { background: #252525; color: #555; }
   .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
+
+  .tg-mesa-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 1px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-left: 3px;
+    border: 1px solid #2a2a2a;
+  }
+  @media (min-width: 640px) {
+    .tg-mesa-tag { font-size: 0.85rem; padding: 1px 5px; margin-left: 4px; }
+  }
+  .tg-session.intervalo .tg-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
+  .tg-session.especial  .tg-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+
   .tg-title {
     display: block; font-family: 'Barlow Condensed', sans-serif;
     font-weight: 500; font-size: 1.2rem; color: #ddd; line-height: 1; margin-bottom: 2px;
@@ -222,6 +259,26 @@ const metadata = {
   }
   .sl-session.intervalo .sl-time { background: #252525; color: #555; }
   .sl-session.especial  .sl-time { background: #FFD400; color: #000; }
+
+  .sl-mesa-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 2px 6px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-top: 1px;
+    border: 1px solid #2a2a2a;
+  }
+  @media (min-width: 640px) {
+    .sl-mesa-tag { font-size: 0.85rem; padding: 2px 8px; }
+  }
+  .sl-session.intervalo .sl-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
+  .sl-session.especial  .sl-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+
   .sl-body { flex: 1; min-width: 0; }
   .sl-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
   @media (min-width: 640px) {
@@ -420,11 +477,14 @@ const metadata = {
                        const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
                        const isIntervalo = s.tipo === 'Intervalo';
                        const isEspecial  = s.tipo === 'Especial';
-                       return (
-                         <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
-                           style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={s.titulo}>
-                           <span class="tg-time-badge">{minToTime(s._startMin)}</span>
-                           <span class="tg-title">{s.titulo}</span>
+                        return (
+                          <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
+                            style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={cleanTitle(s.titulo)}>
+                            <div>
+                              <span class="tg-time-badge">{minToTime(s._startMin)}</span>
+                              <span class="tg-mesa-tag">{mesaLabel(s)}</span>
+                            </div>
+                            <span class="tg-title">{cleanTitle(s.titulo)}</span>
                            {confirmed.length > 0 && !isIntervalo && (
                              <span class="tg-speakers">{confirmed.map((p: any) => p.nome).join(' · ')}</span>
                            )}
@@ -469,11 +529,14 @@ const metadata = {
                        const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
                        const isIntervalo = s.tipo === 'Intervalo';
                        const isEspecial  = s.tipo === 'Especial';
-                       return (
-                         <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
-                           <span class="sl-time">{minToTime(s._startMin as number)}</span>
-                           <div class="sl-body">
-                             <span class="sl-title">{s.titulo}</span>
+                        return (
+                          <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
+                            <div class="flex flex-col gap-1">
+                              <span class="sl-time">{minToTime(s._startMin as number)}</span>
+                              <span class="sl-mesa-tag">{mesaLabel(s)}</span>
+                            </div>
+                            <div class="sl-body">
+                             <span class="sl-title">{cleanTitle(s.titulo)}</span>
                              {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
                              {confirmed.length > 0 && !isIntervalo && (
                                <div class="sl-chips">

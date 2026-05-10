@@ -11,9 +11,9 @@ const dadosProgramacao = {
   programacao: [
     // Dia 1 - 18 de maio
     ['18/05 Seg', 'Anfiteatro', '8:00', '', 'Abertura', '', 'Chegada e boas vindas Credenciamento e café', '', ''],
-    ['18/05 Seg', 'Anfiteatro', '9:00', '9:30', 'Mesa', 'Abertura', 'Mesa de Abertura Organização etc (30 min)', 'Flynn', 'Eduardo me informou hoje que talvez não consiga estar presente. Estou vendo com ele outro bancário (MHonda)'],
+    ['18/05 Seg', 'Anfiteatro', '9:00', '9:30', 'Mesa', 'Abertura', 'Mesa de Abertura', 'Flynn', 'Eduardo me informou hoje que talvez não consiga estar presente. Estou vendo com ele outro bancário (MHonda)'],
     ['18/05 Seg', 'Anfiteatro', '9:30', '10:30', 'Mesa', '1', 'Mesa 1– Cenário atual da Soberania Digital no Brasil', 'Flynn', ''],
-    ['18/05 Seg', 'Anfiteatro', '10:30', '11:00', 'Palestra', '', 'Caminhos da soberania Digital no Brasil -Zé Dirceu - Ex Ministro da Casa Civil do Brasil - CONFIRMADO', '', 'Coffe break rolando sigilosamente'],
+    ['18/05 Seg', 'Anfiteatro', '10:30', '11:00', 'Palestra', '', 'Caminhos da soberania Digital no Brasil - Zé Dirceu - Ex Ministro da Casa Civil do Brasil', 'Zé Dirceu - Ex Ministro da Casa Civil do Brasil', 'CONFIRMADO. Coffe break rolando sigilosamente'],
     ['18/05 Seg', 'Anfiteatro', '11:05', '12:30', 'Mesa', '2', 'Mesa 2: Movimentos sociais em luta pela soberania digital', 'Nati B', '10 min de intervenção para cada movimento + 40 min de debate'],
     ['18/05 Seg', 'Anfiteatro', '12:30', '14:00', 'Intervalo', '', 'ALMOÇO', '', ''],
     ['18/05 Seg', 'Anfiteatro', '14:00', '15:25', 'Mesa', '3', 'Mesa 3: Soberania digital desde o sul: condição para o desenvolvimento econômico, político e social.', 'Tica Moreno', ''],
