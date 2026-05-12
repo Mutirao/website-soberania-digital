@@ -18,7 +18,7 @@ const dadosProgramacao = {
     ['18/05 Seg', 'Anfiteatro', '12:30', '14:00', 'Intervalo', '', 'ALMOÇO', '', ''],
     ['18/05 Seg', 'Anfiteatro', '14:00', '15:25', 'Mesa', '3', 'Mesa 3: Soberania digital desde o sul: condição para o desenvolvimento econômico, político e social.', 'Tica Moreno', ''],
     ['18/05 Seg', 'Anfiteatro', '15:30', '16:30', 'Mesa', '4', 'Mesa 4 - Regulação da Internet no Brasil e soberania digital: de Redes Sociais, algorítimos, econômica', 'Paulo Rená/Ale Arns', ''],
-    ['18/05 Seg', 'Anfiteatro', '16:30', '17:30', 'Mesa', '5', 'Mesa 5: Infraestrutura, chips, e "nuvem" soberanos e livres', 'Lari G', '1) Datacenters soberanos com software livre - C3SL Marco Sunye - CONFIRMADO\n2) Indústria de Hardware brasileiro diante das Big Techs - Manoel Fonseca Neto - CEO da OMTX – CONFIRMADO\n3) Olival Freire, presidente do CNPq – a confirmar\n4) Fábrica de chips brasileira - Laisa Caroline Costa De Biase – LSI – USP - CAIU\n5) Solução de "nuvem" soberana – DARRABI não pode, desconfirmou, Convidado Valdir Paixao - CAIU'],
+    ['18/05 Seg', 'Anfiteatro', '16:30', '17:30', 'Mesa', '5', 'Mesa 5: Infraestrutura e hardware soberanos e livres', 'Lari G', '1) Datacenters soberanos com software livre - C3SL Marco Sunye - CONFIRMADO\n2) Indústria de Hardware brasileiro diante das Big Techs - Manoel Fonseca Neto - CEO da OMTX – CONFIRMADO\n3) Olival Freire, presidente do CNPq – a confirmar'],
     ['18/05 Seg', 'Anfiteatro', '17:30', '17:50', 'Intervalo', '', 'Coffee break – 20 mn MÚSICA', '', ''],
     ['18/05 Seg', 'Anfiteatro', '17:50', '20:15', 'Mesa', '6', 'Mesa 6: Propostas Emergenciais para a Soberania Digital do Brasil -Quais os passos para a construção de nossa Soberania Digital?', 'Flynn', ''],
     ['18/05 Seg', 'Anfiteatro', '20:15', '', 'Especial', '', 'Proposta de Encontro com o Presidente da República do Brasil', '', 'A CONFIRMAR'],
@@ -34,7 +34,7 @@ const dadosProgramacao = {
     ['19/05 Ter', 'Anfiteatro', '16:00', '16:20', 'Intervalo', '', 'Coffee break', '', ''],
     ['19/05 Ter', 'Anfiteatro', '16:20', '17:30', 'Mesa', '11', 'Mesa 11 - Web Social Aberta - Redes Sociais Livres e Federadas como alternativas às plataformas das Big Techs.', 'Wladimir - Alquimídia', ''],
     ['19/05 Ter', 'Anfiteatro', '17:30', '19:00', 'Mesa', '12', 'Mesa 12 - Sindical - Construção de alinhamento da classe trabalhadora', '', ''],
-    ['19/05 Ter', 'Anfiteatro', '19:00', '20:00', 'Especial', '', 'Frente Parlamental e Plano Nacional de Soberania Digital', '', 'A CONFIRMAR'],
+    ['19/05 Ter', 'Anfiteatro', '19:00', '20:00', 'Especial', '', 'Proposta de processo de um Plano Nacional de Soberania Digital para a sociedade civil', '', 'A CONFIRMAR'],
 
     // Dia 2 - 19 de maio - Auditório 1 (60 lugares)
     ['19/05 Ter', 'Auditório 1 (60 lugares)', '8:30', '', 'Abertura', '', 'Chegada e boas vindas', '', ''],
@@ -58,17 +58,16 @@ const dadosProgramacao = {
     ['19/05 Ter', 'Auditório 2 (60 lugares - sem internet)', '16:30', '17:30', 'Mesa', '17', 'MESA 17 - Lançamento livro Teia -Henrique Interlig', 'Henrique Interlig', 'Convidado: Sérgio Amadeu'],
     
     // Sala de Reuniões VIP
-    ['19/05 Ter', 'Sala de Reuniões VIP', '8:00', '10:00', 'Especial', '', 'Reservado para RESF e outras iniciativas, discussão de uma nova IA', '', 'NÃO COLOCAR NA PROGRAMAÇÃO OFICIAL'],
     ['19/05 Ter', 'Sala de Reuniões VIP', '10:30', '12:00', 'Roda de Conversa', 'RC5', 'Roda de Conversa 3: Por que a soberania digital precisa da economia solidária e feminista e do software livre?', 'Nati e Everton', '']
   ],
   
   palestrantes: [
     // Mesa de Abertura
-    ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Presidente dos Bancários DF', 'Bancários DF', 'Palestrante', 'A CONFIRMAR', 'Eduardo Araújo - Talvez não consiga estar presente'],
+    ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Representante do Sindicato dos Bancários DF', 'Sindicato dos Bancários DF', 'Palestrante', 'CONFIRMADO', ''],
+    ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Bia Barbosa', 'Comitê Gestor da Internet no Brasil - CGI.br', 'Palestrante', 'CONFIRMADO', ''],
+    ['18/05 Seg', 'Anfiteatro', 'Abertura', 'João Cassino', 'UFABC', 'Palestrante', 'CONFIRMADO', ''],
     ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Marcia Honda', 'Fenadados', 'Palestrante', 'CONFIRMADO', ''],
-    ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Alexandre Arns González', 'Campanha Internet Legal', 'Palestrante', 'A CONFIRMAR', ''],
     ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Beá', 'Rede pela Soberania', 'Palestrante', 'CONFIRMADO', ''],
-    ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Renata Miele ou Bia Barbosa', 'CGI', 'Palestrante', 'A CONFIRMAR', 'Duas opções de nome'],
     ['18/05 Seg', 'Anfiteatro', 'Abertura', 'Flynn', 'Organização', 'Responsável', '—', ''],
 
     // Mesa 1 - Cenário atual da Soberania Digital no Brasil
@@ -87,7 +86,6 @@ const dadosProgramacao = {
     // Mesa 3 - Soberania digital desde o sul
     ['18/05 Seg', 'Anfiteatro', '3', 'Fiorella Haim', 'Consejo de Dirección de Ceibal – Uruguay', 'Palestrante', 'CONFIRMADA', ''],
     ['18/05 Seg', 'Anfiteatro', '3', 'Jeff Xiong', 'East China Normal University, Institute of International Communication Shanghai, China', 'Palestrante', 'CONFIRMADO', ''],
-    ['18/05 Seg', 'Anfiteatro', '3', 'Isadora Rocha', 'Fórum Tecnológico dos BRICS', 'Palestrante', 'CONFIRMADA', ''],
     ['18/05 Seg', 'Anfiteatro', '3', 'Tica Moreno', '—', 'Responsável', 'A CONFIRMAR', ''],
 
     // Mesa 4 - Regulação da Internet no Brasil
@@ -95,7 +93,7 @@ const dadosProgramacao = {
     ['18/05 Seg', 'Anfiteatro', '4', 'André Boselli', 'Artigo 19', 'Palestrante', 'CONFIRMADO', ''],
     ['18/05 Seg', 'Anfiteatro', '4', 'Paulo Rená', 'IRIS', 'Palestrante', 'CONFIRMADO', ''],
     
-    // Mesa 5 - Infraestrutura, chips, e "nuvem" soberanos
+    // Mesa 5 - Infraestrutura e hardware soberanos e livres
     ['18/05 Seg', 'Anfiteatro', '5', 'Marco Sunye', 'C3SL', 'Palestrante', 'CONFIRMADO', 'Datacenters soberanos com software livre'],
     ['18/05 Seg', 'Anfiteatro', '5', 'Manoel Fonseca Neto', 'CEO da OMTX', 'Palestrante', 'CONFIRMADO', 'Indústria de Hardware brasileiro diante das Big Techs'],
     ['18/05 Seg', 'Anfiteatro', '5', 'Olival Freire', 'CNPq', 'Palestrante', 'A CONFIRMAR', 'Presidente do CNPq'],
@@ -138,8 +136,8 @@ const dadosProgramacao = {
     ['19/05 Ter', 'Anfiteatro', '10', 'Rosemary Segurado', 'Coletivo Digital', 'Palestrante', 'CONFIRMADO', ''],
     ['19/05 Ter', 'Anfiteatro', '10', 'Vince Tozzi', 'Rede Mocambos- Baobáxia, TV Tainã', 'Palestrante', 'CONFIRMADO', ''],
     ['19/05 Ter', 'Anfiteatro', '10', 'Jader Gama', 'Plantaformas', 'Palestrante', 'CONFIRMADO', ''],
-    ['19/05 Ter', 'Anfiteatro', '10', 'Lívia Ascava', 'HackLab', 'Palestrante', 'CONFIRMADA?', ''],
-    ['19/05 Ter', 'Anfiteatro', '10', 'Maraiza', 'MariaLab', 'Palestrante', 'A CONFIRMAR', ''],
+    ['19/05 Ter', 'Anfiteatro', '10', 'Lívia Ascava', 'HackLab', 'Palestrante', 'CONFIRMADA', ''],
+    ['19/05 Ter', 'Anfiteatro', '10', 'Maraiza Adami', 'MariaLab', 'Palestrante', 'CONFIRMADA', ''],
     ['19/05 Ter', 'Anfiteatro', '10', 'Éverton Ribeiro', 'Economia solidária digital (RESF)', 'Palestrante', 'CONFIRMADO', ''],
     ['19/05 Ter', 'Anfiteatro', '10', 'Alexandre Zago Boava', 'MTST', 'Palestrante', 'CONFIRMADO', ''],
     
@@ -185,8 +183,8 @@ const dadosProgramacao = {
     ['19/05 Ter', 'Auditório 1 (60 lugares)', '15', 'Oráculo ICL', '—', 'Palestrante', '???', ''],
     ['19/05 Ter', 'Auditório 1 (60 lugares)', '15', 'Márcia Honda', '—', 'Responsável', 'CONFIRMADO', ''],
     
-    // Mesa 16 - Lançamento do Índice de Soberania Digital (DSI) do BRICS
-    ['19/05 Ter', 'Auditório 1 (60 lugares)', '16', 'Isa Rocha', 'Fórum Tecnológico dos BRICS', 'Responsável', 'CONFIRMADO', 'Desenvolvido pelo BRICS Tech Forum em parceria com a UnB, a USP e a FGV'],
+    // Mesa 16 - Lançamento do Índice de Soberania Digital do BRICS+ Tech Forum e GEPSI IREL UnB
+    ['19/05 Ter', 'Auditório 1 (60 lugares)', '16', 'Isabela Rocha', 'Fórum para Tecnologia Estratégica dos BRICS+', 'Responsável', 'CONFIRMADO', 'Desenvolvido pelo BRICS+ Tech Forum em parceria com a UnB, a USP e a FGV'],
     
     // Mesa 19 - Lançamento documentário
     ['19/05 Ter', 'Auditório 1 (60 lugares)', '19', 'Alexandre Arns Gonzales', '—', 'Responsável', 'CONFIRMADO', ''],
