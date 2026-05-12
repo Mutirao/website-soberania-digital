@@ -4,21 +4,21 @@ export const headerData = {
       text: 'Programação',
       href: '#programacao',
     },
-    {
-      text: 'Inscrições',
-      href: '#inscricao',
-    },
+    // {
+    //   text: 'Inscrições',
+    //   href: '#inscricao',
+    // },
     {
       text: 'Local',
       href: '#local',
     },
   ],
-  // actions: [
-  //   {
-  //     text: 'Inscreva-se',
-  //     href: 'https://plantaformas.org/conferences/SoberaniaDigital/f/529/',
-  //   },
-  // ],
+  actions: [
+    {
+      text: 'Inscrições',
+      href: 'https://plantaformas.org/conferences/SoberaniaDigital/f/529/',
+    },
+  ],
 };
 
 export const footerData = {
