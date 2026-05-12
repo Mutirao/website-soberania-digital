@@ -1,9 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
-import programacao from '~/data/programacao-gerado.json';
+import programacao from '~/data/programacao.json';
 import assinaturas from '~/data/assinaturas.json';
 import parceirosData from '~/data/parceiros.json';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
 
 const { conf, about, location, hotels, community, partnersGrid } = evento;
 const parceiros = parceirosData.organizadores;
@@ -12,21 +14,25 @@ const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
 
 // ── schedule helpers ────────────────────────────────────────────────────────
-const diasMap: Record<string, string> = {
-  '18/05 Seg': 'dia1',
-  '19/05 Ter': 'dia2',
-};
-
-function formatTime(t: string) {
-  if (!t) return '';
-  const [h, m] = t.split(':');
-  const hi = parseInt(h);
-  if (isNaN(hi)) return t;
-  return m && m !== '00' ? `${hi}h${m}` : `${hi}h`;
+function mesaLabel(s: any): string {
+  if (s.tipo === 'Intervalo') return 'Intervalo';
+  if (s.tipo === 'Conferência') return 'Conferência';
+  if (s.tipo === 'Plenária') return 'Plenária';
+  if (s.tipo === 'Roda de Conversa') return 'Roda de Conversa';
+  if (s.tipo === 'Lançamento') return 'Lançamento';
+  if (s.tipo === 'Reunião') return 'Reunião';
+  if (s.tipo === 'Podcast') return 'Podcast';
+  if (s.tipo === 'Abertura') return 'Abertura';
+  if (s.tipo === 'Mesa') {
+    const m = s.titulo.match(/^Mesa\s+de\s+Abertura/i);
+    if (m) return 'Mesa de Abertura';
+    return 'Mesa';
+  }
+  return s.tipo || 'Atividade';
 }
 
-function isConfirmed(status: string) {
-  return (status ?? '').toUpperCase().includes('CONFIRMAD');
+function cleanTitle(t: string): string {
+  return t.replace(/^(Mesa\s+\d+|Conferência|Plenária|Lançamento|Roda de Conversa|Reunião)\s*[-–—:]\s*/, '');
 }
 
 function parseMin(t: string): number | null {
@@ -44,7 +50,7 @@ function minToTime(m: number): string {
 const BASE_MIN  = 8 * 60;
 const SLOT_MIN  = 15;
 const SLOT_H_PX = 36;
-const locaisOrder = ['Anfiteatro', 'Auditório 1 (60 lugares)', 'Auditório 2 (60 lugares - sem internet)', 'Sala de Reuniões VIP'];
+const locaisOrder = ['Anfiteatro', 'Auditório 1', 'Auditório 2', 'Sala VIP'];
 const locaisShort = ['Anfiteatro', 'Aud. 1', 'Aud. 2', 'Sala VIP'];
 
 function toRow(min: number): number {
@@ -52,8 +58,8 @@ function toRow(min: number): number {
 }
 
 const diasConf = [
-  { key: 'dia1', diaVal: '18/05 Seg', label: '18 de Maio', color: '#CC2200', endMin: 20 * 60 + 30 },
-  { key: 'dia2', diaVal: '19/05 Ter', label: '19 de Maio', color: '#1a5c2a', endMin: 20 * 60 },
+  { key: 'dia1', diaVal: '18/05', label: '18 de Maio', color: '#CC2200', endMin: 20 * 60 + 30 },
+  { key: 'dia2', diaVal: '19/05', label: '19 de Maio', color: '#1a5c2a', endMin: 20 * 60 + 30 },
 ];
 
 const sessoes = programacao.sessoes as any[];
@@ -86,9 +92,9 @@ const diasData = diasConf.map(dConf => {
   const palMap: Record<string, { nome: string; org: string; sessoes: string[] }> = {};
   for (const s of ss) {
     for (const p of (s.palestrantes || [])) {
-      if (!isConfirmed(p.status)) continue;
       const key = p.nome.trim();
-      if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.organizacao || '', sessoes: [] };
+      if (!key) continue;
+      if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.org || '', sessoes: [] };
       if (!palMap[key].sessoes.includes(s.titulo)) palMap[key].sessoes.push(s.titulo);
     }
   }
@@ -192,6 +198,26 @@ const metadata = {
   }
   .tg-session.intervalo .tg-time-badge { background: #252525; color: #555; }
   .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
+
+  .tg-mesa-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 1px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-left: 3px;
+    border: 1px solid #2a2a2a;
+  }
+  @media (min-width: 640px) {
+    .tg-mesa-tag { font-size: 0.85rem; padding: 1px 5px; margin-left: 4px; }
+  }
+  .tg-session.intervalo .tg-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
+  .tg-session.especial  .tg-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+
   .tg-title {
     display: block; font-family: 'Barlow Condensed', sans-serif;
     font-weight: 500; font-size: 1.2rem; color: #ddd; line-height: 1; margin-bottom: 2px;
@@ -220,6 +246,26 @@ const metadata = {
   }
   .sl-session.intervalo .sl-time { background: #252525; color: #555; }
   .sl-session.especial  .sl-time { background: #FFD400; color: #000; }
+
+  .sl-mesa-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 2px 6px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-top: 1px;
+    border: 1px solid #2a2a2a;
+  }
+  @media (min-width: 640px) {
+    .sl-mesa-tag { font-size: 0.85rem; padding: 2px 8px; }
+  }
+  .sl-session.intervalo .sl-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
+  .sl-session.especial  .sl-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+
   .sl-body { flex: 1; min-width: 0; }
   .sl-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
   @media (min-width: 640px) {
@@ -338,7 +384,7 @@ const metadata = {
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="md:flex items-start gap-12 lg:gap-20">
           <div class="md:basis-2/5 mb-8 md:mb-0 md:sticky md:top-20">
-            <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Sobre o Encontro</p>
+            <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Sobre o Encontro</p>
             <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-6">Uma luta<br/>do povo</h2>
             <div class="flex flex-wrap gap-3">
               <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
@@ -354,7 +400,7 @@ const metadata = {
           <div class="md:basis-3/5 min-w-0">
             <p class="text-[#292929] dark:text-[#d1d5db] text-lg leading-relaxed mb-6">{conf.description}</p>
             <p class="text-[#292929] dark:text-[#d1d5db] text-base leading-relaxed mb-8">{about.text}</p>
-            <blockquote class="border-l-4 border-[#E31B23] pl-6">
+            <blockquote class="border-l-4 border-[#FFD400] pl-6">
               <p class="text-[#010101] dark:text-white text-2xl md:text-4xl font-black uppercase leading-tight font-semibold italic">"{about.quote}"</p>
             </blockquote>
 
@@ -364,169 +410,247 @@ const metadata = {
     </section>
 
 <!-- 3. PROGRAMAÇÃO — 3 VIEWS -->
-    <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+     <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
+       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-        <div class="mb-8">
-          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">Programação Completa</p>
-          <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">O que acontece</h2>
-        </div>
+         <div class="mb-8">
+           <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">Programação Completa</p>
+           <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">O que acontece</h2>
+         </div>
 
-        <!-- View tabs -->
-        <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Modo de visualização">
-          <button class="view-tab active" data-view="grade" role="tab" aria-selected="true">⊞ Grade</button>
-          <button class="view-tab" data-view="sessoes" role="tab" aria-selected="false">☰ Sessões</button>
-          <button class="view-tab" data-view="palestrantes" role="tab" aria-selected="false">◉ Palestrantes</button>
-        </div>
+         <!-- View tabs -->
+         <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Modo de visualização">
+           <button class="view-tab active" data-view="grade" role="tab" aria-selected="true">⊞ Grade</button>
+           <button class="view-tab" data-view="sessoes" role="tab" aria-selected="false">☰ Sessões</button>
+           <button class="view-tab" data-view="palestrantes" role="tab" aria-selected="false">◉ Palestrantes</button>
+         </div>
 
-        <!-- VIEW: GRADE -->
-        <div class="view-panel active" id="view-grade">
-          <div class="flex mb-0" role="tablist">
-            {diasData.map((dia, i) => (
-              <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="grade"
-                style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                📅 {dia.label}
-              </button>
-            ))}
+         <!-- VIEW: GRADE -->
+         <div class="view-panel active" id="view-grade">
+           <div class="flex mb-0" role="tablist">
+             {diasData.map((dia, i) => (
+               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="grade"
+                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
+                 📅 {dia.label}
+               </button>
+             ))}
+           </div>
+           {diasData.map((dia, di) => {
+             const nCols = dia.locaisPresentes.length;
+             const gridCols = `56px repeat(${nCols}, minmax(160px, 1fr))`;
+             const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
+             return (
+               <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`grade-${dia.key}`}>
+                 <div class="time-grid-wrapper">
+                   <div class="time-grid" style={`grid-template-columns:${gridCols};grid-template-rows:${gridRows};`}>
+                     <div class="tg-corner" style="grid-row:1;grid-column:1;"></div>
+                     {dia.locaisPresentes.map((local, li) => (
+                       <div class="tg-room-hdr" style={`grid-row:1;grid-column:${li+2};border-top:3px solid ${dia.color};`}>
+                         {locaisShort[locaisOrder.indexOf(local)]}
+                       </div>
+                     ))}
+                     {dia.timeAxis.map(t => (
+                       <>
+                         <div class={`tg-time ${t.isHour ? 'is-hour' : 'is-half'}`} style={`grid-row:${t.row};grid-column:1;align-self:start;`}>
+                           {t.isHour ? t.label : ''}
+                         </div>
+                         <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`}></div>
+                       </>
+                     ))}
+                      {dia.processed.map((s: any) => {
+                        if (s._startRow < 2) return null;
+                        const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
+                        if (colIdx < 2) return null;
+                        const speakers = (s.palestrantes || []);
+                        const isIntervalo = s.tipo === 'Intervalo';
+                        const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+                        return (
+                          <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
+                            style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={cleanTitle(s.titulo)}>
+                            <div>
+                              <span class="tg-time-badge">{minToTime(s._startMin)}</span>
+                              <span class="tg-mesa-tag">{mesaLabel(s)}</span>
+                            </div>
+                            <span class="tg-title">{cleanTitle(s.titulo)}</span>
+                            {speakers.length > 0 && !isIntervalo && (
+                              <span class="tg-speakers">{speakers.map((p: any) => p.nome).join(' · ')}</span>
+                           )}
+                         </div>
+                       );
+                     })}
+                   </div>
+                 </div>
+                 {nCols > 1 && <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-2 text-right">← deslize para ver todos os auditórios →</p>}
+               </div>
+             );
+           })}
+         </div>
+
+         <!-- VIEW: SESSÕES -->
+         <div class="view-panel" id="view-sessoes">
+           <div class="flex mb-4" role="tablist">
+             {diasData.map((dia, i) => (
+               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="sessoes"
+                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
+                 📅 {dia.label}
+               </button>
+             ))}
+           </div>
+           {diasData.map((dia, di) => (
+             <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`sessoes-${dia.key}`}>
+               {[
+                 { label: 'Manhã', icon: '☀️', test: (m: number | null) => m !== null && m < 13 * 60 },
+                 { label: 'Tarde', icon: '🌤️', test: (m: number | null) => m !== null && m >= 13 * 60 && m < 18 * 60 },
+                 { label: 'Noite', icon: '🌙', test: (m: number | null) => m !== null && m >= 18 * 60 },
+               ].map(period => {
+                 const items = dia.sessoesList.filter((s: any) => period.test(s._startMin));
+                 if (items.length === 0) return null;
+                 return (
+                   <div>
+                     <div class="period-hdr">
+                       <span style="font-size:1rem">{period.icon}</span>
+                       <span>{period.label}</span>
+                       <div class="period-line"></div>
+                     </div>
+                      {items.map((s: any) => {
+                        const speakers = (s.palestrantes || []);
+                        const isIntervalo = s.tipo === 'Intervalo';
+                        const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+                        return (
+                          <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
+                            <div class="flex flex-col gap-1">
+                              <span class="sl-time">{minToTime(s._startMin as number)}</span>
+                              <span class="sl-mesa-tag">{mesaLabel(s)}</span>
+                            </div>
+                            <div class="sl-body">
+                             <span class="sl-title">{cleanTitle(s.titulo)}</span>
+                              {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
+                              {speakers.length > 0 && !isIntervalo && (
+                                <div class="sl-chips">
+                                  {speakers.map((p: any) => (
+                                    <span class="sl-chip">{p.nome}{p.org && p.org !== '—' ? ` · ${p.org}` : ''}</span>
+                                 ))}
+                               </div>
+                             )}
+                           </div>
+                         </div>
+                       );
+                     })}
+                   </div>
+                 );
+               })}
+             </div>
+           ))}
+         </div>
+
+         <!-- VIEW: PALESTRANTES -->
+         <div class="view-panel" id="view-palestrantes">
+           <div class="flex mb-4" role="tablist">
+             {diasData.map((dia, i) => (
+               <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="palestrantes"
+                 style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
+                 📅 {dia.label}
+               </button>
+             ))}
+           </div>
+           {diasData.map((dia, di) => (
+             <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`palestrantes-${dia.key}`}>
+               {dia.palList.length === 0 ? (
+                 <p class="text-[#444] text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
+               ) : (
+                 <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-[#161616]">
+                   {dia.palList.map((pal: any) => (
+                     <div class="pal-item bg-[#0d0d0d]">
+                       <div class="pal-avatar">{pal.nome.trim()[0]}</div>
+                       <div class="flex-1 min-w-0">
+                         <span class="pal-nome">{pal.nome}</span>
+                         {pal.org && pal.org !== '—' && <span class="pal-org">{pal.org}</span>}
+                         {pal.sessoes.map((t: string) => <span class="pal-sess">→ {t}</span>)}
+                       </div>
+                     </div>
+                   ))}
+                 </div>
+               )}
+             </div>
+           ))}
+         </div>
+
+       </div>
+     </section>
+
+      <section class="bg-[#0d0d0d] py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+          <div class="mb-12 text-center">
+            <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Iniciativas Soberanas</p>
+            <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">Espaço Permanente de Iniciativas Soberanas</h2>
+            <p class="text-[#E7E7D8] text-lg mt-6 max-w-3xl mx-auto">
+              O encontro não busca apenas debater a problemática, mas elencar a solucionática.
+              Além das 19 mesas e 3 rodas de conversa, haverá 13 iniciativas livres no hall de entrada
+              e teremos também o lançamento do livro "Teia" de Henrique Pereira, o de 3 músicas sobre
+              soberania digital, o do documentário da Coalizão Direitos na Rede,
+              o do Índice de Soberania Digital, e o do jogo de tabuleiro "Perfilando" do DPCT da ECA-USP.
+            </p>
           </div>
-          {diasData.map((dia, di) => {
-            const nCols = dia.locaisPresentes.length;
-            const gridCols = `56px repeat(${nCols}, minmax(160px, 1fr))`;
-            const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
-            return (
-              <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`grade-${dia.key}`}>
-                <div class="time-grid-wrapper">
-                  <div class="time-grid" style={`grid-template-columns:${gridCols};grid-template-rows:${gridRows};`}>
-                    <div class="tg-corner" style="grid-row:1;grid-column:1;"></div>
-                    {dia.locaisPresentes.map((local, li) => (
-                      <div class="tg-room-hdr" style={`grid-row:1;grid-column:${li+2};border-top:3px solid ${dia.color};`}>
-                        {locaisShort[locaisOrder.indexOf(local)]}
-                      </div>
-                    ))}
-                    {dia.timeAxis.map(t => (
-                      <>
-                        <div class={`tg-time ${t.isHour ? 'is-hour' : 'is-half'}`} style={`grid-row:${t.row};grid-column:1;align-self:start;`}>
-                          {t.isHour ? t.label : ''}
-                        </div>
-                        <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`}></div>
-                      </>
-                    ))}
-                    {dia.processed.map((s: any) => {
-                      if (s._startRow < 2) return null;
-                      const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
-                      if (colIdx < 2) return null;
-                      const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
-                      const isIntervalo = s.tipo === 'Intervalo';
-                      const isEspecial  = s.tipo === 'Especial';
-                      return (
-                        <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
-                          style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={s.titulo}>
-                          <span class="tg-time-badge">{minToTime(s._startMin)}</span>
-                          <span class="tg-title">{s.titulo}</span>
-                          {confirmed.length > 0 && !isIntervalo && (
-                            <span class="tg-speakers">{confirmed.map((p: any) => p.nome).join(' · ')}</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                {nCols > 1 && <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-2 text-right">← deslize para ver todos os auditórios →</p>}
-              </div>
-            );
-          })}
+
+          <Features2
+            columns={3}
+            items={[
+              {
+                title: "Rede Mocambos e Casa de Cultura Tainã — Baobaxia",
+                icon: "tabler:tree",
+                description: "Imagine uma grande árvore, um baobá, que carrega memórias tão antigas quanto sua própria idade. O Baobáxia guarda e faz circular as produções culturais das comunidades, mesmo onde a internet é lenta, cara ou não existe. Cada comunidade tem uma mucua (nó) — um pequeno computador que cria uma rede local onde qualquer pessoa pode enviar suas criações e acessar conteúdos de outras comunidades, online ou offline. <em>Representante: Vince Tozzi</em>"
+              },
+              {
+                title: "Redes Livres — Orgânica, Onda.Social, Fediverso",
+                icon: "tabler:wifi",
+                description: "Redes descentralizadas e comunitárias que promovem a comunicação autônoma e soberana, oferecendo alternativas à internet centralizada. <em>Representantes: aguarda confirmação</em>"
+              },
+              {
+                title: "@s Livres — Internet Desintermediada",
+                icon: "tabler:at",
+                description: "Construção coletiva de uma internet desintermediada, onde novos formatos de interações sociais digitais podem ser experimentados por todo mundo. Composto por protocolos livres que garantem autoria, integridade e carimbo de tempo sem depender de nenhuma autoridade central. <em>Representante: Lari G.</em>"
+              },
+              {
+                title: "MariaLab — Vedetas, Maria Vilani, Maria d'Ajuda",
+                icon: "tabler:gender-genderfluid",
+                description: "Associação feminista sem fins lucrativos que atua na intersecção entre política, gênero e suas tecnologias. Trabalha pela valorização do cuidado nos meios digitais, tornando mais plurais os espaços e debates sobre tecnologia, envolvendo mulheres e pessoas LGBTQIAPN+, com recorte de raça, classe e sexualidade. <em>Representante: Maraiza Adami</em>"
+              },
+              {
+                title: "Tecnologia do PSOL",
+                icon: "tabler:device-desktop",
+                description: "Iniciativa partidária focada no desenvolvimento e uso de tecnologias que promovam a democracia e a soberania digital. <em>Representantes: aguarda confirmação</em>"
+              },
+              {
+                title: "Comitê contra a Privatização da Celepar",
+                icon: "tabler:building-fortress",
+                description: "Formado em 2024 para combater a venda da Companhia de Informática do Paraná, fundada em 1964 — a companhia de processamento de dados mais antiga do Brasil, responsável por sistemas de Segurança Pública, Fazenda, Educação, Saúde, DETRAN e mais. O comitê atua no TJ, TCE, MP-PR e STF contra a privatização. <em>Representante: Jonsue Trapp Martins</em>"
+              },
+              {
+                title: "Coalizão Direitos na Rede",
+                icon: "tabler:link",
+                description: "Rede de organizações e ativistas que atuam na defesa dos direitos humanos no ambiente digital, promovendo a soberania tecnológica e os direitos digitais. <em>Representantes: aguarda confirmação</em>"
+              },
+              {
+                title: "QSentinel",
+                icon: "tabler:shield-check",
+                description: "Iniciativa de proteção e segurança digital. <em>Representantes: aguarda confirmação</em>"
+              },
+              {
+                title: "Lançamento: Livro Teia Popular",
+                icon: "tabler:book",
+                description: "Henrique Pereira lança <strong>Teia Popular — Soberania Digital: Para vencer esta guerra</strong>, obra que analisa a virada tecnopolítica global e apresenta um método prático para sindicatos, mandatos, candidaturas e movimentos populares enfrentarem a dependência das grandes plataformas digitais. <em>Representante: Henrique Pereira</em>"
+              },
+              {
+                title: "Setor de TI e C&T do PT",
+                icon: "tabler:users-group",
+                description: "Setor de tecnologia do Partido dos Trabalhadores voltado à soberania digital e ao uso de tecnologias livres. <em>Aguarda confirmação</em>"
+              }
+            ]}
+          />
         </div>
+      </section>
 
-        <!-- VIEW: SESSÕES -->
-        <div class="view-panel" id="view-sessoes">
-          <div class="flex mb-4" role="tablist">
-            {diasData.map((dia, i) => (
-              <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="sessoes"
-                style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                📅 {dia.label}
-              </button>
-            ))}
-          </div>
-          {diasData.map((dia, di) => (
-            <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`sessoes-${dia.key}`}>
-              {[
-                { label: 'Manhã', icon: '☀️', test: (m: number | null) => m !== null && m < 13 * 60 },
-                { label: 'Tarde', icon: '🌤️', test: (m: number | null) => m !== null && m >= 13 * 60 && m < 18 * 60 },
-                { label: 'Noite', icon: '🌙', test: (m: number | null) => m !== null && m >= 18 * 60 },
-              ].map(period => {
-                const items = dia.sessoesList.filter((s: any) => period.test(s._startMin));
-                if (items.length === 0) return null;
-                return (
-                  <div>
-                    <div class="period-hdr">
-                      <span style="font-size:1rem">{period.icon}</span>
-                      <span>{period.label}</span>
-                      <div class="period-line"></div>
-                    </div>
-                    {items.map((s: any) => {
-                      const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
-                      const isIntervalo = s.tipo === 'Intervalo';
-                      const isEspecial  = s.tipo === 'Especial';
-                      return (
-                        <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
-                          <span class="sl-time">{minToTime(s._startMin as number)}</span>
-                          <div class="sl-body">
-                            <span class="sl-title">{s.titulo}</span>
-                            {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
-                            {confirmed.length > 0 && !isIntervalo && (
-                              <div class="sl-chips">
-                                {confirmed.map((p: any) => (
-                                  <span class="sl-chip">{p.nome}{p.organizacao && p.organizacao !== '—' ? ` · ${p.organizacao}` : ''}</span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-
-        <!-- VIEW: PALESTRANTES -->
-        <div class="view-panel" id="view-palestrantes">
-          <div class="flex mb-4" role="tablist">
-            {diasData.map((dia, i) => (
-              <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target="palestrantes"
-                style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-                📅 {dia.label}
-              </button>
-            ))}
-          </div>
-          {diasData.map((dia, di) => (
-            <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`palestrantes-${dia.key}`}>
-              {dia.palList.length === 0 ? (
-                <p class="text-[#444] text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
-              ) : (
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-[#161616]">
-                  {dia.palList.map((pal: any) => (
-                    <div class="pal-item bg-[#0d0d0d]">
-                      <div class="pal-avatar">{pal.nome.trim()[0]}</div>
-                      <div class="flex-1 min-w-0">
-                        <span class="pal-nome">{pal.nome}</span>
-                        {pal.org && pal.org !== '—' && <span class="pal-org">{pal.org}</span>}
-                        {pal.sessoes.map((t: string) => <span class="pal-sess">→ {t}</span>)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </section>
-
-<!-- 4. BIG NUMBER — INSCRIÇÕES -->
+<!-- 5. BIG NUMBER — INSCRIÇÕES -->
     {assinaturas.total > 0 && (
       <section class="bg-[#111] border-y border-[#FFD400]/20 py-8 md:py-10">
         <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
@@ -567,9 +691,9 @@ const metadata = {
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
         <div class="text-center mb-10">
-          <p class="text-[#E31B23] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Local do Evento</p>
+          <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Local do Evento</p>
           <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-2">{location.name}</h2>
-          <p class="text-[#292929] dark:text-[#d1d5db] text-lg leading-relaxed">{location.address}</p>
+          <p class="text-[#E7E7D8] text-base leading-relaxed">{location.address}</p>
           <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-1">{location.room}</p>
         </div>
 
@@ -998,7 +1122,7 @@ const metadata = {
         <!-- LINHA 1: REALIZAÇÃO + APOIO INSTITUCIONAL -->
         <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 mb-12 justify-center items-start">
           <div class="text-center flex-1">
-            <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
+            <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
             <div class="flex justify-center gap-8 flex-wrap items-center">
               {partnersGrid.realizacao.map((org: any) => (
                 org.logo ? (
@@ -1017,7 +1141,7 @@ const metadata = {
             </div>
           </div>
           <div class="text-center flex-1">
-            <p class="text-[#E31B23] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
+            <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
             <div class="flex justify-center gap-8 flex-wrap items-center">
               {partnersGrid.patrocinio.map((org: any) => (
                 org.logo ? (

@@ -1,0 +1,560 @@
+{
+  "sessoes": [
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "8:00",
+      "fim": "9:00",
+      "tipo": "Abertura",
+      "titulo": "Credenciamento e café",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "9:00",
+      "fim": "9:40",
+      "tipo": "Mesa",
+      "titulo": "Mesa de Abertura",
+      "descricao": "Abertura oficial do 2º Encontro Nacional pela Soberania Digital.",
+      "palestrantes": [
+        { "nome": "Representante do Sindicato dos Bancários do DF", "org": "Sindicato dos Bancários do DF", "role": "" },
+        { "nome": "Márcia Honda", "org": "Fenadados", "role": "" },
+        { "nome": "Alexandre Arns González", "org": "Campanha Internet Legal", "role": "" },
+        { "nome": "Beá Tibiriçá", "org": "Rede pela Soberania Digital", "role": "" },
+        { "nome": "Bia Barbosa", "org": "CGI.br", "role": "" },
+        { "nome": "Uirá Porã", "org": "Instituto Mutirão", "role": "" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "9:40",
+      "fim": "10:40",
+      "tipo": "Mesa",
+      "titulo": "Mesa 1 — O cenário da soberania digital no Brasil",
+      "descricao": "Análise do panorama atual da soberania digital no Brasil, seus desafios e oportunidades.",
+      "palestrantes": [
+        { "nome": "João Cassino", "org": "UFABC", "role": "" },
+        { "nome": "Julia Santa Anna Mello", "org": "Aqualtune Lab", "role": "" },
+        { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "" },
+        { "nome": "Beá Tibiriçá", "org": "Rede pela Soberania Digital", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "10:40",
+      "fim": "11:40",
+      "tipo": "Conferência",
+      "titulo": "Conferência — Caminhos da soberania digital no Brasil",
+      "descricao": "Conferência sobre os caminhos e perspectivas da soberania digital no Brasil.",
+      "palestrantes": [
+        { "nome": "José Dirceu", "org": "Ex-ministro da Casa Civil", "role": "" },
+        { "nome": "Uirá Porã", "org": "Instituto Mutirão / FeliciLab", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "11:40",
+      "fim": "11:55",
+      "tipo": "Intervalo",
+      "titulo": "Coffee break",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "11:55",
+      "fim": "13:15",
+      "tipo": "Mesa",
+      "titulo": "Mesa 2 — Movimentos sociais e soberania digital popular",
+      "descricao": "Que soberania digital queremos construir? As lutas por soberania popular constituem a organização e resistência dos movimentos sociais.",
+      "palestrantes": [
+        { "nome": "Raul Amorim", "org": "MST", "role": "" },
+        { "nome": "Felipe Bonel", "org": "MTST", "role": "" },
+        { "nome": "Bruna Camilo", "org": "Marcha Mundial das Mulheres", "role": "" },
+        { "nome": "Bárbara Coelho", "org": "APUB UFBA", "role": "" },
+        { "nome": "Natália Blanco", "org": "Marcha Mundial das Mulheres", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "13:15",
+      "fim": "14:30",
+      "tipo": "Intervalo",
+      "titulo": "Almoço",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "14:30",
+      "fim": "16:00",
+      "tipo": "Mesa",
+      "titulo": "Mesa 3 — Soberania digital desde o Sul Global",
+      "descricao": "Soberania digital desde a perspectiva dos países do Sul Global.",
+      "palestrantes": [
+        { "nome": "Fiorella Haim", "org": "Ceibal / Uruguai", "role": "" },
+        { "nome": "Jeff Xiong", "org": "East China Normal University", "role": "" },
+        { "nome": "Isabela Rocha", "org": "Fórum Tecnológico dos BRICS", "role": "" },
+        { "nome": "Tica Moreno", "org": "Marcha Mundial das Mulheres", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "16:00",
+      "fim": "16:15",
+      "tipo": "Intervalo",
+      "titulo": "Coffee break",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "16:15",
+      "fim": "17:30",
+      "tipo": "Mesa",
+      "titulo": "Mesa 4 — Regulação das plataformas e soberania digital",
+      "descricao": "Debate sobre a regulação das plataformas digitais e sua relação com a soberania digital.",
+      "palestrantes": [
+        { "nome": "Helena Martins", "org": "DiraCom / Coalizão Direitos na Rede", "role": "" },
+        { "nome": "André Boselli", "org": "Artigo 19", "role": "" },
+        { "nome": "Paulo Rená", "org": "IRIS", "role": "" },
+        { "nome": "Uirá Porã", "org": "Laboratório do Futuro", "role": "" },
+        { "nome": "Alexandre Arns González", "org": "Campanha Internet Legal", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "17:30",
+      "fim": "18:45",
+      "tipo": "Mesa",
+      "titulo": "Mesa 5 — Infraestrutura, nuvem e hardware soberanos",
+      "descricao": "Apresentação e debate sobre infraestrutura, nuvem e hardware soberanos e livres.",
+      "palestrantes": [
+        { "nome": "Marcos Sunye", "org": "C3SL / UFPR", "role": "" },
+        { "nome": "Manoel Fonseca Neto", "org": "OMTX", "role": "" },
+        { "nome": "Mauro Salles", "org": "Sindicato dos Bancários", "role": "" },
+        { "nome": "Junior Paixão", "org": "CETIC / Ibitinga", "role": "" },
+        { "nome": "Lari G.", "org": "Campanha Internet Legal / @s Livres", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "18:45",
+      "fim": "19:00",
+      "tipo": "Intervalo",
+      "titulo": "Coffee break",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "18/05",
+      "local": "Anfiteatro",
+      "inicio": "19:00",
+      "fim": "20:30",
+      "tipo": "Mesa",
+      "titulo": "Mesa 6 — Propostas emergenciais para a soberania digital do Brasil",
+      "descricao": "Quais os passos e propostas emergenciais para a construção da soberania digital do Brasil?",
+      "palestrantes": [
+        { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "" },
+        { "nome": "Beá Tibiriçá", "org": "Rede pela Soberania Digital", "role": "" },
+        { "nome": "TC Silva", "org": "Rede Mocambos", "role": "" },
+        { "nome": "Tica Moreno", "org": "Marcha Mundial das Mulheres", "role": "" },
+        { "nome": "José Vital", "org": "Frente por IA com Direitos Sociais", "role": "" },
+        { "nome": "José Murilo Costa Carvalho Junior", "org": "WebSocial / Ibram-Museus", "role": "" },
+        { "nome": "Guilherme Flynn Paciornik", "org": "Rede pela Soberania Digital", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "8:30",
+      "fim": "9:00",
+      "tipo": "Abertura",
+      "titulo": "Chegada e boas vindas",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "9:00",
+      "fim": "10:30",
+      "tipo": "Mesa",
+      "titulo": "Mesa 7 — Software livre e soberania digital",
+      "descricao": "A relação entre software livre e a construção da soberania digital.",
+      "palestrantes": [
+        { "nome": "Corinto Meffe", "org": "Centro de Bens Públicos Digitais", "role": "" },
+        { "nome": "John Maddog Hall", "org": "Linux International", "role": "" },
+        { "nome": "Rafael", "org": "Linux Professional Institute", "role": "" },
+        { "nome": "Lari G.", "org": "@s Livres / MIGA", "role": "" },
+        { "nome": "Isabela Fernandes", "org": "Projeto Tor", "role": "" },
+        { "nome": "Coe1ho", "org": "Coletivo Farpa / Movimento Software Livre", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "10:30",
+      "fim": "10:45",
+      "tipo": "Intervalo",
+      "titulo": "Coffee break",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "10:45",
+      "fim": "12:15",
+      "tipo": "Mesa",
+      "titulo": "Mesa 8 — Universidades e soberania digital",
+      "descricao": "O papel das universidades na construção da soberania digital.",
+      "palestrantes": [
+        { "nome": "Marcos Sunye", "org": "UFPR", "role": "" },
+        { "nome": "ka.Menezes", "org": "UFBA / Raul Hacker Club", "role": "" },
+        { "nome": "Letícia Cesarino", "org": "UFSC", "role": "" },
+        { "nome": "Priscila Gonzales", "org": "Educação Vigiada / UnB", "role": "" },
+        { "nome": "Leonardo Zenha", "org": "UFPA", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "12:15",
+      "fim": "13:30",
+      "tipo": "Intervalo",
+      "titulo": "Almoço com Música",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "13:30",
+      "fim": "15:00",
+      "tipo": "Mesa",
+      "titulo": "Mesa 9 — Datacenters da sociedade civil e infraestruturas comunitárias",
+      "descricao": "Datacenters geridos pela sociedade civil e infraestruturas comunitárias de comunicação.",
+      "palestrantes": [
+        { "nome": "Junior Paixão", "org": "DCCL / Rede Mocambos", "role": "" },
+        { "nome": "Moacir Neto", "org": "NUPEF", "role": "" },
+        { "nome": "Marco Mendes", "org": "PopSolutions", "role": "" },
+        { "nome": "Lari G.", "org": "Campanha Internet Legal", "role": "" },
+        { "nome": "Éverton Ribeiro", "org": "Rede de Economia Solidária e Feminista", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "15:00",
+      "fim": "15:15",
+      "tipo": "Intervalo",
+      "titulo": "Coffee break",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "15:15",
+      "fim": "16:30",
+      "tipo": "Mesa",
+      "titulo": "Mesa 10 — Tecnologias livres na sociedade civil organizada",
+      "descricao": "Experiências de uso e desenvolvimento de tecnologias livres na sociedade civil organizada.",
+      "palestrantes": [
+        { "nome": "Rosemary Segurado", "org": "Coletivo Digital", "role": "" },
+        { "nome": "Vince Tozzi", "org": "Rede Mocambos / Baobáxia / TV Tainã", "role": "" },
+        { "nome": "Jader Gama", "org": "Plantaformas", "role": "" },
+        { "nome": "Lívia Ascava", "org": "HackLab", "role": "" },
+        { "nome": "Maraiza Adami", "org": "MariaLab", "role": "" },
+        { "nome": "Alexandre Zago Boava", "org": "MTST", "role": "" },
+        { "nome": "Guilherme Flynn Paciornik", "org": "Onda.Social", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "16:30",
+      "fim": "17:45",
+      "tipo": "Mesa",
+      "titulo": "Mesa 11 — Web social aberta e redes federadas",
+      "descricao": "Construindo uma web social aberta com redes federadas como alternativa às Big Techs.",
+      "palestrantes": [
+        { "nome": "José Murilo Costa Carvalho Junior", "org": "WebSocial / Ibram-Museus", "role": "" },
+        { "nome": "Guilherme Flynn Paciornik", "org": "Onda.Social", "role": "" },
+        { "nome": "Biana F.", "org": "Orgânica", "role": "" },
+        { "nome": "A confirmar", "org": "Ursal", "role": "" },
+        { "nome": "Uirá Porã", "org": "FeliciLab", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "17:45",
+      "fim": "19:15",
+      "tipo": "Mesa",
+      "titulo": "Mesa 12 — Classe trabalhadora, sindicatos e soberania digital",
+      "descricao": "A importância da soberania digital na pauta de reivindicações da classe trabalhadora.",
+      "palestrantes": [
+        { "nome": "Valdemir Bueno", "org": "SindiReceita / Fonasefe", "role": "" },
+        { "nome": "Willians Monjardim", "org": "Sinagências / Fonasefe", "role": "" },
+        { "nome": "Moacir Lopes", "org": "Fenasps / Fonasefe", "role": "" },
+        { "nome": "Stela Almeida", "org": "Sindados BA", "role": "" },
+        { "nome": "Reinaldo Soares", "org": "Sindpd-PE", "role": "" },
+        { "nome": "Jonsué Martins", "org": "Sindpd-PR", "role": "" },
+        { "nome": "Crispim", "org": "Sindpd-RJ", "role": "" },
+        { "nome": "Eduardo Araújo", "org": "Sindicato dos Bancários do DF", "role": "" },
+        { "nome": "Márcia Honda", "org": "Fenadados", "role": "mediação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "19:15",
+      "fim": "19:30",
+      "tipo": "Intervalo",
+      "titulo": "Intervalo",
+      "descricao": "",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Anfiteatro",
+      "inicio": "19:30",
+      "fim": "20:30",
+      "tipo": "Plenária",
+      "titulo": "Plenária Final — Caminhos da Rede Nacional pela Soberania Digital",
+      "descricao": "Sessão plenária de encerramento com a Rede pela Soberania Digital.",
+      "palestrantes": [
+        { "nome": "Rede pela Soberania Digital", "org": "Rede pela Soberania Digital", "role": "" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 1",
+      "inicio": "9:00",
+      "fim": "10:30",
+      "tipo": "Mesa",
+      "titulo": "Mesa 13 — Soberania digital nas eleições",
+      "descricao": "Debate sobre soberania digital e sua relação com o processo eleitoral.",
+      "palestrantes": [
+        { "nome": "Letícia Cesarino", "org": "UFSC", "role": "" },
+        { "nome": "Jader Gama", "org": "LIANE / Plantaformas", "role": "" },
+        { "nome": "Rafaela Ferreira", "org": "IRIS", "role": "" },
+        { "nome": "Mateus Mendes", "org": "REBRIP", "role": "" },
+        { "nome": "Luis Felipe", "org": "Artigo 19", "role": "" },
+        { "nome": "Paulo Rená", "org": "IRIS", "role": "coordenação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 1",
+      "inicio": "10:45",
+      "fim": "12:15",
+      "tipo": "Mesa",
+      "titulo": "Mesa 14 — Saúde, dados e soberania sanitária",
+      "descricao": "Soberania digital aplicada à saúde, dados sanitários e políticas públicas.",
+      "palestrantes": [
+        { "nome": "Raquel Rachid", "org": "USP / Fórum Popular Paulista de Saúde", "role": "" },
+        { "nome": "Adriana Macedo Marques", "org": "Ministério da Saúde", "role": "" },
+        { "nome": "Uirá Porã", "org": "FeliciLab", "role": "" },
+        { "nome": "Nésio Fernandes", "org": "Movimento Software Livre", "role": "" },
+        { "nome": "Deivison Faustino", "org": "", "role": "" },
+        { "nome": "Lucas da Costa Brandão", "org": "UERJ / Campanha Internet Legal", "role": "coordenação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 1",
+      "inicio": "13:30",
+      "fim": "15:00",
+      "tipo": "Mesa",
+      "titulo": "Mesa 15 — Inteligência artificial e direitos sociais",
+      "descricao": "Debate sobre inteligência artificial e seus impactos nos direitos sociais.",
+      "palestrantes": [
+        { "nome": "Natália Lobo", "org": "IARA / MST / Marcha Mundial das Mulheres", "role": "" },
+        { "nome": "José Vital", "org": "Frente IA com Direitos Sociais", "role": "" },
+        { "nome": "Raquel Rachid", "org": "ELA-IA", "role": "" },
+        { "nome": "A confirmar", "org": "Observatório de IA / Contraf / Bancários MG", "role": "" },
+        { "nome": "Greg", "org": "IA com DH / CNDH", "role": "" },
+        { "nome": "Márcia Honda", "org": "Fenadados", "role": "coordenação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 1",
+      "inicio": "15:00",
+      "fim": "15:45",
+      "tipo": "Mesa",
+      "titulo": "Mesa 16 — Índice de Soberania Digital do BRICS",
+      "descricao": "Apresentação do Índice de Soberania Digital do BRICS.",
+      "palestrantes": [
+        { "nome": "Isabela Rocha", "org": "Fórum Tecnológico dos BRICS", "role": "apresentação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 1",
+      "inicio": "15:45",
+      "fim": "16:15",
+      "tipo": "Lançamento",
+      "titulo": "Lançamento do documentário \"Quem tá tomando conta desse espaço?\"",
+      "descricao": "Lançamento do documentário da Coalizão Direitos na Rede.",
+      "palestrantes": [
+        { "nome": "Alexandre Arns González", "org": "Campanha Internet Legal", "role": "" },
+        { "nome": "Paulo Rená", "org": "IRIS", "role": "" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 1",
+      "inicio": "16:30",
+      "fim": "18:15",
+      "tipo": "Mesa",
+      "titulo": "Mesa 18 — Juris Máquina: inteligência artificial, Justiça e direitos",
+      "descricao": "Inteligência artificial aplicada à Justiça e seus impactos nos direitos.",
+      "palestrantes": [
+        { "nome": "Tainá Junquilho", "org": "Juris Máquina", "role": "" },
+        { "nome": "Ana Farranha", "org": "UnB", "role": "" },
+        { "nome": "Rosane Cordeiro", "org": "Sindados-MG", "role": "" },
+        { "nome": "Débora Siroteau", "org": "CNPD / INPD", "role": "" },
+        { "nome": "Fernanda Lauria", "org": "Fenajufe", "role": "" },
+        { "nome": "Eduardo Marcelino", "org": "GYO", "role": "" },
+        { "nome": "Valdir Bueira", "org": "Oficiais de Justiça do RS", "role": "" },
+        { "nome": "Fernanda Rodrigues", "org": "IRIS", "role": "" },
+        { "nome": "Paulo Rená", "org": "IRIS", "role": "coordenação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 2",
+      "inicio": "9:00",
+      "fim": "10:30",
+      "tipo": "Roda de Conversa",
+      "titulo": "Roda de Conversa — Letramento soberano e articulação parlamentar",
+      "descricao": "Debate sobre letramento digital soberano e articulação parlamentar.",
+      "palestrantes": [
+        { "nome": "Natália Bonavides", "org": "PT-RN / Câmara dos Deputados", "role": "" },
+        { "nome": "Orlando Silva", "org": "PCdoB-SP / Câmara dos Deputados", "role": "" },
+        { "nome": "Kari Santos", "org": "PT-PE / Câmara Municipal do Recife", "role": "" },
+        { "nome": "Erika Kokay", "org": "PT-DF / Câmara dos Deputados", "role": "" },
+        { "nome": "Gabriel Magno", "org": "PT-DF / Câmara Legislativa do DF", "role": "" },
+        { "nome": "Lúcia", "org": "Candidatura distrital", "role": "" },
+        { "nome": "Chico Vigilante", "org": "Câmara Legislativa do DF", "role": "" },
+        { "nome": "Ruth Venceremos", "org": "", "role": "" },
+        { "nome": "Leandro Grass", "org": "PT-DF", "role": "" },
+        { "nome": "Fabio Felix", "org": "PSOL-DF", "role": "" },
+        { "nome": "Uirá Porã", "org": "Rede pela Soberania Digital", "role": "coordenação" },
+        { "nome": "Márcia Honda", "org": "Fenadados", "role": "coordenação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 2",
+      "inicio": "10:45",
+      "fim": "12:15",
+      "tipo": "Roda de Conversa",
+      "titulo": "Roda de Conversa — Educação e soberania digital",
+      "descricao": "Debate sobre educação e soberania digital.",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 2",
+      "inicio": "13:30",
+      "fim": "15:00",
+      "tipo": "Roda de Conversa",
+      "titulo": "Roda de Conversa — Saúde e soberania digital",
+      "descricao": "Debate sobre saúde e soberania digital.",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 2",
+      "inicio": "15:00",
+      "fim": "15:45",
+      "tipo": "Lançamento",
+      "titulo": "Lançamento — Livro Teia",
+      "descricao": "Lançamento do livro Teia Popular — Soberania Digital: Para vencer esta guerra.",
+      "palestrantes": [
+        { "nome": "Henrique Interlig", "org": "Interlig", "role": "" },
+        { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Auditório 2",
+      "inicio": "16:00",
+      "fim": "17:30",
+      "tipo": "Roda de Conversa",
+      "titulo": "Roda de Conversa — Pilha de software livre para a sociedade civil",
+      "descricao": "Debate sobre a pilha de software livre para a sociedade civil.",
+      "palestrantes": []
+    },
+    {
+      "dia": "19/05",
+      "local": "Sala VIP",
+      "inicio": "10:00",
+      "fim": "11:30",
+      "tipo": "Roda de Conversa",
+      "titulo": "Roda de Conversa — Economia solidária, feminista e software livre",
+      "descricao": "Economia solidária, feminismo e software livre.",
+      "palestrantes": [
+        { "nome": "Natália Blanco", "org": "Marcha Mundial das Mulheres / SOF / UFABC", "role": "" },
+        { "nome": "Inês Simon", "org": "Rede de Economia Solidária e Feminista / MMM", "role": "" },
+        { "nome": "Éverton Rodrigues", "org": "Movimento Software Livre / Rede de Economia Solidária e Feminista", "role": "" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Sala VIP",
+      "inicio": "14:00",
+      "fim": "15:30",
+      "tipo": "Reunião",
+      "titulo": "Reunião Técnica — PL 1356/2026 e inteligência artificial",
+      "descricao": "Reunião técnica sobre o PL 1356/2026 e inteligência artificial.",
+      "palestrantes": [
+        { "nome": "Juliana", "org": "Assessoria Técnica do PT", "role": "" },
+        { "nome": "Raquel Rachid", "org": "ELA-IA", "role": "coordenação" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Podcast",
+      "inicio": "",
+      "fim": "",
+      "tipo": "Podcast",
+      "titulo": "Podcast — Trabalho humano e soberania digital",
+      "descricao": "Podcast sobre trabalho humano e soberania digital.",
+      "palestrantes": [
+        { "nome": "Crispim", "org": "Sindpd-RJ", "role": "" }
+      ]
+    },
+    {
+      "dia": "19/05",
+      "local": "Podcast",
+      "inicio": "",
+      "fim": "",
+      "tipo": "Podcast",
+      "titulo": "Podcast — Teia Digital",
+      "descricao": "Podcast Teia Digital.",
+      "palestrantes": [
+        { "nome": "Henrique Interlig", "org": "Interlig", "role": "" },
+        { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "" },
+        { "nome": "Ricardo Silveira", "org": "", "role": "mediação" }
+      ]
+    }
+  ]
+}
