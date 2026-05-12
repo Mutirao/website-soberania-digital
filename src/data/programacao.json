@@ -172,7 +172,7 @@
         { "nome": "TC Silva", "org": "Rede Mocambos", "role": "" },
         { "nome": "Tica Moreno", "org": "Marcha Mundial das Mulheres", "role": "" },
         { "nome": "José Vital", "org": "Frente por IA com Direitos Sociais", "role": "" },
-        { "nome": "José Murilo de Carvalho", "org": "WebSocialBR / IBRAM", "role": "" },
+        { "nome": "José Murilo Costa Carvalho Junior", "org": "WebSocial / Ibram-Museus", "role": "" },
         { "nome": "Guilherme Flynn Paciornik", "org": "Rede pela Soberania Digital", "role": "mediação" }
       ]
     },
@@ -292,7 +292,7 @@
       "titulo": "Mesa 11 — Web social aberta e redes federadas",
       "descricao": "Construindo uma web social aberta com redes federadas como alternativa às Big Techs.",
       "palestrantes": [
-        { "nome": "José Murilo Jr.", "org": "Instituto Brasileiro de Museus", "role": "" },
+        { "nome": "José Murilo Costa Carvalho Junior", "org": "WebSocial / Ibram-Museus", "role": "" },
         { "nome": "Guilherme Flynn Paciornik", "org": "Onda.Social", "role": "" },
         { "nome": "Biana F.", "org": "Orgânica", "role": "" },
         { "nome": "A confirmar", "org": "Ursal", "role": "" },
