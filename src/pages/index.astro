@@ -1,7 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
-import programacao from '~/data/programacao-gerado.json';
+import programacao from '~/data/programacao.json';
 import assinaturas from '~/data/assinaturas.json';
 import parceirosData from '~/data/parceiros.json';
 import Features from '~/components/widgets/Features.astro';
@@ -14,38 +14,25 @@ const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
 
 // ── schedule helpers ────────────────────────────────────────────────────────
-const diasMap: Record<string, string> = {
-  '18/05 Seg': 'dia1',
-  '19/05 Ter': 'dia2',
-};
-
-function formatTime(t: string) {
-  if (!t) return '';
-  const [h, m] = t.split(':');
-  const hi = parseInt(h);
-  if (isNaN(hi)) return t;
-  return m && m !== '00' ? `${hi}h${m}` : `${hi}h`;
-}
-
-function isConfirmed(status: string) {
-  return (status ?? '').toUpperCase().includes('CONFIRMAD');
-}
-
 function mesaLabel(s: any): string {
   if (s.tipo === 'Intervalo') return 'Intervalo';
-  if (s.tipo === 'Especial') return 'Especial';
-  if (s.tipo === 'Palestra') return 'Palestra';
-  if (s.tipo === 'Roda de conversa') return 'Roda de Conversa';
-  if (s.mesa) {
-    if (String(s.mesa).toLowerCase() === 'abertura') return 'Mesa de Abertura';
-    if (String(s.mesa).toLowerCase().startsWith('rc')) return 'Roda de Conversa';
-    return `Mesa ${s.mesa}`;
+  if (s.tipo === 'Conferência') return 'Conferência';
+  if (s.tipo === 'Plenária') return 'Plenária';
+  if (s.tipo === 'Roda de Conversa') return 'Roda de Conversa';
+  if (s.tipo === 'Lançamento') return 'Lançamento';
+  if (s.tipo === 'Reunião') return 'Reunião';
+  if (s.tipo === 'Podcast') return 'Podcast';
+  if (s.tipo === 'Abertura') return 'Abertura';
+  if (s.tipo === 'Mesa') {
+    const m = s.titulo.match(/^Mesa\s+de\s+Abertura/i);
+    if (m) return 'Mesa de Abertura';
+    return 'Mesa';
   }
   return s.tipo || 'Atividade';
 }
 
 function cleanTitle(t: string): string {
-  return t.replace(/^Mesa\s+\d+\s*[-–—:]\s*/, '');
+  return t.replace(/^(Mesa\s+\d+|Conferência|Plenária|Lançamento|Roda de Conversa|Reunião)\s*[-–—:]\s*/, '');
 }
 
 function parseMin(t: string): number | null {
@@ -63,7 +50,7 @@ function minToTime(m: number): string {
 const BASE_MIN  = 8 * 60;
 const SLOT_MIN  = 15;
 const SLOT_H_PX = 36;
-const locaisOrder = ['Anfiteatro', 'Auditório 1 (60 lugares)', 'Auditório 2 (60 lugares - sem internet)', 'Sala de Reuniões VIP'];
+const locaisOrder = ['Anfiteatro', 'Auditório 1', 'Auditório 2', 'Sala VIP'];
 const locaisShort = ['Anfiteatro', 'Aud. 1', 'Aud. 2', 'Sala VIP'];
 
 function toRow(min: number): number {
@@ -71,8 +58,8 @@ function toRow(min: number): number {
 }
 
 const diasConf = [
-  { key: 'dia1', diaVal: '18/05 Seg', label: '18 de Maio', color: '#CC2200', endMin: 20 * 60 + 30 },
-  { key: 'dia2', diaVal: '19/05 Ter', label: '19 de Maio', color: '#1a5c2a', endMin: 20 * 60 },
+  { key: 'dia1', diaVal: '18/05', label: '18 de Maio', color: '#CC2200', endMin: 20 * 60 + 30 },
+  { key: 'dia2', diaVal: '19/05', label: '19 de Maio', color: '#1a5c2a', endMin: 20 * 60 + 30 },
 ];
 
 const sessoes = programacao.sessoes as any[];
@@ -105,9 +92,9 @@ const diasData = diasConf.map(dConf => {
   const palMap: Record<string, { nome: string; org: string; sessoes: string[] }> = {};
   for (const s of ss) {
     for (const p of (s.palestrantes || [])) {
-      if (!isConfirmed(p.status)) continue;
       const key = p.nome.trim();
-      if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.organizacao || '', sessoes: [] };
+      if (!key) continue;
+      if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.org || '', sessoes: [] };
       if (!palMap[key].sessoes.includes(s.titulo)) palMap[key].sessoes.push(s.titulo);
     }
   }
@@ -470,13 +457,13 @@ const metadata = {
                          <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`}></div>
                        </>
                      ))}
-                     {dia.processed.map((s: any) => {
-                       if (s._startRow < 2) return null;
-                       const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
-                       if (colIdx < 2) return null;
-                       const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
-                       const isIntervalo = s.tipo === 'Intervalo';
-                       const isEspecial  = s.tipo === 'Especial';
+                      {dia.processed.map((s: any) => {
+                        if (s._startRow < 2) return null;
+                        const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
+                        if (colIdx < 2) return null;
+                        const speakers = (s.palestrantes || []);
+                        const isIntervalo = s.tipo === 'Intervalo';
+                        const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
                         return (
                           <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
                             style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={cleanTitle(s.titulo)}>
@@ -485,8 +472,8 @@ const metadata = {
                               <span class="tg-mesa-tag">{mesaLabel(s)}</span>
                             </div>
                             <span class="tg-title">{cleanTitle(s.titulo)}</span>
-                           {confirmed.length > 0 && !isIntervalo && (
-                             <span class="tg-speakers">{confirmed.map((p: any) => p.nome).join(' · ')}</span>
+                            {speakers.length > 0 && !isIntervalo && (
+                              <span class="tg-speakers">{speakers.map((p: any) => p.nome).join(' · ')}</span>
                            )}
                          </div>
                        );
@@ -525,10 +512,10 @@ const metadata = {
                        <span>{period.label}</span>
                        <div class="period-line"></div>
                      </div>
-                     {items.map((s: any) => {
-                       const confirmed = (s.palestrantes || []).filter((p: any) => isConfirmed(p.status));
-                       const isIntervalo = s.tipo === 'Intervalo';
-                       const isEspecial  = s.tipo === 'Especial';
+                      {items.map((s: any) => {
+                        const speakers = (s.palestrantes || []);
+                        const isIntervalo = s.tipo === 'Intervalo';
+                        const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
                         return (
                           <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
                             <div class="flex flex-col gap-1">
@@ -537,11 +524,11 @@ const metadata = {
                             </div>
                             <div class="sl-body">
                              <span class="sl-title">{cleanTitle(s.titulo)}</span>
-                             {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
-                             {confirmed.length > 0 && !isIntervalo && (
-                               <div class="sl-chips">
-                                 {confirmed.map((p: any) => (
-                                   <span class="sl-chip">{p.nome}{p.organizacao && p.organizacao !== '—' ? ` · ${p.organizacao}` : ''}</span>
+                              {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
+                              {speakers.length > 0 && !isIntervalo && (
+                                <div class="sl-chips">
+                                  {speakers.map((p: any) => (
+                                    <span class="sl-chip">{p.nome}{p.org && p.org !== '—' ? ` · ${p.org}` : ''}</span>
                                  ))}
                                </div>
                              )}
