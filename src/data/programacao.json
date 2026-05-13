@@ -486,11 +486,11 @@
       "inicio": "15:00",
       "fim": "15:45",
       "tipo": "Lançamento",
-      "titulo": "Lançamento — Livro Teia",
+      "titulo": "Lançamento — Livro Teia Popular - Soberania Digital",
       "descricao": "Lançamento do livro Teia Popular — Soberania Digital: Para vencer esta guerra.",
       "palestrantes": [
-        { "nome": "Henrique Interlig", "org": "Interlig", "role": "" },
-        { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "" }
+        { "nome": "Henrique Pereira", "org": "", "role": "autor" },
+        { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "prefaciador e debatedor" }
       ]
     },
     {
@@ -551,7 +551,7 @@
       "titulo": "Podcast — Teia Digital",
       "descricao": "Podcast Teia Digital.",
       "palestrantes": [
-        { "nome": "Henrique Interlig", "org": "Interlig", "role": "" },
+        { "nome": "Henrique Pereira", "org": "", "role": "autor" },
         { "nome": "Sérgio Amadeu da Silveira", "org": "UFABC", "role": "" },
         { "nome": "Ricardo Silveira", "org": "", "role": "mediação" }
       ]
