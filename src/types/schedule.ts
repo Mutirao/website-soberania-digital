@@ -1,6 +1,7 @@
 export interface Palestrante {
   nome: string;
   org?: string;
+  role?: string;
 }
 
 export interface Sessao {
@@ -10,6 +11,7 @@ export interface Sessao {
   inicio: string;
   fim?: string;
   local: string;
+  descricao?: string;
   palestrantes?: Palestrante[];
 }
 

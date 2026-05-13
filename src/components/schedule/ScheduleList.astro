@@ -1,6 +1,7 @@
 ---
 import type { DiaData, ProcessedSession } from '~/types/schedule';
 import { cleanTitle, mesaLabel, minToTime } from '~/lib/schedule';
+import SessionDetails from './SessionDetails.astro';
 
 export interface Props {
   dia: DiaData;
@@ -14,48 +15,57 @@ const periods = [
 ];
 ---
 
-{periods.map(period => {
-  const items = dia.sessoesList.filter((s: ProcessedSession) => period.test(s._startMin));
-  if (items.length === 0) return null;
-  return (
-    <div>
-      <div class="period-hdr">
-        <span style="font-size:1rem">{period.icon}</span>
-        <span>{period.label}</span>
-        <div class="period-line"></div>
-      </div>
-      {items.map((s: ProcessedSession) => {
-        const speakers = (s.palestrantes || []);
-        const isIntervalo = s.tipo === 'Intervalo';
-        const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
-        return (
-          <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
-            <div class="flex flex-col gap-1">
-              <span class="sl-time">{minToTime(s._startMin as number)}</span>
-              <span class="sl-mesa-tag">{mesaLabel(s)}</span>
-            </div>
-            <div class="sl-body">
-              <span class="sl-title">{cleanTitle(s.titulo)}</span>
-              {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
-              {speakers.length > 0 && !isIntervalo && (
-                <div class="sl-chips">
-                  {speakers.map((p: any) => (
-                    <span class="sl-chip">{p.nome}{p.org && p.org !== '—' ? ` · ${p.org}` : ''}</span>
-                  ))}
+<div class="sl-container" data-dia-key={dia.key}>
+  {periods.map(period => {
+    const items = dia.sessoesList.filter((s: ProcessedSession) => period.test(s._startMin));
+    if (items.length === 0) return null;
+    return (
+      <div>
+        <div class="period-hdr">
+          <span style="font-size:1rem">{period.icon}</span>
+          <span>{period.label}</span>
+          <div class="period-line"></div>
+        </div>
+        {items.map((s: ProcessedSession, idx: number) => {
+          const isIntervalo = s.tipo === 'Intervalo';
+          const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+          const palestrantes = s.palestrantes || [];
+          const hasDetails = !!s.descricao || palestrantes.length > 0;
+          const detailsId = `details-${dia.key}-${idx}`;
+          return (
+            <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}${hasDetails && !isIntervalo ? ' has-details' : ''}`} style={`--dc:${dia.color};`}>
+              <div class="sl-header" role="button" tabindex="0" aria-expanded="false" aria-controls={hasDetails && !isIntervalo ? detailsId : undefined}>
+                <div class="flex flex-col gap-1">
+                  <span class="sl-time">{minToTime(s._startMin as number)}</span>
+                  <span class="sl-mesa-tag">{mesaLabel(s)}</span>
+                </div>
+                <div class="sl-body">
+                  <span class="sl-title">{cleanTitle(s.titulo)}</span>
+                  {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
+                </div>
+                {hasDetails && !isIntervalo && <span class="sl-chevron" aria-hidden="true"></span>}
+              </div>
+              {hasDetails && !isIntervalo && (
+                <div class="sl-details" id={detailsId} role="region" aria-label={`Detalhes: ${cleanTitle(s.titulo)}`}>
+                  <SessionDetails session={s} />
                 </div>
               )}
             </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-})}
+          );
+        })}
+      </div>
+    );
+  })}
+</div>
 
 <style>
-  .sl-session { display: flex; gap: 12px; padding: 10px 12px; background: #141414; border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
+  .sl-session { background: #141414; border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; }
   .sl-session.intervalo { border-left-color: #222; background: #0a0a0a; }
   .sl-session.especial  { border-left-color: #FFD400; background: #0f0f00; }
+  .sl-header { display: flex; gap: 12px; padding: 10px 12px; align-items: flex-start; }
+  .sl-session.has-details .sl-header { cursor: pointer; transition: background 0.15s; }
+  .sl-session.has-details .sl-header:hover { background: #1c1c1c; }
+  .sl-session.has-details .sl-header:focus-visible { outline: 2px solid var(--dc, #CC2200); outline-offset: -2px; }
   .sl-time {
     font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.78rem;
     background: var(--dc, #CC2200); color: white; padding: 2px 6px; border-radius: 2px;
@@ -87,12 +97,54 @@ const periods = [
   @media (min-width: 640px) {
     .sl-local { font-size: 1rem; }
   }
-  .sl-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-  .sl-chip { background: #0f2a1a; border: 1px solid #1e4a2a; color: #6fcf97; font-size: 0.72rem; padding: 2px 6px; border-radius: 10px; }
-  @media (min-width: 640px) {
-    .sl-chip { font-size: 1rem; padding: 2px 8px; }
+
+  .sl-chevron {
+    flex-shrink: 0; width: 20px; height: 20px; margin-top: 3px; position: relative;
+    transition: transform 0.25s ease;
   }
+  .sl-chevron::before, .sl-chevron::after {
+    content: ''; position: absolute; background: #666;
+    width: 8px; height: 2px; top: 9px; transition: transform 0.25s ease;
+  }
+  .sl-chevron::before { left: 2px; transform: rotate(45deg); }
+  .sl-chevron::after { left: 8px; transform: rotate(-45deg); }
+  .sl-session.expanded .sl-chevron { transform: rotate(180deg); }
+
+  .sl-details {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 12px;
+    border-top: 1px solid transparent;
+  }
+  .sl-session.expanded .sl-details {
+    max-height: 600px; padding: 10px 12px 14px;
+    border-top-color: #1e1e1e;
+  }
+
   .period-hdr { display: flex; align-items: center; gap: 8px; padding: 14px 0 6px; }
   .period-hdr span { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
   .period-line { flex: 1; height: 1px; background: #1e1e1e; }
 </style>
+
+<script>
+  document.querySelectorAll('.sl-container').forEach(container => {
+    container.addEventListener('click', e => {
+      const header = e.target.closest('.sl-header');
+      if (!header) return;
+      const session = header.closest('.sl-session');
+      if (!session || !session.classList.contains('has-details')) return;
+      const expanded = session.classList.toggle('expanded');
+      header.setAttribute('aria-expanded', String(expanded));
+    });
+    container.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const header = e.target.closest('.sl-header');
+      if (!header) return;
+      e.preventDefault();
+      const session = header.closest('.sl-session');
+      if (!session || !session.classList.contains('has-details')) return;
+      const expanded = session.classList.toggle('expanded');
+      header.setAttribute('aria-expanded', String(expanded));
+    });
+  });
+</script>

@@ -1,0 +1,83 @@
+---
+import type { ProcessedSession } from '~/types/schedule';
+
+export interface Props {
+  session: ProcessedSession;
+}
+
+const { session } = Astro.props;
+const palestrantes = session.palestrantes || [];
+const moderador = palestrantes.find(p => p.role === 'mediação');
+const participantes = palestrantes.filter(p => p.role !== 'mediação');
+---
+
+{session.descricao && (
+  <p class="sd-desc">{session.descricao}</p>
+)}
+
+{participantes.length > 0 && (
+  <div class="sd-participantes">
+    <h4>Participantes</h4>
+    <ul>
+      {participantes.map(p => (
+        <li>
+          <strong>{p.nome}</strong>
+          {p.org && <span class="sd-org">· {p.org}</span>}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+{moderador && (
+  <div class="sd-moderador">
+    <h4>Mediação</h4>
+    <p>
+      <strong>{moderador.nome}</strong>
+      {moderador.org && <span class="sd-org">· {moderador.org}</span>}
+    </p>
+  </div>
+)}
+
+<style>
+  .sd-desc {
+    font-family: 'Overpass', sans-serif;
+    font-size: 0.9rem;
+    color: #bbb;
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+  .sd-participantes h4,
+  .sd-moderador h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    margin: 0 0 8px;
+  }
+  .sd-participantes ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sd-participantes li {
+    padding: 4px 0;
+    font-size: 0.95rem;
+    color: #ccc;
+    border-bottom: 1px solid #141414;
+  }
+  .sd-participantes li:last-child {
+    border-bottom: none;
+  }
+  .sd-moderador {
+    margin-top: 8px;
+  }
+  .sd-moderador p {
+    font-size: 0.95rem;
+    color: #ccc;
+  }
+  .sd-org {
+    color: #777;
+  }
+</style>
