@@ -1,0 +1,36 @@
+---
+export interface Props {
+  conf: any;
+  about: any;
+}
+const { conf, about } = Astro.props;
+---
+
+<span class="block h-1 flex-shrink-0 bg-gradient-to-r from-[#E31B23] from-60% to-[#FFD400] to-60%"></span>
+<section class="bg-white dark:bg-[#010101] py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="md:flex items-start gap-12 lg:gap-20">
+      <div class="md:basis-2/5 mb-8 md:mb-0 md:sticky md:top-20">
+        <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Sobre o Encontro</p>
+        <h2 class="text-[#010101] dark:text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-6">Uma luta<br/>do povo</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center justify-center min-h-[48px] bg-[#E31B23] hover:bg-[#b01015] text-white font-bold uppercase py-3 px-6 border-l-4 border-[#FFD400] transition-colors text-sm">
+            Inscreva-se
+          </a>
+          <a href="#programacao"
+            class="inline-flex items-center justify-center min-h-[48px] border text-[#010101] dark:text-white border-[#e5e7eb] dark:border-[#1f2937] hover:bg-[#E31B23] hover:text-white hover:border-[#E31B23] font-bold uppercase py-3 px-5 transition-colors text-sm">
+            Ver Programação
+          </a>
+        </div>
+      </div>
+      <div class="md:basis-3/5 min-w-0">
+        <p class="text-[#292929] dark:text-[#d1d5db] text-lg leading-relaxed mb-6">{conf.description}</p>
+        <p class="text-[#292929] dark:text-[#d1d5db] text-base leading-relaxed mb-8">{about.text}</p>
+        <blockquote class="border-l-4 border-[#FFD400] pl-6">
+          <p class="text-[#010101] dark:text-white text-2xl md:text-4xl font-black uppercase leading-tight font-semibold italic">"{about.quote}"</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
