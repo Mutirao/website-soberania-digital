@@ -61,3 +61,8 @@ const { diasData } = Astro.props;
   .day-panel { display: none; }
   .day-panel.active { display: block; }
 </style>
+
+<script>
+  import { initScheduleTabs } from '~/scripts/schedule-tabs';
+  initScheduleTabs();
+</script>
