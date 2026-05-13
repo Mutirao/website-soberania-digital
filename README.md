@@ -7,111 +7,145 @@ O site "Soberania Digital" é uma plataforma Astro baseada no template AstroWind
 ## Arquitetura e Tecnologia
 
 - **Framework**: Astro 6.x com TypeScript
-- **Estilização**: Tailwind CSS 4.x
-- **Servidor**: Node.js Express (com adaptações para execução standalone)
-- **Deployment**: Docker com suporte para múltiplos ambientes
+- **Estilização**: Tailwind CSS 4.x (via `@tailwindcss/vite` plugin)
+- **Servidor**: Express (standalone via `@astrojs/node`) ou Docker
+- **Deployment**: Netlify (CI), Vercel, ou Docker
+- **Base path**: `/encontro` — todas as URLs são servidas sob este prefixo
 
 ## Estrutura Principal
 
-### Páginas Principais
-- `index.astro` - Página principal do encontro com hero, programação, informações do local e inscrições
-- `_manifesto.astro` - Manifesto pela soberania digital nas universidades
-- `_carta.astro` - Carta ao Presidente Lula com propostas
-- `_primeiro-encontro.astro` - Informações sobre o primeiro encontro realizado
-- `_programa.astro` - Programação detalhada do evento
-- `_about.astro` - Página padrão do template (não utilizada)
+### Página Principal (`index.astro`)
 
-### Componentes Chave
+A homepage é composta por **seções importadas** de `src/sections/`, cada uma recebendo dados como props:
 
-#### Widgets
-- `Header.astro` - Cabeçalho com navegação
-- `Footer.astro` - Rodapé com informações de contato e parcerias
-- `Hero.astro` - Seção hero com branding e CTA
-- `Manifesto.astro` - Conteúdo do manifesto
-- `MediaCoverage.astro` - Cobertura da mídia
+1. **HeroSection** — Hero com branding, data e CTA de inscrição
+2. **AboutSection** — Texto sobre o encontro + citação
+3. **ScheduleSection** — Programação interativa com 3 modos de visualização (grade/sessões/palestrantes)
+4. **InitiativesSection** — Iniciativas soberanas
+5. **RegistrationCTASection** — CTA com contador dinâmico de inscritos
+6. **LocationMapSection** — Mapa OpenStreetMap com local e referências
+7. **RegistrationFormSection** — Formulário integrado com Plataformas
+8. **PartnersSection** — Grid de parceiros/organizadores
 
-### Dados do Evento
+Os dados vêm de JSONs em `src/data/`:
+- `evento.json` — Configuração do evento, local, parceiros grid, links comunitários
+- `programacao.json` — Sessões com palestrantes, horários, locais e dias
+- `assinaturas.json` — Contagem de inscritos (atualizado via script)
+- `parceiros.json` — Organizadores extraídos do Plataformas
 
-Os dados do evento são organizados em arquivos JSON no diretório `src/data/`:
+A programação é processada por `src/lib/schedule.ts` (`buildScheduleData`), que calcula rows/colunas para o grid CSS a partir dos horários das sessões.
 
-- `evento.json` - Informações básicas do evento (nome, datas, local, descrição)
-- `programacao-gerado.json` - Programação completa com palestrantes, horários e locais
-- `assinaturas.json` - Número de inscritos e dados atualizados
-- `parceiros.json` - Informações sobre parceiros e organizadores
+### Outras Páginas
 
-## Funcionalidades
+| Arquivo | Rota | Descrição |
+|---------|------|-----------|
+| `index.astro` | `/encontro/` | Homepage com todas as seções |
+| `_manifesto.astro` | — | Manifesto pela soberania digital nas universidades |
+| `_carta.astro` | — | Carta ao Presidente Lula com propostas |
+| `_primeiro-encontro.astro` | — | Informações sobre o 1º encontro |
+| `_programa.astro` | — | Programação detalhada |
+| `api/dados.ts` | `/encontro/api/dados` | API SSR que retorna inscritos e parceiros em tempo real |
+| `encontro.ics.ts` | — | Calendário ICS do evento |
 
-### Programação Dinâmica
-O site apresenta três modos de visualização da programação:
-1. **Grade** - Visualização em grade de tempo/auditório
-2. **Sessões** - Lista cronológica de sessões
-3. **Palestrantes** - Lista de palestrantes com sessões em que participam
+### Seções (`src/sections/`)
+
+Cada seção é um componente Astro standalone: `HeroSection`, `AboutSection`, `ScheduleSection`, `InitiativesSection`, `RegistrationCTASection`, `LocationMapSection`, `RegistrationFormSection`, `PartnersSection`.
+
+### Componentes de Programação (`src/components/schedule/`)
+
+- `DayTabs.astro` — Abas Dia 1 / Dia 2
+- `ViewTabs.astro` — Abas Grade / Sessões / Palestrantes
+- `ScheduleGrid.astro` — Grid CSS horário × auditório
+- `ScheduleList.astro` — Lista cronológica
+- `SpeakerList.astro` — Lista de palestrantes
+- `SessionDetails.astro` — Detalhes de uma sessão
+
+### Tipos (`src/types/schedule.ts`)
+
+Interfaces TypeScript que definem o contrato dos dados: `Sessao`, `ProcessedSession`, `DiaData`, `DiaConfig`, `PalestranteResumo`, `TimeAxisItem`.
 
 ### Integração com Plataformas
-O site se integra com o sistema Plataformas (https://plantaformas.org) para:
-- Obter o número de inscritos
-- Atualizar informações sobre parceiros
-- Autenticação para acesso a dados administrativos
 
-### Scripts de Atualização
-- `scripts/fetch-assinaturas.ts` - Obtém o número de inscritos do formulário de inscrição
-- `scripts/fetch-parceiros.ts` - Atualiza informações sobre parceiros
-- `scripts/build-programacao.mjs` - Gera o JSON de programação a partir de uma planilha Excel
-- `scripts/gerar_programacao_atualizada.mjs` - Scripts de geração de programação
+O site se integra com [Plantaformas](https://plantaformas.org) (Decidim) para:
+- **Contagem de inscritos** — scrap do painel admin
+- **Parceiros** — GraphQL API + scrap da página pública
+- **Autenticação** — login via CSRF token + session cookies
 
-## Design e Estilo
+Há três caminhos de integração:
+1. **Scripts de build** (`scripts/fetch-*.ts`) — salvam dados em JSON estático
+2. **API SSR** (`src/pages/api/dados.ts`) — dados em tempo real com cache de 60s
+3. **Express server** (`server.js`) — usado em Docker, mesma lógica da API SSR
 
-### Paleta de Cores
-- **Vermelho primário**: #E31B23 (Botões CTA, labels de categoria)
-- **Amarelo/Ouro**: #FFD400 (Títulos e datas em fundo escuro)
-- **Preto**: #010101 (Fundos de seção escura)
-- **Branco**: #FFFFFF (Texto em fundos escuros)
+### Scripts
 
-### Tipografia
-- Fonte principal: Overpass (Google Fonts) com fallback para Inter Variable
-- Estilo de headings: Negrito ultra-bold (peso 900), maiúsculas
-
-## Configuração e Execução
+| Script | Descrição |
+|--------|-----------|
+| `npm run dev` | Servidor de desenvolvimento Astro |
+| `npm run build` | Busca dados + build de produção |
+| `npm run build:ci` | Busca parceiros + build (sem assinaturas, para CI) |
+| `npm run build:data` | Busca assinaturas + parceiros |
+| `npm run fetch-assinaturas` | Atualiza `src/data/assinaturas.json` |
+| `npm run fetch-parceiros` | Atualiza `src/data/parceiros.json` |
+| `npm run start` | Serve build standalone com Express |
+| `npm run check` | astro check + eslint + prettier |
+| `npm run fix` | eslint --fix + prettier -w |
 
 ### Variáveis de Ambiente
-- `PLANTAFORMAS_EMAIL` - Email para autenticação no sistema Plataformas
-- `PLANTAFORMAS_PASSWORD` - Senha para autenticação
-- `PLANTAFORMAS_CONFERENCE_SLUG` - Slug da conferência no Plataformas
 
-### Scripts do Package
-- `npm run dev` - Executa o servidor de desenvolvimento
-- `npm run build` - Compila o site para produção (inclui busca de dados externos)
-- `npm run build:data` - Atualiza dados de inscritos, parceiros e programação
+| Variável | Descrição |
+|----------|-----------|
+| `PLANTAFORMAS_EMAIL` | Email de admin no Plataformas |
+| `PLANTAFORMAS_PASSWORD` | Senha de admin |
+| `PLANTAFORMAS_CONFERENCE_SLUG` | Slug da conferência (default: `SoberaniaDigital`) |
 
-### Estrutura de Pastas
+## Design
+
+O site segue uma identidade visual brutalista/militante, documentada em `DESIGN.md`. Regras principais:
+- **Dark-only** — sem light mode
+- **3 cores**: preto `#010101`, vermelho `#E31B23` (ações), dourado `#FFD400` (identidade)
+- **Tipografia**: Barlow Condensed 900 (headings/labels), Overpass (body)
+- **Sem animações complexas** — fadeIn mínimo via intersect
+
+## Docker
+
+```bash
+docker-compose up --build
+# Expõe :8080, serve sob /encontro
+```
+
+O Dockerfile usa multi-stage build: `npm run build:docker` (sem credenciais) → copia `dist/` + `server.js` para imagem final.
+
+## Configuração do Astro
+
+- **Output**: `static` com adapter `@astrojs/node` (standalone) — necessário para API SSR
+- **Base**: `/encontro`
+- **Path alias**: `~` → `src/`
+- **Tailwind**: via `@tailwindcss/vite` plugin (não PostCSS)
+- **Integração customizada**: `vendor/integration` — processa `src/config.yaml`
+- **Ícones**: `astro-icon` com sets `tabler` e `flat-color-icons`
+
+## Estrutura de Pastas
+
 ```
 src/
-├── data/           # Dados do evento (JSON)
-├── pages/          # Páginas principais
-├── components/     # Componentes reutilizáveis
-├── layouts/        # Layouts do site
-├── assets/         # Imagens e estilos
-└── config.yaml     # Configuração geral do site
+├── assets/           # Imagens e estilos
+├── components/       # Componentes reutilizáveis
+│   ├── blog/         # Componentes de blog (desabilitado)
+│   ├── common/       # Componentes genéricos
+│   ├── schedule/     # Componentes da programação
+│   ├── ui/           # Primitivos de UI
+│   └── widgets/      # Widgets do template AstroWind
+├── data/             # Dados do evento (JSON)
+├── layouts/          # Layouts do site
+├── lib/              # Lógica de negócio (schedule, plataformas-api)
+├── pages/            # Páginas e rotas
+│   └── api/          # Endpoints SSR
+├── sections/         # Seções da homepage
+├── types/            # Definições TypeScript
+├── utils/            # Utilitários (frontmatter, images, permalinks)
+├── config.yaml       # Configuração geral (metadados, i18n, analytics)
+└── navigation.ts     # Links de navegação (header + footer)
+vendor/
+└── integration/      # Integração customizada AstroWind
+scripts/              # Scripts de atualização de dados
 ```
-
-## Funcionalidades Específicas
-
-### Contador de Inscrições
-O site exibe dinamicamente o número de inscrições no encontro atualizado periodicamente com dados provenientes do sistema Plataformas.
-
-### Mapa de Localização
-Incorpora um mapa interativo do OpenStreetMap (Leaflet) mostrando o local do evento e pontos de referência próximos ( hotéis, aeroporto, rodoviária).
-
-### Formulário de Inscrição
-Integração direta com o formulário do Plataformas, incluindo validação e envio automático para o sistema central.
-
-## Personalização para o Encontro
-
-O site foi adaptado especificamente para o 2º Encontro Nacional pela Soberania Digital com:
-- Design escuro predominante seguindo a identidade visual do movimento
-- Programação detalhada para os dois dias do evento
-- Informações específicas sobre palestrantes confirmados
-- Sistema de visualização interativa da agenda
-- Chamadas para ação direcionadas à participação no encontro
-
-O site serve como plataforma central para divulgação, inscrições e organização do evento, além de promover os objetivos mais amplos do movimento pela soberania digital no Brasil.
