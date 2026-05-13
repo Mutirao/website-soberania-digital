@@ -1,0 +1,127 @@
+---
+import type { DiaData } from '~/types/schedule';
+import { cleanTitle, mesaLabel, minToTime, locaisOrder, locaisShort, SLOT_H_PX } from '~/lib/schedule';
+
+export interface Props {
+  dia: DiaData;
+}
+const { dia } = Astro.props;
+
+const nCols = dia.locaisPresentes.length;
+const gridCols = `56px repeat(${nCols}, minmax(160px, 1fr))`;
+const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
+---
+
+<div class="time-grid-wrapper">
+  <div class="time-grid" style={`grid-template-columns:${gridCols};grid-template-rows:${gridRows};`}>
+    <div class="tg-corner" style="grid-row:1;grid-column:1;"></div>
+    {dia.locaisPresentes.map((local, li) => (
+      <div class="tg-room-hdr" style={`grid-row:1;grid-column:${li+2};border-top:3px solid ${dia.color};`}>
+        {locaisShort[locaisOrder.indexOf(local)]}
+      </div>
+    ))}
+    {dia.timeAxis.map(t => (
+      <>
+        <div class={`tg-time ${t.isHour ? 'is-hour' : 'is-half'}`} style={`grid-row:${t.row};grid-column:1;align-self:start;`}>
+          {t.isHour ? t.label : ''}
+        </div>
+        <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`}></div>
+      </>
+    ))}
+    {dia.processed.map((s) => {
+      if (s._startRow < 2) return null;
+      const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
+      if (colIdx < 2) return null;
+      const speakers = (s.palestrantes || []);
+      const isIntervalo = s.tipo === 'Intervalo';
+      const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+      return (
+        <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`}
+          style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`} title={cleanTitle(s.titulo)}>
+          <div>
+            <span class="tg-time-badge">{minToTime(s._startMin as number)}</span>
+            <span class="tg-mesa-tag">{mesaLabel(s)}</span>
+          </div>
+          <span class="tg-title">{cleanTitle(s.titulo)}</span>
+          {speakers.length > 0 && !isIntervalo && (
+            <span class="tg-speakers">{speakers.map((p: any) => p.nome).join(' · ')}</span>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>
+{nCols > 1 && <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-2 text-right">← deslize para ver todos os auditórios →</p>}
+
+<style>
+  .time-grid-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #1e1e1e; scroll-behavior: smooth; }
+  .time-grid { display: grid; min-width: 480px; }
+  .tg-corner { background: #0d0d0d; position: sticky; left: 0; z-index: 20; }
+  .tg-room-hdr {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;
+    color: #888; padding: 10px 6px; border-bottom: 1px solid #252525;
+    border-left: 1px solid #1a1a1a; background: #111; display: flex; align-items: center;
+  }
+  @media (min-width: 640px) {
+    .tg-room-hdr { font-size: 1rem; padding: 10px 8px; }
+  }
+  .tg-time {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; color: #444;
+    background: #0d0d0d; position: sticky; left: 0; z-index: 10;
+    display: flex; align-items: flex-start; padding: 3px 4px 0;
+    border-right: 1px solid #1a1a1a;
+  }
+  @media (min-width: 640px) {
+    .tg-time { font-size: 1rem; padding: 3px 6px 0; }
+  }
+  .tg-time.is-hour { color: #555; border-top: 1px solid #1e1e1e; }
+  .tg-time.is-half { border-top: 1px solid #161616; }
+  .tg-hour-line { border-top: 1px solid #1a1a1a; pointer-events: none; z-index: 1; }
+  .tg-half-line { border-top: 1px solid #131313; pointer-events: none; z-index: 1; }
+  .tg-session {
+    margin: 2px 3px; padding: 4px 6px;
+    border-left: 3px solid var(--dc, #CC2200); background: #141414;
+    overflow: hidden; cursor: default; z-index: 5;
+    font-size: 0.72rem; line-height: 1.35; position: relative; transition: background 0.1s;
+  }
+  @media (min-width: 640px) {
+    .tg-session { padding: 6px 8px; font-size: 1rem; }
+  }
+  .tg-session:hover { background: #1c1c1c; }
+  .tg-session.intervalo { background: #0a0a0a; border-left-color: #222; }
+  .tg-session.especial { background: #111000; border-left-color: #FFD400; }
+  .tg-time-badge {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.7rem;
+    background: var(--dc, #CC2200); color: white; padding: 1px 4px; border-radius: 2px;
+    display: inline-block; margin-bottom: 2px;
+  }
+  @media (min-width: 640px) {
+    .tg-time-badge { font-size: 1rem; padding: 1px 5px; margin-bottom: 3px; }
+  }
+  .tg-session.intervalo .tg-time-badge { background: #252525; color: #555; }
+  .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
+  .tg-mesa-tag {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.65rem;
+    background: #1a1a1a; color: #888; padding: 1px 4px; border-radius: 2px;
+    display: inline-block; margin-bottom: 2px; margin-left: 3px; border: 1px solid #2a2a2a;
+  }
+  @media (min-width: 640px) {
+    .tg-mesa-tag { font-size: 0.85rem; padding: 1px 5px; margin-left: 4px; }
+  }
+  .tg-session.intervalo .tg-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
+  .tg-session.especial  .tg-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+  .tg-title {
+    display: block; font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500; font-size: 1.2rem; color: #ddd; line-height: 1; margin-bottom: 2px;
+  }
+  @media (min-width: 640px) {
+    .tg-title { font-size: 1.2rem; margin-bottom: 3px; }
+  }
+  .tg-session.intervalo .tg-title { color: #444; font-weight: 400; }
+  .tg-session.especial  .tg-title { color: #FFD400; }
+  .tg-speakers { display: block; font-size: 1rem; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (min-width: 640px) {
+    .tg-speakers { font-size: 1rem; }
+  }
+</style>

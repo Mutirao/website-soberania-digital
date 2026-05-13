@@ -1,0 +1,98 @@
+---
+import type { DiaData, ProcessedSession } from '~/types/schedule';
+import { cleanTitle, mesaLabel, minToTime } from '~/lib/schedule';
+
+export interface Props {
+  dia: DiaData;
+}
+const { dia } = Astro.props;
+
+const periods = [
+  { label: 'Manhã', icon: '☀️', test: (m: number | null) => m !== null && m < 13 * 60 },
+  { label: 'Tarde', icon: '🌤️', test: (m: number | null) => m !== null && m >= 13 * 60 && m < 18 * 60 },
+  { label: 'Noite', icon: '🌙', test: (m: number | null) => m !== null && m >= 18 * 60 },
+];
+---
+
+{periods.map(period => {
+  const items = dia.sessoesList.filter((s: ProcessedSession) => period.test(s._startMin));
+  if (items.length === 0) return null;
+  return (
+    <div>
+      <div class="period-hdr">
+        <span style="font-size:1rem">{period.icon}</span>
+        <span>{period.label}</span>
+        <div class="period-line"></div>
+      </div>
+      {items.map((s: ProcessedSession) => {
+        const speakers = (s.palestrantes || []);
+        const isIntervalo = s.tipo === 'Intervalo';
+        const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+        return (
+          <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}`} style={`--dc:${dia.color};`}>
+            <div class="flex flex-col gap-1">
+              <span class="sl-time">{minToTime(s._startMin as number)}</span>
+              <span class="sl-mesa-tag">{mesaLabel(s)}</span>
+            </div>
+            <div class="sl-body">
+              <span class="sl-title">{cleanTitle(s.titulo)}</span>
+              {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
+              {speakers.length > 0 && !isIntervalo && (
+                <div class="sl-chips">
+                  {speakers.map((p: any) => (
+                    <span class="sl-chip">{p.nome}{p.org && p.org !== '—' ? ` · ${p.org}` : ''}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+})}
+
+<style>
+  .sl-session { display: flex; gap: 12px; padding: 10px 12px; background: #141414; border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; align-items: flex-start; }
+  .sl-session.intervalo { border-left-color: #222; background: #0a0a0a; }
+  .sl-session.especial  { border-left-color: #FFD400; background: #0f0f00; }
+  .sl-time {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.78rem;
+    background: var(--dc, #CC2200); color: white; padding: 2px 6px; border-radius: 2px;
+    flex-shrink: 0; min-width: 38px; text-align: center; white-space: nowrap; margin-top: 1px;
+  }
+  @media (min-width: 640px) {
+    .sl-time { font-size: 1rem; padding: 2px 8px; min-width: 44px; }
+  }
+  .sl-session.intervalo .sl-time { background: #252525; color: #555; }
+  .sl-session.especial  .sl-time { background: #FFD400; color: #000; }
+  .sl-mesa-tag {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.65rem;
+    background: #1a1a1a; color: #888; padding: 2px 6px; border-radius: 2px;
+    flex-shrink: 0; white-space: nowrap; margin-top: 1px; border: 1px solid #2a2a2a;
+  }
+  @media (min-width: 640px) {
+    .sl-mesa-tag { font-size: 0.85rem; padding: 2px 8px; }
+  }
+  .sl-session.intervalo .sl-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
+  .sl-session.especial  .sl-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+  .sl-body { flex: 1; min-width: 0; }
+  .sl-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
+  @media (min-width: 640px) {
+    .sl-title { font-size: 1.25rem; }
+  }
+  .sl-session.intervalo .sl-title { color: #444; font-weight: 400; }
+  .sl-session.especial  .sl-title { color: #FFD400; }
+  .sl-local { font-size: 0.78rem; color: #444; font-style: italic; margin-bottom: 4px; display: block; }
+  @media (min-width: 640px) {
+    .sl-local { font-size: 1rem; }
+  }
+  .sl-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .sl-chip { background: #0f2a1a; border: 1px solid #1e4a2a; color: #6fcf97; font-size: 0.72rem; padding: 2px 6px; border-radius: 10px; }
+  @media (min-width: 640px) {
+    .sl-chip { font-size: 1rem; padding: 2px 8px; }
+  }
+  .period-hdr { display: flex; align-items: center; gap: 8px; padding: 14px 0 6px; }
+  .period-hdr span { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+  .period-line { flex: 1; height: 1px; background: #1e1e1e; }
+</style>

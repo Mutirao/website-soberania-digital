@@ -1,0 +1,22 @@
+---
+---
+<div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Modo de visualização">
+  <button class="view-tab active" data-view="grade" role="tab" aria-selected="true">⊞ Grade</button>
+  <button class="view-tab" data-view="sessoes" role="tab" aria-selected="false">☰ Sessões</button>
+  <button class="view-tab" data-view="palestrantes" role="tab" aria-selected="false">◉ Palestrantes</button>
+</div>
+
+<style>
+  .view-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px;
+    text-transform: uppercase; padding: 8px 14px; min-height: 44px;
+    border: 1px solid #333; background: transparent; color: #555;
+    cursor: pointer; transition: all 0.15s;
+  }
+  @media (min-width: 400px) {
+    .view-tab { font-size: 0.85rem; padding: 10px 18px; }
+  }
+  .view-tab:hover { color: #ccc; border-color: #555; }
+  .view-tab.active { background: #FFD400; color: #000; border-color: #FFD400; font-weight: 900; }
+</style>
