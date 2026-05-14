@@ -9,30 +9,30 @@ import { fetchConferenceData, transformPlataformasData } from '../src/lib/plataf
 
 async function testPlataformasAPI() {
   console.log('Testing Plataformas API integration...');
-  
+
   try {
     // Use the conference slug from environment or default
     const conferenceSlug = process.env.PLANTAFORMAS_CONFERENCE_SLUG || 'SoberaniaDigital';
-    
+
     console.log(`Fetching conference data for slug: ${conferenceSlug}`);
-    
+
     const rawData = await fetchConferenceData(conferenceSlug);
     console.log('Raw data fetched successfully');
     console.log(`Conference: ${rawData?.title?.translation || 'N/A'}`);
     console.log(`Components found: ${rawData?.components?.length || 0}`);
-    
+
     const transformedData = transformPlataformasData(rawData);
     console.log('\nTransformed data:');
     console.log(`Sessions: ${transformedData.sessoes.length}`);
     console.log(`Stands: ${transformedData.stands.length}`);
-    
+
     if (transformedData.sessoes.length > 0) {
       console.log('\nFirst few sessions:');
       transformedData.sessoes.slice(0, 3).forEach((session, index) => {
         console.log(`  ${index + 1}. ${session.titulo} - ${session.dia} at ${session.inicio}`);
       });
     }
-    
+
     console.log('\n✅ Plataformas API test completed successfully');
   } catch (error) {
     console.error('❌ Error testing Plataformas API:', error.message);

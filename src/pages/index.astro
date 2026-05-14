@@ -5,6 +5,7 @@ import programacao from '~/data/programacao.json';
 import assinaturas from '~/data/assinaturas.json';
 
 import { buildScheduleData } from '~/lib/schedule';
+import EventJsonLD from '~/components/common/EventJsonLD.astro';
 
 import HeroSection from '~/sections/HeroSection.astro';
 import AboutSection from '~/sections/AboutSection.astro';
@@ -20,6 +21,7 @@ const { conf, about, location, partnersGrid } = evento;
 const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const diasData = buildScheduleData(programacao.sessoes as any[]);
 
 const metadata = {
@@ -27,6 +29,13 @@ const metadata = {
   ignoreTitleTemplate: true,
   description: `${conf.date} · ${conf.venue}. ${conf.description}`,
 };
+
+const SITE_URL = 'https://soberania.digital';
+const PAGE_URL = `${SITE_URL}/encontro`;
+const ICS_URL = asset('/encontro.ics');
+const eventStartDate = '2026-05-18T08:00:00-03:00';
+const eventEndDate = '2026-05-19T20:30:00-03:00';
+const eventImage = `${PAGE_URL}/_astro/id-visual-banner-horizontal.jpg`;
 ---
 
 <style>
@@ -37,6 +46,24 @@ const metadata = {
 </style>
 
 <Layout metadata={metadata}>
+  <link
+    slot="head"
+    rel="alternate"
+    type="text/calendar"
+    title="Programação do 2º Encontro Nacional pela Soberania Digital"
+    href={ICS_URL}
+  />
+  <EventJsonLD
+    slot="head"
+    conf={conf}
+    location={location}
+    sessoes={programacao.sessoes as any[] /* eslint-disable-line @typescript-eslint/no-explicit-any */}
+    startDate={eventStartDate}
+    endDate={eventEndDate}
+    url={PAGE_URL}
+    image={eventImage}
+    organizationId={`${SITE_URL}/#organization`}
+  />
   <div class="enc overflow-x-hidden">
     <HeroSection conf={conf} asset={asset} />
     <AboutSection conf={conf} about={about} />
