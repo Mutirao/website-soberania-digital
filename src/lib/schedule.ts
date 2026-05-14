@@ -33,15 +33,20 @@ export function cleanTitle(t: string): string {
   return t.replace(/^(Mesa\s+\d+|Conferência|Plenária|Lançamento|Roda de Conversa|Reunião)\s*[-–—:]\s*/, '');
 }
 
+const SENTINEL_TIMES = new Set(['?', 'tarde', 'manhã', 'noite']);
+
 export function parseMin(t: string | undefined): number | null {
-  if (!t || t.toLowerCase().includes('tarde') || t === '?') return null;
-  const [h, m] = t.trim().split(':').map(n => parseInt(n));
+  if (!t) return null;
+  const trimmed = t.trim();
+  if (!trimmed || SENTINEL_TIMES.has(trimmed.toLowerCase())) return null;
+  const [h, m] = trimmed.split(':').map((n) => parseInt(n, 10));
   if (isNaN(h)) return null;
   return h * 60 + (isNaN(m) ? 0 : m);
 }
 
 export function minToTime(m: number): string {
-  const h = Math.floor(m / 60), min = m % 60;
+  const h = Math.floor(m / 60),
+    min = m % 60;
   return min === 0 ? `${h}h` : `${h}h${String(min).padStart(2, '0')}`;
 }
 
@@ -52,7 +57,7 @@ function toRow(min: number): number {
 function buildPalList(ss: Sessao[]): PalestranteResumo[] {
   const palMap: Record<string, PalestranteResumo> = {};
   for (const s of ss) {
-    for (const p of (s.palestrantes || [])) {
+    for (const p of s.palestrantes || []) {
       const key = p.nome.trim();
       if (!key) continue;
       if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.org || '', sessoes: [] };
@@ -63,9 +68,9 @@ function buildPalList(ss: Sessao[]): PalestranteResumo[] {
 }
 
 export function buildScheduleData(sessoes: Sessao[]): DiaData[] {
-  return diasConf.map(dConf => {
+  return diasConf.map((dConf) => {
     const ss = sessoes.filter((s: Sessao) => s.dia === dConf.diaVal);
-    const locaisPresentes = locaisOrder.filter(l => ss.some((s: Sessao) => s.local === l));
+    const locaisPresentes = locaisOrder.filter((l) => ss.some((s: Sessao) => s.local === l));
 
     const processed: ProcessedSession[] = ss.map((s: Sessao) => {
       const startMin = parseMin(s.inicio);
@@ -73,7 +78,10 @@ export function buildScheduleData(sessoes: Sessao[]): DiaData[] {
       let endMin = parseMin(s.fim);
       if (endMin === null) {
         const sameLocalLater = ss
-          .filter((x: Sessao) => x.local === s.local && parseMin(x.inicio) !== null && (parseMin(x.inicio) as number) > startMin)
+          .filter(
+            (x: Sessao) =>
+              x.local === s.local && parseMin(x.inicio) !== null && (parseMin(x.inicio) as number) > startMin
+          )
           .map((x: Sessao) => parseMin(x.inicio) as number)
           .sort((a: number, b: number) => a - b);
         endMin = sameLocalLater[0] ?? Math.min(startMin + 60, dConf.endMin);
