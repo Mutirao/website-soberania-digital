@@ -250,9 +250,9 @@
       "palestrantes": [
         { "nome": "Junior Paixão", "org": "DCCL / Rede Mocambos", "role": "" },
         { "nome": "Moacir Neto", "org": "NUPEF", "role": "" },
-        { "nome": "Marco Mendes", "org": "PopSolutions", "role": "" },
+        { "nome": "Marcos Méndez", "org": "PopSolutions", "role": "" },
         { "nome": "Lari G.", "org": "Campanha Internet Legal", "role": "" },
-        { "nome": "Éverton Ribeiro", "org": "Rede de Economia Solidária e Feminista", "role": "mediação" }
+        { "nome": "Everton Rodrigues", "org": "Rede de Economia Solidária e Feminista", "role": "mediação" }
       ]
     },
     {
@@ -509,12 +509,12 @@
       "inicio": "10:00",
       "fim": "11:30",
       "tipo": "Roda de Conversa",
-      "titulo": "Roda de Conversa — Economia solidária, feminista e software livre",
+      "titulo": "Roda de Conversa — Por que a soberania digital precisa da economia solidária e feminista e do software livre?",
       "descricao": "Economia solidária, feminismo e software livre.",
       "palestrantes": [
         { "nome": "Natália Blanco", "org": "Marcha Mundial das Mulheres / SOF / UFABC", "role": "" },
         { "nome": "Inês Simon", "org": "Rede de Economia Solidária e Feminista / MMM", "role": "" },
-        { "nome": "Éverton Rodrigues", "org": "Movimento Software Livre / Rede de Economia Solidária e Feminista", "role": "" }
+        { "nome": "Everton Rodrigues", "org": "Movimento Software Livre / Rede de Economia Solidária e Feminista", "role": "" }
       ]
     },
     {
