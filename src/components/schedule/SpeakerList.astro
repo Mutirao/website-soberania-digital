@@ -1,46 +1,417 @@
 ---
 import type { DiaData } from '~/types/schedule';
+import type { BiosMap } from '~/types/bio';
+import biosData from '~/data/bios.json';
+import { getBio } from '~/lib/schedule';
 
 export interface Props {
   dia: DiaData;
 }
 const { dia } = Astro.props;
+const bios = biosData as BiosMap;
+
+const biosJson = JSON.stringify(bios);
 ---
 
-{dia.palList.length === 0 ? (
-  <p class="text-[#444] text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
-) : (
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-[#161616]">
-    {dia.palList.map((pal) => (
-      <div class="pal-item bg-[#0d0d0d]">
-        <div class="pal-avatar">{pal.nome.trim()[0]}</div>
-        <div class="flex-1 min-w-0">
-          <span class="pal-nome">{pal.nome}</span>
-          {pal.org && pal.org !== '—' && <span class="pal-org">{pal.org}</span>}
-          {pal.sessoes.map((t: string) => <span class="pal-sess">→ {t}</span>)}
-        </div>
+{
+  dia.palList.length === 0 ? (
+    <p class="text-[#444] text-sm py-8 text-center">Nenhum palestrante confirmado para este dia.</p>
+  ) : (
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-[#161616]">
+      {dia.palList.map((pal) => {
+        const bio = getBio(pal.nome, bios);
+        const initial = pal.nome.trim()[0] ?? '?';
+        const hasBio = bio !== null;
+        return (
+          <button
+            type="button"
+            class={`pal-item bg-[#0d0d0d]${hasBio ? ' has-bio' : ''}`}
+            data-bio-name={pal.nome}
+            aria-haspopup="dialog"
+            aria-label={`Abrir minibio de ${pal.nome}`}
+          >
+            {bio?.foto ? (
+              <img class="pal-avatar pal-avatar-img" src={bio.foto} alt="" loading="lazy" />
+            ) : (
+              <span class="pal-avatar">{initial}</span>
+            )}
+            <span class="flex-1 min-w-0 text-left">
+              <span class="pal-nome">{pal.nome}</span>
+              {pal.org && pal.org !== '—' && <span class="pal-org">{pal.org}</span>}
+              {pal.sessoes.map((t: string) => (
+                <span class="pal-sess">→ {t}</span>
+              ))}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  )
+}
+
+<script type="application/json" id={`bios-data-${dia.key}`} set:html={biosJson} />
+
+<dialog class="bio-dialog" id={`bio-dialog-${dia.key}`} aria-labelledby={`bio-title-${dia.key}`}>
+  <button type="button" class="bio-close" aria-label="Fechar minibio" data-bio-close>×</button>
+  <div class="bio-content">
+    <div class="bio-header">
+      <div class="bio-photo-wrap">
+        <img class="bio-photo" alt="" data-bio-photo />
+        <span class="bio-photo-fallback" data-bio-initial></span>
       </div>
-    ))}
+      <div class="bio-meta">
+        <h3 class="bio-name" id={`bio-title-${dia.key}`} data-bio-name></h3>
+        <p class="bio-sub" data-bio-sub></p>
+      </div>
+    </div>
+    <p class="bio-text" data-bio-text></p>
+    <div class="bio-sessoes">
+      <h4>Sessões neste dia</h4>
+      <ul data-bio-sessoes></ul>
+    </div>
+    <div class="bio-links" data-bio-links></div>
   </div>
-)}
+</dialog>
 
 <style>
-  .pal-item { display: flex; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #161616; align-items: flex-start; }
+  .pal-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #161616;
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    background: #0d0d0d;
+    font: inherit;
+    transition: background 0.15s;
+  }
+  .pal-item:hover,
+  .pal-item:focus-visible {
+    background: #1a1a1a;
+  }
+  .pal-item:focus-visible {
+    outline: 2px solid #e31b23;
+    outline-offset: -2px;
+  }
   .pal-avatar {
-    width: 36px; height: 36px; border-radius: 50%; background: #1a1a1a; border: 1px solid #2a2a2a;
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1rem; color: #444;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    color: #444;
+    overflow: hidden;
   }
-  .pal-nome { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; display: block; line-height: 1.2; }
-  @media (min-width: 640px) {
-    .pal-nome { font-size: 1.25rem; }
+  .pal-avatar-img {
+    object-fit: cover;
   }
-  .pal-org { font-size: 0.78rem; color: #555; display: block; margin-bottom: 3px; }
-  @media (min-width: 640px) {
-    .pal-org { font-size: 1rem; }
+  .pal-nome {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #e0e0e0;
+    display: block;
+    line-height: 1.2;
   }
-  .pal-sess { font-size: 0.78rem; color: #FFD400; display: block; line-height: 1.3; }
+  .pal-item.has-bio .pal-nome {
+    color: #ffd400;
+    text-decoration: underline;
+    text-decoration-color: #6a5800;
+    text-underline-offset: 3px;
+  }
+  .pal-item.has-bio:hover .pal-nome {
+    text-decoration-color: #ffd400;
+  }
   @media (min-width: 640px) {
-    .pal-sess { font-size: 1rem; }
+    .pal-nome {
+      font-size: 1.25rem;
+    }
+  }
+  .pal-org {
+    font-size: 0.78rem;
+    color: #555;
+    display: block;
+    margin-bottom: 3px;
+  }
+  @media (min-width: 640px) {
+    .pal-org {
+      font-size: 1rem;
+    }
+  }
+  .pal-sess {
+    font-size: 0.78rem;
+    color: #ffd400;
+    display: block;
+    line-height: 1.3;
+  }
+  @media (min-width: 640px) {
+    .pal-sess {
+      font-size: 1rem;
+    }
+  }
+
+  .bio-dialog {
+    border: 1px solid #2a2a2a;
+    background: #0d0d0d;
+    color: #e7e7d8;
+    padding: 0;
+    max-width: 560px;
+    width: calc(100vw - 32px);
+    border-left: 4px solid #ffd400;
+  }
+  .bio-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.78);
+  }
+  .bio-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 0;
+    color: #888;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .bio-close:hover,
+  .bio-close:focus-visible {
+    color: #fff;
+    outline: none;
+  }
+  .bio-content {
+    padding: 18px 20px 22px;
+  }
+  .bio-header {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .bio-photo-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    overflow: hidden;
+  }
+  .bio-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .bio-photo.has-src {
+    display: block;
+  }
+  .bio-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.6rem;
+    color: #555;
+  }
+  .bio-photo.has-src + .bio-photo-fallback {
+    display: none;
+  }
+  .bio-meta {
+    flex: 1;
+    min-width: 0;
+  }
+  .bio-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: #fff;
+    margin: 0 0 4px;
+    text-transform: uppercase;
+  }
+  .bio-sub {
+    font-size: 0.9rem;
+    color: #ffd400;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .bio-text {
+    font-family: 'Overpass', sans-serif;
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.55;
+    margin: 0 0 14px;
+  }
+  .bio-sessoes h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    margin: 0 0 6px;
+  }
+  .bio-sessoes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+  }
+  .bio-sessoes li {
+    font-size: 0.88rem;
+    color: #bbb;
+    padding: 3px 0;
+    border-bottom: 1px solid #161616;
+  }
+  .bio-sessoes li:last-child {
+    border-bottom: none;
+  }
+  .bio-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .bio-links a {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: #ffd400;
+    border: 1px solid #6a5800;
+    padding: 4px 10px;
+    text-decoration: none;
+  }
+  .bio-links a:hover,
+  .bio-links a:focus-visible {
+    border-color: #ffd400;
+    background: #1a1500;
+    outline: none;
   }
 </style>
+
+<script>
+  type Bio = {
+    nomeCompleto?: string;
+    subtitulo?: string;
+    bio?: string;
+    foto?: string;
+    links?: { rel: string; href: string }[];
+  };
+
+  type Pal = { nome: string; org: string; sessoes: string[] };
+
+  document.querySelectorAll<HTMLElement>('[id^="palestrantes-"]').forEach((panel) => {
+    const diaKey = panel.id.replace('palestrantes-', '');
+    const dialog = document.getElementById(`bio-dialog-${diaKey}`) as HTMLDialogElement | null;
+    const dataNode = document.getElementById(`bios-data-${diaKey}`);
+    if (!dialog || !dataNode) return;
+
+    let bios: Record<string, Bio> = {};
+    try {
+      bios = JSON.parse(dataNode.textContent || '{}');
+    } catch {
+      bios = {};
+    }
+
+    const palData = new Map<string, Pal>();
+    panel.querySelectorAll<HTMLElement>('.pal-item').forEach((node) => {
+      const nome = node.getAttribute('data-bio-name') || '';
+      if (!nome) return;
+      const org = (node.querySelector('.pal-org')?.textContent || '').trim();
+      const sessoes = Array.from(node.querySelectorAll('.pal-sess')).map((s) =>
+        (s.textContent || '').replace(/^\s*→\s*/, '').trim()
+      );
+      palData.set(nome, { nome, org, sessoes });
+    });
+
+    const photoEl = dialog.querySelector<HTMLImageElement>('[data-bio-photo]');
+    const initialEl = dialog.querySelector<HTMLElement>('[data-bio-initial]');
+    const nameEl = dialog.querySelector<HTMLElement>('[data-bio-name]');
+    const subEl = dialog.querySelector<HTMLElement>('[data-bio-sub]') as HTMLElement | null;
+    const textEl = dialog.querySelector<HTMLElement>('[data-bio-text]');
+    const sessoesEl = dialog.querySelector<HTMLElement>('[data-bio-sessoes]');
+    const linksEl = dialog.querySelector<HTMLElement>('[data-bio-links]');
+    const closeBtn = dialog.querySelector<HTMLButtonElement>('[data-bio-close]');
+
+    function fill(nome: string) {
+      const pal = palData.get(nome);
+      const bio: Bio = bios[nome] || {};
+      const display = bio.nomeCompleto || nome;
+      const sub = bio.subtitulo || pal?.org || '';
+
+      if (photoEl) {
+        if (bio.foto) {
+          photoEl.src = bio.foto;
+          photoEl.classList.add('has-src');
+        } else {
+          photoEl.removeAttribute('src');
+          photoEl.classList.remove('has-src');
+        }
+      }
+      if (initialEl) initialEl.textContent = (display.trim()[0] || '?').toUpperCase();
+      if (nameEl) nameEl.textContent = display;
+      if (subEl) {
+        subEl.textContent = sub;
+        subEl.style.display = sub ? '' : 'none';
+      }
+      if (textEl) {
+        const n = pal?.sessoes.length ?? 0;
+        const fallback = n
+          ? `Bio em construção. Participa de ${n} sessão${n > 1 ? 'ões' : ''} neste dia.`
+          : 'Bio em construção.';
+        textEl.textContent = bio.bio || fallback;
+      }
+      if (sessoesEl) {
+        sessoesEl.innerHTML = '';
+        (pal?.sessoes || []).forEach((t) => {
+          const li = document.createElement('li');
+          li.textContent = t;
+          sessoesEl.appendChild(li);
+        });
+      }
+      if (linksEl) {
+        linksEl.innerHTML = '';
+        (bio.links || []).forEach((l) => {
+          const a = document.createElement('a');
+          a.href = l.href;
+          a.textContent = l.rel;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          linksEl.appendChild(a);
+        });
+      }
+    }
+
+    panel.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLElement>('.pal-item');
+      if (!btn) return;
+      const nome = btn.getAttribute('data-bio-name');
+      if (!nome) return;
+      fill(nome);
+      dialog.showModal();
+    });
+
+    closeBtn?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  });
+</script>
