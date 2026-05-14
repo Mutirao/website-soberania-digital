@@ -28,6 +28,7 @@ A homepage é composta por **seções importadas** de `src/sections/`, cada uma 
 8. **PartnersSection** — Grid de parceiros/organizadores
 
 Os dados vêm de JSONs em `src/data/`:
+
 - `evento.json` — Configuração do evento, local, parceiros grid, links comunitários
 - `programacao.json` — Sessões com palestrantes, horários, locais e dias
 - `assinaturas.json` — Contagem de inscritos (atualizado via script)
@@ -37,15 +38,15 @@ A programação é processada por `src/lib/schedule.ts` (`buildScheduleData`), q
 
 ### Outras Páginas
 
-| Arquivo | Rota | Descrição |
-|---------|------|-----------|
-| `index.astro` | `/encontro/` | Homepage com todas as seções |
-| `_manifesto.astro` | — | Manifesto pela soberania digital nas universidades |
-| `_carta.astro` | — | Carta ao Presidente Lula com propostas |
-| `_primeiro-encontro.astro` | — | Informações sobre o 1º encontro |
-| `_programa.astro` | — | Programação detalhada |
-| `api/dados.ts` | `/encontro/api/dados` | API SSR que retorna inscritos e parceiros em tempo real |
-| `encontro.ics.ts` | — | Calendário ICS do evento |
+| Arquivo                    | Rota                  | Descrição                                               |
+| -------------------------- | --------------------- | ------------------------------------------------------- |
+| `index.astro`              | `/encontro/`          | Homepage com todas as seções                            |
+| `_manifesto.astro`         | —                     | Manifesto pela soberania digital nas universidades      |
+| `_carta.astro`             | —                     | Carta ao Presidente Lula com propostas                  |
+| `_primeiro-encontro.astro` | —                     | Informações sobre o 1º encontro                         |
+| `_programa.astro`          | —                     | Programação detalhada                                   |
+| `api/dados.ts`             | `/encontro/api/dados` | API SSR que retorna inscritos e parceiros em tempo real |
+| `encontro.ics.ts`          | —                     | Calendário ICS do evento                                |
 
 ### Seções (`src/sections/`)
 
@@ -67,40 +68,43 @@ Interfaces TypeScript que definem o contrato dos dados: `Sessao`, `ProcessedSess
 ### Integração com Plataformas
 
 O site se integra com [Plantaformas](https://plantaformas.org) (Decidim) para:
+
 - **Contagem de inscritos** — scrap do painel admin
 - **Parceiros** — GraphQL API + scrap da página pública
 - **Autenticação** — login via CSRF token + session cookies
 
 Há três caminhos de integração:
+
 1. **Scripts de build** (`scripts/fetch-*.ts`) — salvam dados em JSON estático
 2. **API SSR** (`src/pages/api/dados.ts`) — dados em tempo real com cache de 60s
 3. **Express server** (`server.js`) — usado em Docker, mesma lógica da API SSR
 
 ### Scripts
 
-| Script | Descrição |
-|--------|-----------|
-| `npm run dev` | Servidor de desenvolvimento Astro |
-| `npm run build` | Busca dados + build de produção |
-| `npm run build:ci` | Busca parceiros + build (sem assinaturas, para CI) |
-| `npm run build:data` | Busca assinaturas + parceiros |
-| `npm run fetch-assinaturas` | Atualiza `src/data/assinaturas.json` |
-| `npm run fetch-parceiros` | Atualiza `src/data/parceiros.json` |
-| `npm run start` | Serve build standalone com Express |
-| `npm run check` | astro check + eslint + prettier |
-| `npm run fix` | eslint --fix + prettier -w |
+| Script                      | Descrição                                          |
+| --------------------------- | -------------------------------------------------- |
+| `npm run dev`               | Servidor de desenvolvimento Astro                  |
+| `npm run build`             | Busca dados + build de produção                    |
+| `npm run build:ci`          | Busca parceiros + build (sem assinaturas, para CI) |
+| `npm run build:data`        | Busca assinaturas + parceiros                      |
+| `npm run fetch-assinaturas` | Atualiza `src/data/assinaturas.json`               |
+| `npm run fetch-parceiros`   | Atualiza `src/data/parceiros.json`                 |
+| `npm run start`             | Serve build standalone com Express                 |
+| `npm run check`             | astro check + eslint + prettier                    |
+| `npm run fix`               | eslint --fix + prettier -w                         |
 
 ### Variáveis de Ambiente
 
-| Variável | Descrição |
-|----------|-----------|
-| `PLANTAFORMAS_EMAIL` | Email de admin no Plataformas |
-| `PLANTAFORMAS_PASSWORD` | Senha de admin |
+| Variável                       | Descrição                                         |
+| ------------------------------ | ------------------------------------------------- |
+| `PLANTAFORMAS_EMAIL`           | Email de admin no Plataformas                     |
+| `PLANTAFORMAS_PASSWORD`        | Senha de admin                                    |
 | `PLANTAFORMAS_CONFERENCE_SLUG` | Slug da conferência (default: `SoberaniaDigital`) |
 
 ## Design
 
 O site segue uma identidade visual brutalista/militante, documentada em `DESIGN.md`. Regras principais:
+
 - **Dark-only** — sem light mode
 - **3 cores**: preto `#010101`, vermelho `#E31B23` (ações), dourado `#FFD400` (identidade)
 - **Tipografia**: Barlow Condensed 900 (headings/labels), Overpass (body)

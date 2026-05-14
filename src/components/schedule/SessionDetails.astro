@@ -7,37 +7,39 @@ export interface Props {
 
 const { session } = Astro.props;
 const palestrantes = session.palestrantes || [];
-const moderador = palestrantes.find(p => p.role === 'mediação');
-const participantes = palestrantes.filter(p => p.role !== 'mediação');
+const moderador = palestrantes.find((p) => p.role === 'mediação');
+const participantes = palestrantes.filter((p) => p.role !== 'mediação');
 ---
 
-{session.descricao && (
-  <p class="sd-desc">{session.descricao}</p>
-)}
+{session.descricao && <p class="sd-desc">{session.descricao}</p>}
 
-{participantes.length > 0 && (
-  <div class="sd-participantes">
-    <h4>Participantes</h4>
-    <ul>
-      {participantes.map(p => (
-        <li>
-          <strong>{p.nome}</strong>
-          {p.org && <span class="sd-org">· {p.org}</span>}
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
+{
+  participantes.length > 0 && (
+    <div class="sd-participantes">
+      <h4>Participantes</h4>
+      <ul>
+        {participantes.map((p) => (
+          <li>
+            <strong>{p.nome}</strong>
+            {p.org && <span class="sd-org">· {p.org}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
-{moderador && (
-  <div class="sd-moderador">
-    <h4>Mediação</h4>
-    <p>
-      <strong>{moderador.nome}</strong>
-      {moderador.org && <span class="sd-org">· {moderador.org}</span>}
-    </p>
-  </div>
-)}
+{
+  moderador && (
+    <div class="sd-moderador">
+      <h4>Mediação</h4>
+      <p>
+        <strong>{moderador.nome}</strong>
+        {moderador.org && <span class="sd-org">· {moderador.org}</span>}
+      </p>
+    </div>
+  )
+}
 
 <style>
   .sd-desc {
