@@ -7,12 +7,15 @@ import {
   buildScheduleData,
   cleanTitle,
   diasConf,
+  getBio,
   locaisOrder,
   mesaLabel,
   minToTime,
+  normalizeBioKey,
   parseMin,
 } from '../src/lib/schedule.ts';
 import type { Sessao } from '../src/types/schedule.ts';
+import type { BiosMap } from '../src/types/bio.ts';
 
 describe('parseMin', () => {
   it('parses HH:MM into minutes from midnight', () => {
@@ -174,6 +177,29 @@ describe('buildScheduleData', () => {
     const names = dias[0].palList.map((p) => p.nome);
     const sorted = [...names].sort((a, b) => a.localeCompare(b, 'pt-BR'));
     assert.deepEqual(names, sorted);
+  });
+
+  it('exposes normalizeBioKey collapsing whitespace', () => {
+    assert.equal(normalizeBioKey('  Marcos   Méndez  '), 'Marcos Méndez');
+  });
+
+  it('getBio returns the entry by exact match', () => {
+    const bios: BiosMap = {
+      'Marcos Méndez': { bio: 'Cofundador da Pop.Coop' },
+    };
+    const bio = getBio('Marcos Méndez', bios);
+    assert.ok(bio);
+    assert.match(bio!.bio, /Pop\.Coop/);
+  });
+
+  it('getBio returns null for unknown name', () => {
+    assert.equal(getBio('Pessoa Inexistente', {}), null);
+    assert.equal(getBio('', {}), null);
+  });
+
+  it('getBio falls back to whitespace-normalized lookup', () => {
+    const bios: BiosMap = { 'Marcos Méndez': { bio: 'x' } };
+    assert.ok(getBio('  Marcos   Méndez ', bios));
   });
 
   it('infers an end time when "fim" is missing using the next session in the same local', () => {

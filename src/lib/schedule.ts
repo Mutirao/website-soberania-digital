@@ -1,4 +1,5 @@
 import type { Sessao, DiaData, DiaConfig, ProcessedSession, TimeAxisItem, PalestranteResumo } from '~/types/schedule';
+import type { Bio, BiosMap } from '~/types/bio';
 
 export const BASE_MIN = 8 * 60;
 export const SLOT_MIN = 15;
@@ -65,6 +66,18 @@ function buildPalList(ss: Sessao[]): PalestranteResumo[] {
     }
   }
   return Object.values(palMap).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+}
+
+export function normalizeBioKey(nome: string): string {
+  return nome.trim().replace(/\s+/g, ' ');
+}
+
+export function getBio(nome: string, bios: BiosMap): Bio | null {
+  if (!nome) return null;
+  const direct = bios[nome];
+  if (direct) return direct;
+  const key = normalizeBioKey(nome);
+  return bios[key] ?? null;
 }
 
 export function buildScheduleData(sessoes: Sessao[]): DiaData[] {

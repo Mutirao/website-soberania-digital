@@ -1,0 +1,12 @@
+{
+  "Marcos Méndez": {
+    "nomeCompleto": "Marcos Méndez",
+    "subtitulo": "Pop.Coop — Cooperativa de tecnologia",
+    "bio": "Cofundador da Pop.Coop (PopSolutions), cooperativa que constrói infraestruturas digitais soberanas — datacenters, nuvem e plataformas livres — para movimentos populares, sindicatos e organizações da sociedade civil. Participa da Mesa 9 (Datacenters da sociedade civil e infraestruturas comunitárias) no 2º Encontro Nacional pela Soberania Digital.",
+    "foto": "https://github.com/marcos-mendez.png",
+    "links": [
+      { "rel": "GitHub", "href": "https://github.com/marcos-mendez" },
+      { "rel": "Pop.Coop", "href": "https://pop.coop" }
+    ]
+  }
+}
