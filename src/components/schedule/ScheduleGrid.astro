@@ -218,6 +218,14 @@ const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
       const details = dialog.querySelector('.dialog-details');
       const parent = dialog.parentElement;
 
+      // Fechar ao clicar fora do conteúdo (backdrop) ou pressionar ESC
+      dialog.addEventListener('click', e => {
+        if (e.target === dialog) dialog.close();
+      });
+      dialog.addEventListener('keydown', e => {
+        if (e.key === 'Escape') dialog.close();
+      });
+
       parent.querySelectorAll('.tg-session.clickable').forEach(el => {
         const openDialog = () => {
           try {
