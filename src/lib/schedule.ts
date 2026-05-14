@@ -58,11 +58,12 @@ function toRow(min: number): number {
 function buildPalList(ss: Sessao[]): PalestranteResumo[] {
   const palMap: Record<string, PalestranteResumo> = {};
   for (const s of ss) {
+    const titulo = cleanTitle(s.titulo);
     for (const p of s.palestrantes || []) {
       const key = p.nome.trim();
       if (!key) continue;
       if (!palMap[key]) palMap[key] = { nome: p.nome, org: p.org || '', sessoes: [] };
-      if (!palMap[key].sessoes.includes(s.titulo)) palMap[key].sessoes.push(s.titulo);
+      if (!palMap[key].sessoes.includes(titulo)) palMap[key].sessoes.push(titulo);
     }
   }
   return Object.values(palMap).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));

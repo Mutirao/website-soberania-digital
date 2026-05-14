@@ -17,16 +17,55 @@ const { metadata } = Astro.props;
 
 <Layout metadata={metadata}>
   <slot name="head" slot="head" />
+  <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
   <slot name="announcement">
     <Announcement />
   </slot>
   <slot name="header">
     <Header {...headerData} isSticky showToggleTheme />
   </slot>
-  <main>
+  <main id="main-content" tabindex="-1">
     <slot />
   </main>
   <slot name="footer">
     <Footer {...footerData} />
   </slot>
 </Layout>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 8px;
+    z-index: 9999;
+    background: #ffd400;
+    color: #000;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 16px;
+    border: 2px solid #000;
+    text-decoration: none;
+    transition: top 0.15s;
+  }
+  .skip-link:focus {
+    top: 8px;
+    outline: 2px solid #e31b23;
+    outline-offset: 2px;
+  }
+  #main-content:focus {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>

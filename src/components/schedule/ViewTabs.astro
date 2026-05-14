@@ -1,11 +1,27 @@
 ---
-
+const views = [
+  { id: 'grade', label: 'Grade', icon: '⊞' },
+  { id: 'sessoes', label: 'Sessões', icon: '☰' },
+  { id: 'palestrantes', label: 'Palestrantes', icon: '◉' },
+];
 ---
 
 <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Modo de visualização">
-  <button class="view-tab active" data-view="grade" role="tab" aria-selected="true">⊞ Grade</button>
-  <button class="view-tab" data-view="sessoes" role="tab" aria-selected="false">☰ Sessões</button>
-  <button class="view-tab" data-view="palestrantes" role="tab" aria-selected="false">◉ Palestrantes</button>
+  {
+    views.map((v, i) => (
+      <button
+        class={`view-tab${i === 0 ? ' active' : ''}`}
+        data-view={v.id}
+        role="tab"
+        id={`view-tab-${v.id}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-controls={`view-${v.id}`}
+        tabindex={i === 0 ? 0 : -1}
+      >
+        <span aria-hidden="true">{v.icon}</span> {v.label}
+      </button>
+    ))
+  }
 </div>
 
 <style>
@@ -32,6 +48,10 @@
   .view-tab:hover {
     color: #ccc;
     border-color: #555;
+  }
+  .view-tab:focus-visible {
+    outline: 2px solid #e31b23;
+    outline-offset: 2px;
   }
   .view-tab.active {
     background: #ffd400;
