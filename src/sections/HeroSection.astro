@@ -1,5 +1,8 @@
 ---
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Image } from 'astro:assets';
+import bannerImg from '~/assets/images/encontro/banner-encontro-1080.png';
+
 export interface Props {
   conf: any;
   asset: (p: string) => string;
@@ -10,11 +13,15 @@ const { conf, asset } = Astro.props;
 <section class="bg-[#010101]">
   <!-- mobile hero -->
   <div class="md:hidden">
-    <img
-      src={asset('/banner-encontro-1080.png')}
+    <Image
+      src={bannerImg}
       alt="2º Encontro Nacional pela Soberania Digital — 18 e 19 de Maio, Brasília"
+      widths={[480, 768, 1080]}
+      sizes="100vw"
       class="w-full block"
       loading="eager"
+      fetchpriority="high"
+      decoding="sync"
     />
     <div class="px-5 py-8 text-center">
       <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">
@@ -51,11 +58,15 @@ const { conf, asset } = Astro.props;
   <!-- desktop hero -->
   <div class="hidden md:flex items-center gap-10 max-w-6xl mx-auto px-6 py-12 lg:py-16">
     <div class="flex-1 min-w-0">
-      <img
-        src={asset('/banner-encontro-1080.png')}
+      <Image
+        src={bannerImg}
         alt="2º Encontro Nacional pela Soberania Digital"
+        widths={[480, 768, 1080]}
+        sizes="(min-width: 1280px) 720px, (min-width: 768px) 50vw, 100vw"
         class="w-full max-h-[60vh] object-contain block"
         loading="eager"
+        fetchpriority="high"
+        decoding="sync"
       />
     </div>
     <div class="flex-shrink-0 w-72 xl:w-80 self-center">

@@ -36,6 +36,10 @@ function apoioLogo(org: { logo?: string; url?: string }): string | null {
                   <img
                     src={asset(org.logo)}
                     alt={org.nome}
+                    width="240"
+                    height="96"
+                    loading="lazy"
+                    decoding="async"
                     class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                   />
                 </a>
@@ -61,6 +65,10 @@ function apoioLogo(org: { logo?: string; url?: string }): string | null {
                   <img
                     src={asset(org.logo)}
                     alt={org.nome}
+                    width="240"
+                    height="96"
+                    loading="lazy"
+                    decoding="async"
                     class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                   />
                 </a>
@@ -90,6 +98,10 @@ function apoioLogo(org: { logo?: string; url?: string }): string | null {
                 <img
                   src={asset(org.logo)}
                   alt={org.nome}
+                  width="200"
+                  height="64"
+                  loading="lazy"
+                  decoding="async"
                   class={`h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
                 />
               </a>
