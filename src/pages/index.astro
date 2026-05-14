@@ -3,7 +3,6 @@ import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
 import programacao from '~/data/programacao.json';
 import assinaturas from '~/data/assinaturas.json';
-import parceirosData from '~/data/parceiros.json';
 
 import { buildScheduleData } from '~/lib/schedule';
 import EventJsonLD from '~/components/common/EventJsonLD.astro';
@@ -18,7 +17,6 @@ import RegistrationFormSection from '~/sections/RegistrationFormSection.astro';
 import PartnersSection from '~/sections/PartnersSection.astro';
 
 const { conf, about, location, partnersGrid } = evento;
-const parceiros = parceirosData.organizadores;
 
 const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
