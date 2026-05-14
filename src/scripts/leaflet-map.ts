@@ -1,5 +1,31 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const L: any;
+type LatLng = [number, number];
+
+interface LeafletLayer {
+  addTo(map: LeafletMap): LeafletLayer;
+  bindPopup(html: string): LeafletLayer;
+}
+
+interface LeafletMap {
+  setView(latlng: LatLng, zoom: number): LeafletMap;
+}
+
+interface LeafletIcon {
+  _brand?: 'leaflet-icon';
+}
+
+interface LeafletStatic {
+  map(id: string): LeafletMap;
+  tileLayer(url: string, options: { attribution?: string; maxZoom?: number }): LeafletLayer;
+  marker(latlng: LatLng, options?: { icon?: LeafletIcon }): LeafletLayer;
+  divIcon(options: {
+    className?: string;
+    html?: string;
+    iconSize?: [number, number];
+    iconAnchor?: [number, number];
+  }): LeafletIcon;
+}
+
+declare const L: LeafletStatic;
 
 function mkIcon(bg: string, fg: string, emoji: string, size: number) {
   size = size || 30;

@@ -1,7 +1,8 @@
 ---
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { EventoLocation } from '~/types/evento';
+
 export interface Props {
-  location: any;
+  location: EventoLocation;
 }
 const { location } = Astro.props;
 ---

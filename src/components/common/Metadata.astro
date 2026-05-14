@@ -26,8 +26,16 @@ const {
   articleModifiedTime,
 } = Astro.props;
 
+interface RobotsConfig {
+  index?: boolean;
+  follow?: boolean;
+  maxSnippet?: number;
+  maxVideoPreview?: number;
+  maxImagePreview?: 'none' | 'standard' | 'large';
+}
+
 // Build robots meta content string with extended directives
-const buildRobotsContent = (robots: Record<string, unknown>) => {
+const buildRobotsContent = (robots: RobotsConfig) => {
   const parts: string[] = [];
   if (robots.index !== false) parts.push('index');
   else parts.push('noindex');

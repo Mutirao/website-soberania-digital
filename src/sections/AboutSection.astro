@@ -1,8 +1,9 @@
 ---
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { EventoConf, EventoAbout } from '~/types/evento';
+
 export interface Props {
-  conf: any;
-  about: any;
+  conf: EventoConf;
+  about: EventoAbout;
 }
 const { conf, about } = Astro.props;
 ---

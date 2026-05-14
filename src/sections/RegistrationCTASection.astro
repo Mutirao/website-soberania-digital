@@ -1,8 +1,9 @@
 ---
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { AssinaturasData, EventoConf } from '~/types/evento';
+
 export interface Props {
-  conf: any;
-  assinaturas: any;
+  conf: EventoConf;
+  assinaturas: AssinaturasData;
 }
 const { conf, assinaturas } = Astro.props;
 ---
@@ -41,7 +42,7 @@ const { conf, assinaturas } = Astro.props;
     <p class="text-pink-200 text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-4">Não perca</p>
     <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">Garanta sua vaga</h2>
     <p class="text-pink-100 text-lg leading-relaxed mb-8">
-      {conf.date} · {conf.venue} · {conf.location?.name || ''}
+      {conf.date} · {conf.venue}
     </p>
     <div class="flex flex-wrap gap-4 justify-center">
       <a

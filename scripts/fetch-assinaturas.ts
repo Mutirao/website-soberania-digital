@@ -140,7 +140,7 @@ async function main() {
     fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
     console.log(`📁 Salvo em: ${outPath}`);
     console.log(`   Total: ${data.total} inscrições`);
-  } catch (err) {
+  } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error(`❌ Erro: ${message}`);
     process.exit(1);

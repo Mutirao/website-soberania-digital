@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Image } from 'astro:assets';
 import bannerImg from '~/assets/images/encontro/banner-encontro-1080.png';
+import type { EventoConf } from '~/types/evento';
 
 export interface Props {
-  conf: any;
+  conf: EventoConf;
   asset: (p: string) => string;
 }
 const { conf, asset } = Astro.props;
