@@ -68,6 +68,23 @@ function buildPalList(ss: Sessao[]): PalestranteResumo[] {
   return Object.values(palMap).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 }
 
+export interface UniquePerformer {
+  nome: string;
+  org: string;
+}
+
+export function uniquePerformers(sessoes: Sessao[]): UniquePerformer[] {
+  const seen = new Map<string, UniquePerformer>();
+  for (const s of sessoes) {
+    for (const p of s.palestrantes ?? []) {
+      const nome = p.nome.trim();
+      if (!nome || seen.has(nome)) continue;
+      seen.set(nome, { nome, org: (p.org ?? '').trim() });
+    }
+  }
+  return Array.from(seen.values()).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+}
+
 export function normalizeBioKey(nome: string): string {
   return nome.trim().replace(/\s+/g, ' ');
 }

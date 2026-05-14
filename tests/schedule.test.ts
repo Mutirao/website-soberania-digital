@@ -13,6 +13,7 @@ import {
   minToTime,
   normalizeBioKey,
   parseMin,
+  uniquePerformers,
 } from '../src/lib/schedule.ts';
 import type { Sessao } from '../src/types/schedule.ts';
 import type { BiosMap } from '../src/types/bio.ts';
@@ -177,6 +178,40 @@ describe('buildScheduleData', () => {
     const names = dias[0].palList.map((p) => p.nome);
     const sorted = [...names].sort((a, b) => a.localeCompare(b, 'pt-BR'));
     assert.deepEqual(names, sorted);
+  });
+
+  it('uniquePerformers dedupes by trimmed name and sorts pt-BR', () => {
+    const sessoes: Sessao[] = [
+      {
+        dia: '18/05',
+        local: 'Anfiteatro',
+        inicio: '9:00',
+        tipo: 'Mesa',
+        titulo: 'A',
+        palestrantes: [
+          { nome: '  Beá Tibiriçá  ', org: 'Rede pela Soberania Digital' },
+          { nome: 'Ângela X', org: 'Org A' },
+        ],
+      },
+      {
+        dia: '19/05',
+        local: 'Anfiteatro',
+        inicio: '9:00',
+        tipo: 'Mesa',
+        titulo: 'B',
+        palestrantes: [
+          { nome: 'Beá Tibiriçá', org: 'Rede pela Soberania Digital' },
+          { nome: 'Zé Y', org: '' },
+        ],
+      },
+    ];
+    const perf = uniquePerformers(sessoes);
+    assert.deepEqual(
+      perf.map((p: { nome: string }) => p.nome),
+      ['Ângela X', 'Beá Tibiriçá', 'Zé Y']
+    );
+    const beá = perf.find((p: { nome: string }) => p.nome === 'Beá Tibiriçá');
+    assert.equal(beá.org, 'Rede pela Soberania Digital');
   });
 
   it('exposes normalizeBioKey collapsing whitespace', () => {

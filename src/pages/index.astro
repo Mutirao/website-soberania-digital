@@ -6,6 +6,7 @@ import assinaturas from '~/data/assinaturas.json';
 import parceirosData from '~/data/parceiros.json';
 
 import { buildScheduleData } from '~/lib/schedule';
+import EventJsonLD from '~/components/common/EventJsonLD.astro';
 
 import HeroSection from '~/sections/HeroSection.astro';
 import AboutSection from '~/sections/AboutSection.astro';
@@ -29,14 +30,41 @@ const metadata = {
   ignoreTitleTemplate: true,
   description: `${conf.date} · ${conf.venue}. ${conf.description}`,
 };
+
+const SITE_URL = 'https://soberania.digital';
+const PAGE_URL = `${SITE_URL}/encontro`;
+const ICS_URL = asset('/encontro.ics');
+const eventStartDate = '2026-05-18T08:00:00-03:00';
+const eventEndDate = '2026-05-19T20:30:00-03:00';
+const eventImage = `${PAGE_URL}/_astro/id-visual-banner-horizontal.jpg`;
 ---
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap');
-  .enc { font-family: 'Overpass', Helvetica, Arial, sans-serif; }
+  .enc {
+    font-family: 'Overpass', Helvetica, Arial, sans-serif;
+  }
 </style>
 
 <Layout metadata={metadata}>
+  <link
+    slot="head"
+    rel="alternate"
+    type="text/calendar"
+    title="Programação do 2º Encontro Nacional pela Soberania Digital"
+    href={ICS_URL}
+  />
+  <EventJsonLD
+    slot="head"
+    conf={conf}
+    location={location}
+    sessoes={programacao.sessoes as any[]}
+    startDate={eventStartDate}
+    endDate={eventEndDate}
+    url={PAGE_URL}
+    image={eventImage}
+    organizationId={`${SITE_URL}/#organization`}
+  />
   <div class="enc overflow-x-hidden">
     <HeroSection conf={conf} asset={asset} />
     <AboutSection conf={conf} about={about} />
@@ -51,8 +79,8 @@ const metadata = {
 
 <script>
   fetch('/encontro/api/dados')
-    .then(r => r.ok ? r.json() : null)
-    .then(dados => {
+    .then((r) => (r.ok ? r.json() : null))
+    .then((dados) => {
       if (!dados) return;
       if (dados.inscritos != null) {
         const el = document.getElementById('inscritos-count');
@@ -60,10 +88,15 @@ const metadata = {
         const timeEl = document.getElementById('inscritos-time');
         if (timeEl && dados.atualizadoEm) {
           const d = new Date(dados.atualizadoEm);
-          timeEl.textContent = 'atualizado em ' + d.toLocaleDateString('pt-BR', {
-            day: '2-digit', month: '2-digit', year: 'numeric',
-            hour: '2-digit', minute: '2-digit',
-          });
+          timeEl.textContent =
+            'atualizado em ' +
+            d.toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            });
         }
       }
     })

@@ -1,0 +1,80 @@
+---
+import type { Sessao } from '~/types/schedule';
+import { uniquePerformers } from '~/lib/schedule';
+
+export interface EventLocation {
+  name: string;
+  address: string;
+  mapLink?: string;
+}
+
+export interface EventConf {
+  name: string;
+  description: string;
+  callToAction: { link: string };
+}
+
+export interface Props {
+  conf: EventConf;
+  location: EventLocation;
+  sessoes: Sessao[];
+  /** ISO 8601 com offset (ex.: "2026-05-18T08:00:00-03:00"). */
+  startDate: string;
+  /** ISO 8601 com offset (ex.: "2026-05-19T20:30:00-03:00"). */
+  endDate: string;
+  url: string;
+  image: string;
+  organizationId: string;
+}
+
+const { conf, location, sessoes, startDate, endDate, url, image, organizationId } = Astro.props;
+
+const performers = uniquePerformers(sessoes)
+  .filter((p) => !/^a\s+confirmar$/i.test(p.nome))
+  .map((p) => ({
+    '@type': 'Person',
+    name: p.nome,
+    ...(p.org ? { affiliation: { '@type': 'Organization', name: p.org } } : {}),
+  }));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  '@id': `${url}#event`,
+  name: conf.name,
+  description: conf.description,
+  startDate,
+  endDate,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  inLanguage: 'pt-BR',
+  url,
+  image: [image],
+  location: {
+    '@type': 'Place',
+    name: location.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: location.address,
+      addressLocality: 'Brasília',
+      addressRegion: 'DF',
+      addressCountry: 'BR',
+    },
+    ...(location.mapLink ? { hasMap: location.mapLink } : {}),
+  },
+  organizer: { '@id': organizationId },
+  performer: performers,
+  offers: {
+    '@type': 'Offer',
+    name: 'Inscrição gratuita',
+    url: conf.callToAction.link,
+    price: '0',
+    priceCurrency: 'BRL',
+    availability: 'https://schema.org/InStock',
+    validFrom: '2026-01-01T00:00:00-03:00',
+  },
+  isAccessibleForFree: true,
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
