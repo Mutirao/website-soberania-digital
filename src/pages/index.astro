@@ -3,7 +3,6 @@ import Layout from '~/layouts/PageLayout.astro';
 import evento from '~/data/evento.json';
 import programacao from '~/data/programacao.json';
 import assinaturas from '~/data/assinaturas.json';
-import parceirosData from '~/data/parceiros.json';
 
 import { buildScheduleData } from '~/lib/schedule';
 
@@ -17,7 +16,6 @@ import RegistrationFormSection from '~/sections/RegistrationFormSection.astro';
 import PartnersSection from '~/sections/PartnersSection.astro';
 
 const { conf, about, location, partnersGrid } = evento;
-const parceiros = parceirosData.organizadores;
 
 const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
 const asset = (p: string) => base + (p.startsWith('/') ? p : '/' + p);
@@ -33,7 +31,9 @@ const metadata = {
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap');
-  .enc { font-family: 'Overpass', Helvetica, Arial, sans-serif; }
+  .enc {
+    font-family: 'Overpass', Helvetica, Arial, sans-serif;
+  }
 </style>
 
 <Layout metadata={metadata}>
@@ -51,8 +51,8 @@ const metadata = {
 
 <script>
   fetch('/encontro/api/dados')
-    .then(r => r.ok ? r.json() : null)
-    .then(dados => {
+    .then((r) => (r.ok ? r.json() : null))
+    .then((dados) => {
       if (!dados) return;
       if (dados.inscritos != null) {
         const el = document.getElementById('inscritos-count');
@@ -60,10 +60,15 @@ const metadata = {
         const timeEl = document.getElementById('inscritos-time');
         if (timeEl && dados.atualizadoEm) {
           const d = new Date(dados.atualizadoEm);
-          timeEl.textContent = 'atualizado em ' + d.toLocaleDateString('pt-BR', {
-            day: '2-digit', month: '2-digit', year: 'numeric',
-            hour: '2-digit', minute: '2-digit',
-          });
+          timeEl.textContent =
+            'atualizado em ' +
+            d.toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            });
         }
       }
     })
