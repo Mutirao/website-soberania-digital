@@ -45,7 +45,7 @@ async function login(email: string, password: string): Promise<string> {
 
   const res = await fetch(`${PLANTAFORMAS}/users/sign_in`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Cookie': jar.join('; ') },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Cookie: jar.join('; ') },
     body: new URLSearchParams({
       authenticity_token: csrf,
       'user[email]': email,
@@ -71,7 +71,7 @@ async function fetchParceiros(cookie: string): Promise<Partner[]> {
   const query = `{ conference(id: "${CONF_ID}") { partners { id name partnerType weight logo link } } }`;
   const r = await fetch(`${PLANTAFORMAS}/api`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Cookie': cookie },
+    headers: { 'Content-Type': 'application/json', Cookie: cookie },
     body: JSON.stringify({ query }),
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
@@ -91,7 +91,7 @@ async function fetchParceiros(cookie: string): Promise<Partner[]> {
 
 async function fetchInscritos(cookie: string): Promise<number | null> {
   const r = await fetch(`${PLANTAFORMAS}/admin/conferences/${CONF_SLUG}/components`, {
-    headers: { 'Cookie': cookie },
+    headers: { Cookie: cookie },
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
@@ -129,10 +129,7 @@ export const GET: APIRoute = async () => {
 
   try {
     const cookie = await login(email, password);
-    const [parceiros, inscritos] = await Promise.all([
-      fetchParceiros(cookie),
-      fetchInscritos(cookie),
-    ]);
+    const [parceiros, inscritos] = await Promise.all([fetchParceiros(cookie), fetchInscritos(cookie)]);
 
     cache = { parceiros, inscritos, atualizadoEm: new Date().toISOString() };
     cacheTime = Date.now();

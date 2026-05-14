@@ -1,85 +1,145 @@
 ---
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Props {
   partnersGrid: any;
   asset: (p: string) => string;
 }
 const { partnersGrid, asset } = Astro.props;
+
+function apoioLogo(org: { logo?: string; url?: string }): string | null {
+  if (org.logo) return org.logo;
+  if (!org.url) return null;
+  try {
+    const host = new URL(org.url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+  } catch {
+    return null;
+  }
+}
 ---
 
 <section class="bg-white dark:bg-[#080808] py-16 md:py-20 border-t border-[#e5e7eb] dark:border-[#1a1a1a]">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
     <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 mb-12 justify-center items-start">
       <div class="text-center flex-1">
         <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
         <div class="flex justify-center gap-8 flex-wrap items-center">
-          {partnersGrid.realizacao.map((org: any) => (
-            org.logo ? (
-              <a href={org.url} target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center">
-                <img
-                  src={asset(org.logo)}
-                  alt={org.nome}
-                  class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
-                />
-              </a>
-            ) : (
-              <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+          {
+            partnersGrid.realizacao.map((org: any) =>
+              org.logo ? (
+                <a
+                  href={org.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center"
+                >
+                  <img
+                    src={asset(org.logo)}
+                    alt={org.nome}
+                    class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                  />
+                </a>
+              ) : (
+                <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+              )
             )
-          ))}
+          }
         </div>
       </div>
       <div class="text-center flex-1">
         <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
         <div class="flex justify-center gap-8 flex-wrap items-center">
-          {partnersGrid.patrocinio.map((org: any) => (
-            org.logo ? (
-              <a href={org.url} target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center">
-                <img
-                  src={asset(org.logo)}
-                  alt={org.nome}
-                  class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
-                />
-              </a>
-            ) : (
-              <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+          {
+            partnersGrid.patrocinio.map((org: any) =>
+              org.logo ? (
+                <a
+                  href={org.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center"
+                >
+                  <img
+                    src={asset(org.logo)}
+                    alt={org.nome}
+                    class={`h-16 sm:h-24 w-auto max-w-[70vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                  />
+                </a>
+              ) : (
+                <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+              )
             )
-          ))}
+          }
         </div>
       </div>
     </div>
 
     <div class="mb-12 text-center border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
-      <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Organização</p>
+      <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">
+        Organização
+      </p>
       <div class="flex justify-center gap-8 flex-wrap items-center">
-        {[...partnersGrid.producao].reverse().map((org: any) => (
-          org.logo ? (
-            <a href={org.url} target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center justify-center">
-              <img
-                src={asset(org.logo)}
-                alt={org.nome}
-                class={`h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
-              />
-            </a>
-          ) : (
-            <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+        {
+          [...partnersGrid.producao].reverse().map((org: any) =>
+            org.logo ? (
+              <a
+                href={org.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center"
+              >
+                <img
+                  src={asset(org.logo)}
+                  alt={org.nome}
+                  class={`h-12 sm:h-16 w-auto max-w-[60vw] sm:max-w-none object-contain transition-opacity hover:opacity-80 ${org.logoType === 'mono' ? 'dark:brightness-0 dark:invert' : 'dark:opacity-80'}`}
+                />
+              </a>
+            ) : (
+              <span class="text-[#555] dark:text-[#777] font-bold text-sm">{org.nome}</span>
+            )
           )
-        ))}
+        }
       </div>
     </div>
 
     <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
-      <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
+      <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio</p>
       <div class="flex flex-wrap gap-2">
-        {partnersGrid.apoio.map((org: any) => (
-          <span class="border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 py-1.5 text-xs">
-            {org.nome}
-          </span>
-        ))}
+        {
+          partnersGrid.apoio.map((org: any) => {
+            const logo = apoioLogo(org);
+            const inner = (
+              <>
+                {logo ? (
+                  <img
+                    src={logo}
+                    alt=""
+                    width="20"
+                    height="20"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-5 h-5 object-contain flex-shrink-0"
+                  />
+                ) : null}
+                <span>{org.nome}</span>
+              </>
+            );
+            const baseCls =
+              'inline-flex items-center gap-2 h-10 border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 text-xs';
+            return org.url ? (
+              <a
+                href={org.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`${baseCls} hover:border-[#FFD400] hover:text-[#FFD400] transition-colors`}
+              >
+                {inner}
+              </a>
+            ) : (
+              <span class={baseCls}>{inner}</span>
+            );
+          })
+        }
       </div>
     </div>
-
   </div>
 </section>

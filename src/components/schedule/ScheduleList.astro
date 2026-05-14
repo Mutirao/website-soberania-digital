@@ -16,129 +16,266 @@ const periods = [
 ---
 
 <div class="sl-container" data-dia-key={dia.key}>
-  {periods.map(period => {
-    const items = dia.sessoesList.filter((s: ProcessedSession) => period.test(s._startMin));
-    if (items.length === 0) return null;
-    return (
-      <div>
-        <div class="period-hdr">
-          <span style="font-size:1rem">{period.icon}</span>
-          <span>{period.label}</span>
-          <div class="period-line"></div>
-        </div>
-        {items.map((s: ProcessedSession, idx: number) => {
-          const isIntervalo = s.tipo === 'Intervalo';
-          const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
-          const palestrantes = s.palestrantes || [];
-          const hasDetails = !!s.descricao || palestrantes.length > 0;
-          const detailsId = `details-${dia.key}-${idx}`;
-          return (
-            <div class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}${hasDetails && !isIntervalo ? ' has-details' : ''}`} style={`--dc:${dia.color};`}>
-              <div class="sl-header" role="button" tabindex="0" aria-expanded="false" aria-controls={hasDetails && !isIntervalo ? detailsId : undefined}>
-                <div class="flex flex-col gap-1">
-                  <span class="sl-time">{minToTime(s._startMin as number)}</span>
-                  <span class="sl-mesa-tag">{mesaLabel(s)}</span>
+  {
+    periods.map((period) => {
+      const items = dia.sessoesList.filter((s: ProcessedSession) => period.test(s._startMin));
+      if (items.length === 0) return null;
+      return (
+        <div>
+          <div class="period-hdr">
+            <span style="font-size:1rem">{period.icon}</span>
+            <span>{period.label}</span>
+            <div class="period-line" />
+          </div>
+          {items.map((s: ProcessedSession, idx: number) => {
+            const isIntervalo = s.tipo === 'Intervalo';
+            const isEspecial = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+            const palestrantes = s.palestrantes || [];
+            const hasDetails = !!s.descricao || palestrantes.length > 0;
+            const detailsId = `details-${dia.key}-${idx}`;
+            return (
+              <div
+                class={`sl-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}${hasDetails && !isIntervalo ? ' has-details' : ''}`}
+                style={`--dc:${dia.color};`}
+              >
+                <div
+                  class="sl-header"
+                  role="button"
+                  tabindex="0"
+                  aria-expanded="false"
+                  aria-controls={hasDetails && !isIntervalo ? detailsId : undefined}
+                >
+                  <div class="flex flex-col gap-1">
+                    <span class="sl-time">{minToTime(s._startMin as number)}</span>
+                    <span class="sl-mesa-tag">{mesaLabel(s)}</span>
+                  </div>
+                  <div class="sl-body">
+                    <span class="sl-title">{cleanTitle(s.titulo)}</span>
+                    {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
+                  </div>
+                  {hasDetails && !isIntervalo && <span class="sl-chevron" aria-hidden="true" />}
                 </div>
-                <div class="sl-body">
-                  <span class="sl-title">{cleanTitle(s.titulo)}</span>
-                  {dia.locaisPresentes.length > 1 && !isIntervalo && <span class="sl-local">{s.local}</span>}
-                </div>
-                {hasDetails && !isIntervalo && <span class="sl-chevron" aria-hidden="true"></span>}
+                {hasDetails && !isIntervalo && (
+                  <div class="sl-details" id={detailsId} role="region" aria-label={`Detalhes: ${cleanTitle(s.titulo)}`}>
+                    <SessionDetails session={s} />
+                  </div>
+                )}
               </div>
-              {hasDetails && !isIntervalo && (
-                <div class="sl-details" id={detailsId} role="region" aria-label={`Detalhes: ${cleanTitle(s.titulo)}`}>
-                  <SessionDetails session={s} />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    );
-  })}
+            );
+          })}
+        </div>
+      );
+    })
+  }
 </div>
 
 <style>
-  .sl-session { background: #141414; border-left: 3px solid var(--dc, #CC2200); margin-bottom: 2px; }
-  .sl-session.intervalo { border-left-color: #222; background: #0a0a0a; }
-  .sl-session.especial  { border-left-color: #FFD400; background: #0f0f00; }
-  .sl-header { display: flex; gap: 12px; padding: 10px 12px; align-items: flex-start; }
-  .sl-session.has-details .sl-header { cursor: pointer; transition: background 0.15s; }
-  .sl-session.has-details .sl-header:hover { background: #1c1c1c; }
-  .sl-session.has-details .sl-header:focus-visible { outline: 2px solid var(--dc, #CC2200); outline-offset: -2px; }
+  .sl-session {
+    background: #141414;
+    border-left: 3px solid var(--dc, #cc2200);
+    margin-bottom: 2px;
+  }
+  .sl-session.intervalo {
+    border-left-color: #222;
+    background: #0a0a0a;
+  }
+  .sl-session.especial {
+    border-left-color: #ffd400;
+    background: #0f0f00;
+  }
+  .sl-header {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    align-items: flex-start;
+  }
+  .sl-session.has-details .sl-header {
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .sl-session.has-details .sl-header:hover {
+    background: #1c1c1c;
+  }
+  .sl-session.has-details .sl-header:focus-visible {
+    outline: 2px solid var(--dc, #cc2200);
+    outline-offset: -2px;
+  }
   .sl-time {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.78rem;
-    background: var(--dc, #CC2200); color: white; padding: 2px 6px; border-radius: 2px;
-    flex-shrink: 0; min-width: 38px; text-align: center; white-space: nowrap; margin-top: 1px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    background: var(--dc, #cc2200);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    min-width: 38px;
+    text-align: center;
+    white-space: nowrap;
+    margin-top: 1px;
   }
   @media (min-width: 640px) {
-    .sl-time { font-size: 1rem; padding: 2px 8px; min-width: 44px; }
+    .sl-time {
+      font-size: 1rem;
+      padding: 2px 8px;
+      min-width: 44px;
+    }
   }
-  .sl-session.intervalo .sl-time { background: #252525; color: #555; }
-  .sl-session.especial  .sl-time { background: #FFD400; color: #000; }
+  .sl-session.intervalo .sl-time {
+    background: #252525;
+    color: #555;
+  }
+  .sl-session.especial .sl-time {
+    background: #ffd400;
+    color: #000;
+  }
   .sl-mesa-tag {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.65rem;
-    background: #1a1a1a; color: #888; padding: 2px 6px; border-radius: 2px;
-    flex-shrink: 0; white-space: nowrap; margin-top: 1px; border: 1px solid #2a2a2a;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 2px 6px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-top: 1px;
+    border: 1px solid #2a2a2a;
   }
   @media (min-width: 640px) {
-    .sl-mesa-tag { font-size: 0.85rem; padding: 2px 8px; }
+    .sl-mesa-tag {
+      font-size: 0.85rem;
+      padding: 2px 8px;
+    }
   }
-  .sl-session.intervalo .sl-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
-  .sl-session.especial  .sl-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
-  .sl-body { flex: 1; min-width: 0; }
-  .sl-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: #e0e0e0; line-height: 1.25; margin-bottom: 3px; display: block; }
-  @media (min-width: 640px) {
-    .sl-title { font-size: 1.25rem; }
+  .sl-session.intervalo .sl-mesa-tag {
+    background: #0a0a0a;
+    color: #333;
+    border-color: #1a1a1a;
   }
-  .sl-session.intervalo .sl-title { color: #444; font-weight: 400; }
-  .sl-session.especial  .sl-title { color: #FFD400; }
-  .sl-local { font-size: 0.78rem; color: #444; font-style: italic; margin-bottom: 4px; display: block; }
+  .sl-session.especial .sl-mesa-tag {
+    background: #1a1a00;
+    color: #aa8800;
+    border-color: #332a00;
+  }
+  .sl-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .sl-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #e0e0e0;
+    line-height: 1.25;
+    margin-bottom: 3px;
+    display: block;
+  }
   @media (min-width: 640px) {
-    .sl-local { font-size: 1rem; }
+    .sl-title {
+      font-size: 1.25rem;
+    }
+  }
+  .sl-session.intervalo .sl-title {
+    color: #444;
+    font-weight: 400;
+  }
+  .sl-session.especial .sl-title {
+    color: #ffd400;
+  }
+  .sl-local {
+    font-size: 0.78rem;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 4px;
+    display: block;
+  }
+  @media (min-width: 640px) {
+    .sl-local {
+      font-size: 1rem;
+    }
   }
 
   .sl-chevron {
-    flex-shrink: 0; width: 20px; height: 20px; margin-top: 3px; position: relative;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+    position: relative;
     transition: transform 0.25s ease;
   }
-  .sl-chevron::before, .sl-chevron::after {
-    content: ''; position: absolute; background: #666;
-    width: 8px; height: 2px; top: 9px; transition: transform 0.25s ease;
+  .sl-chevron::before,
+  .sl-chevron::after {
+    content: '';
+    position: absolute;
+    background: #666;
+    width: 8px;
+    height: 2px;
+    top: 9px;
+    transition: transform 0.25s ease;
   }
-  .sl-chevron::before { left: 2px; transform: rotate(45deg); }
-  .sl-chevron::after { left: 8px; transform: rotate(-45deg); }
-  .sl-session.expanded .sl-chevron { transform: rotate(180deg); }
+  .sl-chevron::before {
+    left: 2px;
+    transform: rotate(45deg);
+  }
+  .sl-chevron::after {
+    left: 8px;
+    transform: rotate(-45deg);
+  }
+  .sl-session.expanded .sl-chevron {
+    transform: rotate(180deg);
+  }
 
   .sl-details {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s ease;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.35s ease,
+      padding 0.35s ease;
     padding: 0 12px;
     border-top: 1px solid transparent;
   }
   .sl-session.expanded .sl-details {
-    max-height: 600px; padding: 10px 12px 14px;
+    max-height: 600px;
+    padding: 10px 12px 14px;
     border-top-color: #1e1e1e;
   }
 
-  .period-hdr { display: flex; align-items: center; gap: 8px; padding: 14px 0 6px; }
-  .period-hdr span { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
-  .period-line { flex: 1; height: 1px; background: #1e1e1e; }
+  .period-hdr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 0 6px;
+  }
+  .period-hdr span {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+  }
+  .period-line {
+    flex: 1;
+    height: 1px;
+    background: #1e1e1e;
+  }
 </style>
 
 <script>
-  document.querySelectorAll('.sl-container').forEach(container => {
-    container.addEventListener('click', e => {
-      const header = e.target.closest('.sl-header');
+  document.querySelectorAll<HTMLElement>('.sl-container').forEach((container) => {
+    container.addEventListener('click', (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      const header = target?.closest('.sl-header');
       if (!header) return;
       const session = header.closest('.sl-session');
       if (!session || !session.classList.contains('has-details')) return;
       const expanded = session.classList.toggle('expanded');
       header.setAttribute('aria-expanded', String(expanded));
     });
-    container.addEventListener('keydown', e => {
+    container.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
-      const header = e.target.closest('.sl-header');
+      const target = e.target as Element | null;
+      const header = target?.closest('.sl-header');
       if (!header) return;
       e.preventDefault();
       const session = header.closest('.sl-session');

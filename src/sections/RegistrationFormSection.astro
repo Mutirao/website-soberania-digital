@@ -1,4 +1,5 @@
 ---
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Props {
   conf: any;
 }
@@ -7,7 +8,6 @@ const { conf } = Astro.props;
 
 <section id="inscricao" class="hidden bg-[#010101] py-16 md:py-24 border-t border-[#1a1a1a]">
   <div class="max-w-2xl mx-auto px-4 sm:px-6">
-
     <div class="text-center mb-10">
       <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-3">Inscrições</p>
       <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight mb-4">Participar do Encontro</h2>
@@ -17,75 +17,191 @@ const { conf } = Astro.props;
     <form class="space-y-5" id="form-inscricao">
       <div class="grid sm:grid-cols-2 gap-5">
         <div>
-          <label for="nome" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Nome Completo <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="nome" name="nome" required autocomplete="name" placeholder="Seu nome completo"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+          <label for="nome" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Nome Completo <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            required
+            autocomplete="name"
+            placeholder="Seu nome completo"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
         </div>
         <div>
-          <label for="data_nascimento" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Data de Nascimento <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="data_nascimento" name="data_nascimento" required placeholder="dd/mm/aaaa"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
-        </div>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-5">
-        <div>
-          <label for="cpf" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">CPF <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
-        </div>
-        <div>
-          <label for="email" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">E-mail <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
-        </div>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-5">
-        <div>
-          <label for="telefone" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Telefone / WhatsApp <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="tel" id="telefone" name="telefone" required autocomplete="tel" placeholder="(11) 99999-9999"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
-        </div>
-        <div>
-          <label for="estado" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Estado <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="estado" name="estado" required placeholder="SP, RJ, DF…"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+          <label
+            for="data_nascimento"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Data de Nascimento <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="data_nascimento"
+            name="data_nascimento"
+            required
+            placeholder="dd/mm/aaaa"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-5">
         <div>
-          <label for="cidade" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Cidade <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="cidade" name="cidade" required placeholder="São Paulo"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+          <label for="cpf" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >CPF <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="cpf"
+            name="cpf"
+            required
+            placeholder="000.000.000-00"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
         </div>
         <div>
-          <label for="comunidade" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Comunidade que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="comunidade" name="comunidade" required placeholder="Ex: Aldeia Tekoa Pyau, Favela da Maré…"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+          <label
+            for="email"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >E-mail <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="seu@email.com"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-5">
         <div>
-          <label for="coletivo_organizacao" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Coletivo/Organização que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="coletivo_organizacao" name="coletivo_organizacao" required placeholder="Ex: MST, MTST, Marcha Mundial das Mulheres…"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+          <label
+            for="telefone"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Telefone / WhatsApp <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="tel"
+            id="telefone"
+            name="telefone"
+            required
+            autocomplete="tel"
+            placeholder="(11) 99999-9999"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
         </div>
         <div>
-          <label for="funcao_atuacao" class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">Função/Atuação <span class="text-[#E31B23]" aria-hidden="true">*</span></label>
-          <input type="text" id="funcao_atuacao" name="funcao_atuacao" required placeholder="Ex: professor, estudante, liderança comunitária…"
-            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]" />
+          <label
+            for="estado"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Estado <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="estado"
+            name="estado"
+            required
+            placeholder="SP, RJ, DF…"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label
+            for="cidade"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Cidade <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="cidade"
+            name="cidade"
+            required
+            placeholder="São Paulo"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
+        </div>
+        <div>
+          <label
+            for="comunidade"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Comunidade que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="comunidade"
+            name="comunidade"
+            required
+            placeholder="Ex: Aldeia Tekoa Pyau, Favela da Maré…"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label
+            for="coletivo_organizacao"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Coletivo/Organização que representa <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="coletivo_organizacao"
+            name="coletivo_organizacao"
+            required
+            placeholder="Ex: MST, MTST, Marcha Mundial das Mulheres…"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
+        </div>
+        <div>
+          <label
+            for="funcao_atuacao"
+            class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5"
+            >Função/Atuação <span class="text-[#E31B23]" aria-hidden="true">*</span></label
+          >
+          <input
+            type="text"
+            id="funcao_atuacao"
+            name="funcao_atuacao"
+            required
+            placeholder="Ex: professor, estudante, liderança comunitária…"
+            class="w-full bg-[#f8f8f8] dark:bg-[#111] border border-[#ccc] dark:border-[#333] text-[#010101] dark:text-[#e8e8e8] rounded-lg px-3.5 py-3 text-base outline-none transition-all duration-200 focus:border-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/20 placeholder:text-[#999] dark:placeholder:text-[#555]"
+          />
         </div>
       </div>
       <fieldset>
-        <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-3">Participação no evento</legend>
+        <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-3"
+          >Participação no evento</legend
+        >
         <div class="flex flex-wrap gap-x-6 gap-y-2">
-          <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
-            <input type="checkbox" id="participacao_dia18" name="participacao_dia18" value="1" checked
-              class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+          <label
+            class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors"
+          >
+            <input
+              type="checkbox"
+              id="participacao_dia18"
+              name="participacao_dia18"
+              value="1"
+              checked
+              class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0"
+            />
             Dia 18 de Maio
           </label>
-          <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
-            <input type="checkbox" id="participacao_dia19" name="participacao_dia19" value="1"
-              class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+          <label
+            class="inline-flex items-center gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors"
+          >
+            <input
+              type="checkbox"
+              id="participacao_dia19"
+              name="participacao_dia19"
+              value="1"
+              class="w-4 h-4 rounded accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0"
+            />
             Dia 19 de Maio
           </label>
         </div>
@@ -94,39 +210,74 @@ const { conf } = Astro.props;
         <legend class="block text-xs font-bold uppercase tracking-wider text-[#555] dark:text-[#888] mb-1.5">
           Condições para Deslocamento e Hospedagem <span class="text-[#E31B23]" aria-hidden="true">*</span>
         </legend>
-        <p class="text-[#666] dark:text-[#777] text-xs mb-3">Informe abaixo suas condições para ir ao evento e nos ajude a prever a demanda e organizar o deslocamento e hospedagem de todes.</p>
+        <p class="text-[#666] dark:text-[#777] text-xs mb-3">
+          Informe abaixo suas condições para ir ao evento e nos ajude a prever a demanda e organizar o deslocamento e
+          hospedagem de todes.
+        </p>
         <div class="space-y-2.5">
-          <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
-            <input type="radio" name="condicoes_deslocamento" value="conta_propria" required
-              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+          <label
+            class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors"
+          >
+            <input
+              type="radio"
+              name="condicoes_deslocamento"
+              value="conta_propria"
+              required
+              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0"
+            />
             <span>Consigo ir por conta própria</span>
           </label>
-          <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
-            <input type="radio" name="condicoes_deslocamento" value="apoio_transporte"
-              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+          <label
+            class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors"
+          >
+            <input
+              type="radio"
+              name="condicoes_deslocamento"
+              value="apoio_transporte"
+              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0"
+            />
             <span>Preciso de Apoio com Transporte e Hospedagem para ir ao evento</span>
           </label>
-          <label class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors">
-            <input type="radio" name="condicoes_deslocamento" value="convite_oficial"
-              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
+          <label
+            class="flex items-start gap-2.5 cursor-pointer select-none text-[#e8e8e8] dark:text-[#d1d5db] text-sm hover:text-white dark:hover:text-white transition-colors"
+          >
+            <input
+              type="radio"
+              name="condicoes_deslocamento"
+              value="convite_oficial"
+              class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0"
+            />
             <span>Preciso de Convite Oficial para viabilizar Transporte e Hospedagem pela minha organização</span>
           </label>
         </div>
       </fieldset>
       <label for="tos_agreement" class="flex items-start gap-3 cursor-pointer select-none group">
-        <input type="checkbox" id="tos_agreement" name="tos_agreement" value="1" required
-          class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0" />
-        <span class="text-[#e8e8e8] dark:text-[#d1d5db] text-sm leading-relaxed group-hover:text-white dark:group-hover:text-white transition-colors">
-          Ao participar, você aceita os seus <strong class="text-white dark:text-white">Termos de Serviço</strong> <span class="text-[#E31B23]" aria-hidden="true">*</span>
+        <input
+          type="checkbox"
+          id="tos_agreement"
+          name="tos_agreement"
+          value="1"
+          required
+          class="w-4 h-4 mt-0.5 accent-[#FFD400] focus:ring-2 focus:ring-[#FFD400]/30 focus:ring-offset-0"
+        />
+        <span
+          class="text-[#e8e8e8] dark:text-[#d1d5db] text-sm leading-relaxed group-hover:text-white dark:group-hover:text-white transition-colors"
+        >
+          Ao participar, você aceita os seus <strong class="text-white dark:text-white">Termos de Serviço</strong>
+          <span class="text-[#E31B23]" aria-hidden="true">*</span>
         </span>
       </label>
       <div>
-        <button type="submit" id="btn-submit"
-          class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+        <button
+          type="submit"
+          id="btn-submit"
+          class="w-full min-h-[52px] bg-[#E31B23] hover:bg-[#b01015] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-black uppercase text-lg py-4 px-8 border-l-4 border-[#FFD400] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           Enviar inscrição
         </button>
         <p class="text-[#555] dark:text-[#666] text-xs mt-3 text-center">
-          Campos com <span class="text-[#E31B23]">*</span> são obrigatórios. Seus dados são usados apenas para organização do evento.
+          Campos com <span class="text-[#E31B23]">*</span> são obrigatórios. Seus dados são usados apenas para organização
+          do evento.
         </p>
       </div>
     </form>
@@ -144,13 +295,20 @@ const { conf } = Astro.props;
       <h3 class="text-[#E31B23] font-black uppercase text-2xl mb-3">Erro ao enviar</h3>
       <p class="text-[#d1d5db] text-sm leading-relaxed max-w-md mx-auto">
         Não foi possível enviar sua inscrição. Por favor, tente novamente ou{' '}
-        <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-          class="text-[#FFD400] hover:underline font-semibold transition-colors">
+        <a
+          href={conf.callToAction.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#FFD400] hover:underline font-semibold transition-colors"
+        >
           inscreva-se pelo Plantaformas
         </a>.
       </p>
-      <button id="btn-tentar-novamente" type="button"
-        class="mt-6 bg-[#292929] hover:bg-[#444] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-bold uppercase text-sm py-3 px-8 rounded-lg transition-all duration-200 cursor-pointer">
+      <button
+        id="btn-tentar-novamente"
+        type="button"
+        class="mt-6 bg-[#292929] hover:bg-[#444] focus-visible:outline-2 focus-visible:outline-[#FFD400] text-white font-bold uppercase text-sm py-3 px-8 rounded-lg transition-all duration-200 cursor-pointer"
+      >
         Tentar novamente
       </button>
     </div>

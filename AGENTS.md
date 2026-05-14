@@ -23,18 +23,18 @@ Verification order: `npm run check:astro` → `npm run check:eslint` → `npm ru
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `src/pages/index.astro` | Homepage — imports 8 sections from `src/sections/` |
-| `src/sections/*.astro` | Each section is self-contained; receives data as props |
-| `src/lib/schedule.ts` | `buildScheduleData()` — processes raw sessions into grid coordinates |
-| `src/types/schedule.ts` | TypeScript interfaces: `Sessao`, `DiaData`, `ProcessedSession`, etc. |
-| `src/data/*.json` | Static data files — `evento.json`, `programacao.json`, `assinaturas.json`, `parceiros.json` |
-| `src/navigation.ts` | Header nav + footer links |
-| `src/config.yaml` | Site metadata, i18n, blog/analytics toggles (blog disabled) |
-| `src/pages/api/dados.ts` | SSR endpoint — live Plantaformas data with 60s cache |
-| `scripts/fetch-*.ts` | Build-time data fetchers — scrape Plantaformas admin |
-| `server.js` | Express server for Docker deployment |
+| File                     | Purpose                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------- |
+| `src/pages/index.astro`  | Homepage — imports 8 sections from `src/sections/`                                          |
+| `src/sections/*.astro`   | Each section is self-contained; receives data as props                                      |
+| `src/lib/schedule.ts`    | `buildScheduleData()` — processes raw sessions into grid coordinates                        |
+| `src/types/schedule.ts`  | TypeScript interfaces: `Sessao`, `DiaData`, `ProcessedSession`, etc.                        |
+| `src/data/*.json`        | Static data files — `evento.json`, `programacao.json`, `assinaturas.json`, `parceiros.json` |
+| `src/navigation.ts`      | Header nav + footer links                                                                   |
+| `src/config.yaml`        | Site metadata, i18n, blog/analytics toggles (blog disabled)                                 |
+| `src/pages/api/dados.ts` | SSR endpoint — live Plantaformas data with 60s cache                                        |
+| `scripts/fetch-*.ts`     | Build-time data fetchers — scrape Plantaformas admin                                        |
+| `server.js`              | Express server for Docker deployment                                                        |
 
 ## Data Flow
 
