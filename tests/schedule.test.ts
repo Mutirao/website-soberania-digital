@@ -211,6 +211,7 @@ describe('buildScheduleData', () => {
       ['Ângela X', 'Beá Tibiriçá', 'Zé Y']
     );
     const beá = perf.find((p: { nome: string }) => p.nome === 'Beá Tibiriçá');
+    assert.ok(beá);
     assert.equal(beá.org, 'Rede pela Soberania Digital');
   });
 

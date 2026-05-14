@@ -1,4 +1,5 @@
 ---
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Props {
   conf: any;
   assinaturas: any;
@@ -6,22 +7,34 @@ export interface Props {
 const { conf, assinaturas } = Astro.props;
 ---
 
-{assinaturas.total > 0 && (
-  <section class="bg-[#111] border-y border-[#FFD400]/20 py-8 md:py-10">
-    <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
-      <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-2">Já somos</p>
-      <div id="inscritos-count" class="text-[#FFD400] text-6xl sm:text-7xl md:text-8xl font-black font-['Barlow_Condensed',sans-serif] leading-none mb-1 tabular-nums">
-        {assinaturas.total.toLocaleString('pt-BR')}
+{
+  assinaturas.total > 0 && (
+    <section class="bg-[#111] border-y border-[#FFD400]/20 py-8 md:py-10">
+      <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-2">Já somos</p>
+        <div
+          id="inscritos-count"
+          class="text-[#FFD400] text-6xl sm:text-7xl md:text-8xl font-black font-['Barlow_Condensed',sans-serif] leading-none mb-1 tabular-nums"
+        >
+          {assinaturas.total.toLocaleString('pt-BR')}
+        </div>
+        <p class="text-[#888] text-sm sm:text-base font-bold uppercase tracking-wide">
+          pessoas inscritas no 2º Encontro
+        </p>
+        <p id="inscritos-time" class="text-[#444] text-[0.625rem] mt-3">
+          atualizado em{' '}
+          {new Date(assinaturas.atualizadoEm).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </p>
       </div>
-      <p class="text-[#888] text-sm sm:text-base font-bold uppercase tracking-wide">
-        pessoas inscritas no 2º Encontro
-      </p>
-      <p id="inscritos-time" class="text-[#444] text-[0.625rem] mt-3">
-        atualizado em {new Date(assinaturas.atualizadoEm).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-      </p>
-    </div>
-  </section>
-)}
+    </section>
+  )
+}
 
 <section class="bg-[#E31B23] py-16 md:py-20">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
@@ -31,8 +44,12 @@ const { conf, assinaturas } = Astro.props;
       {conf.date} · {conf.venue} · {conf.location?.name || ''}
     </p>
     <div class="flex flex-wrap gap-4 justify-center">
-      <a href={conf.callToAction.link} target="_blank" rel="noopener noreferrer"
-        class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg">
+      <a
+        href={conf.callToAction.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center min-h-[52px] bg-[#010101] hover:bg-[#292929] text-white font-black uppercase text-xl py-4 px-10 border-l-4 border-[#FFD400] transition-colors shadow-lg"
+      >
         {conf.callToAction.text}
       </a>
     </div>

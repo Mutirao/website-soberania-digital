@@ -14,7 +14,6 @@ const { diasData } = Astro.props;
 
 <section id="programacao" class="bg-[#0d0d0d] py-10 md:py-14">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
     <div class="mb-8">
       <p class="text-[#FFD400] text-[0.8125rem] font-bold uppercase tracking-[0.12em] mb-2">Programação Completa</p>
       <h2 class="text-white text-3xl md:text-5xl font-black uppercase leading-tight">O que acontece</h2>
@@ -25,41 +24,54 @@ const { diasData } = Astro.props;
     <!-- VIEW: GRADE -->
     <div class="view-panel active" id="view-grade">
       <DayTabs dias={diasData} viewTarget="grade" />
-      {diasData.map((dia, di) => (
-        <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`grade-${dia.key}`}>
-          <ScheduleGrid dia={dia} />
-        </div>
-      ))}
+      {
+        diasData.map((dia, di) => (
+          <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`grade-${dia.key}`}>
+            <ScheduleGrid dia={dia} />
+          </div>
+        ))
+      }
     </div>
 
     <!-- VIEW: SESSÕES -->
     <div class="view-panel" id="view-sessoes">
       <DayTabs dias={diasData} viewTarget="sessoes" />
-      {diasData.map((dia, di) => (
-        <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`sessoes-${dia.key}`}>
-          <ScheduleList dia={dia} />
-        </div>
-      ))}
+      {
+        diasData.map((dia, di) => (
+          <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`sessoes-${dia.key}`}>
+            <ScheduleList dia={dia} />
+          </div>
+        ))
+      }
     </div>
 
     <!-- VIEW: PALESTRANTES -->
     <div class="view-panel" id="view-palestrantes">
       <DayTabs dias={diasData} viewTarget="palestrantes" />
-      {diasData.map((dia, di) => (
-        <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`palestrantes-${dia.key}`}>
-          <SpeakerList dia={dia} />
-        </div>
-      ))}
+      {
+        diasData.map((dia, di) => (
+          <div class={`day-panel${di === 0 ? ' active' : ''}`} id={`palestrantes-${dia.key}`}>
+            <SpeakerList dia={dia} />
+          </div>
+        ))
+      }
     </div>
-
   </div>
 </section>
 
 <style>
-  .view-panel { display: none; }
-  .view-panel.active { display: block; }
-  .day-panel { display: none; }
-  .day-panel.active { display: block; }
+  .view-panel {
+    display: none;
+  }
+  .view-panel.active {
+    display: block;
+  }
+  .day-panel {
+    display: none;
+  }
+  .day-panel.active {
+    display: block;
+  }
 </style>
 
 <script>

@@ -15,43 +15,72 @@ const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
 <div class="time-grid-wrapper">
   <div class="time-grid" style={`grid-template-columns:${gridCols};grid-template-rows:${gridRows};`}>
     <div class="tg-corner" style="grid-row:1;grid-column:1;"></div>
-    {dia.locaisPresentes.map((local, li) => (
-      <div class="tg-room-hdr" style={`grid-row:1;grid-column:${li+2};border-top:3px solid ${dia.color};`}>
-        {locaisShort[locaisOrder.indexOf(local)]}
-      </div>
-    ))}
-    {dia.timeAxis.map(t => (
-      <>
-        <div class={`tg-time ${t.isHour ? 'is-hour' : 'is-half'}`} style={`grid-row:${t.row};grid-column:1;align-self:start;`}>
-          {t.isHour ? t.label : ''}
+    {
+      dia.locaisPresentes.map((local, li) => (
+        <div class="tg-room-hdr" style={`grid-row:1;grid-column:${li + 2};border-top:3px solid ${dia.color};`}>
+          {locaisShort[locaisOrder.indexOf(local)]}
         </div>
-        <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`}></div>
-      </>
-    ))}
-    {dia.processed.map((s) => {
-      if (s._startRow < 2) return null;
-      const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
-      if (colIdx < 2) return null;
-      const isIntervalo = s.tipo === 'Intervalo';
-      const isEspecial  = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
-      const palList = (s.palestrantes || []).map(p => ({ nome: p.nome, org: p.org || '', role: p.role || '' }));
-      const moderador = palList.find(p => p.role === 'mediação') || null;
-      const sessionData = { titulo: cleanTitle(s.titulo), descricao: s.descricao || '', inicio: minToTime(s._startMin as number), fim: s.fim || '', local: s.local, tipo: mesaLabel(s), palestrantes: palList, moderador, color: dia.color };
-      return (
-        <div class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}${isIntervalo ? '' : ' clickable'}`}
-          style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`}
-          role="button" tabindex="0" data-session={JSON.stringify(sessionData)}>
-          <div>
-            <span class="tg-time-badge">{minToTime(s._startMin as number)}</span>
-            <span class="tg-mesa-tag">{mesaLabel(s)}</span>
+      ))
+    }
+    {
+      dia.timeAxis.map((t) => (
+        <>
+          <div
+            class={`tg-time ${t.isHour ? 'is-hour' : 'is-half'}`}
+            style={`grid-row:${t.row};grid-column:1;align-self:start;`}
+          >
+            {t.isHour ? t.label : ''}
           </div>
-          <span class="tg-title">{cleanTitle(s.titulo)}</span>
-        </div>
-      );
-    })}
+          <div class={t.isHour ? 'tg-hour-line' : 'tg-half-line'} style={`grid-row:${t.row};grid-column:2 / -1;`} />
+        </>
+      ))
+    }
+    {
+      dia.processed.map((s) => {
+        if (s._startRow < 2) return null;
+        const colIdx = dia.locaisPresentes.indexOf(s.local) + 2;
+        if (colIdx < 2) return null;
+        const isIntervalo = s.tipo === 'Intervalo';
+        const isEspecial = ['Conferência', 'Plenária', 'Lançamento'].includes(s.tipo);
+        const palList = (s.palestrantes || []).map((p) => ({ nome: p.nome, org: p.org || '', role: p.role || '' }));
+        const moderador = palList.find((p) => p.role === 'mediação') || null;
+        const sessionData = {
+          titulo: cleanTitle(s.titulo),
+          descricao: s.descricao || '',
+          inicio: minToTime(s._startMin as number),
+          fim: s.fim || '',
+          local: s.local,
+          tipo: mesaLabel(s),
+          palestrantes: palList,
+          moderador,
+          color: dia.color,
+        };
+        return (
+          <div
+            class={`tg-session${isIntervalo ? ' intervalo' : ''}${isEspecial ? ' especial' : ''}${isIntervalo ? '' : ' clickable'}`}
+            style={`grid-row:${s._startRow}/${s._endRow};grid-column:${colIdx};--dc:${dia.color};`}
+            role="button"
+            tabindex="0"
+            data-session={JSON.stringify(sessionData)}
+          >
+            <div>
+              <span class="tg-time-badge">{minToTime(s._startMin as number)}</span>
+              <span class="tg-mesa-tag">{mesaLabel(s)}</span>
+            </div>
+            <span class="tg-title">{cleanTitle(s.titulo)}</span>
+          </div>
+        );
+      })
+    }
   </div>
 </div>
-{nCols > 1 && <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-2 text-right">← deslize para ver todos os auditórios →</p>}
+{
+  nCols > 1 && (
+    <p class="text-[#666666] dark:text-[#9ca3af] text-[0.8125rem] leading-relaxed mt-2 text-right">
+      ← deslize para ver todos os auditórios →
+    </p>
+  )
+}
 
 <dialog class="session-dialog" id={`session-dialog-${dia.key}`} data-dia-key={dia.key} aria-modal="true">
   <form method="dialog" class="dialog-form">
@@ -69,168 +98,382 @@ const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
 </dialog>
 
 <style>
-  .time-grid-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #1e1e1e; scroll-behavior: smooth; }
-  .time-grid { display: grid; min-width: 480px; }
-  .tg-corner { background: #0d0d0d; position: sticky; left: 0; z-index: 20; }
+  .time-grid-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid #1e1e1e;
+    scroll-behavior: smooth;
+  }
+  .time-grid {
+    display: grid;
+    min-width: 480px;
+  }
+  .tg-corner {
+    background: #0d0d0d;
+    position: sticky;
+    left: 0;
+    z-index: 20;
+  }
   .tg-room-hdr {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
-    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;
-    color: #888; padding: 10px 6px; border-bottom: 1px solid #252525;
-    border-left: 1px solid #1a1a1a; background: #111; display: flex; align-items: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    padding: 10px 6px;
+    border-bottom: 1px solid #252525;
+    border-left: 1px solid #1a1a1a;
+    background: #111;
+    display: flex;
+    align-items: center;
   }
   @media (min-width: 640px) {
-    .tg-room-hdr { font-size: 1rem; padding: 10px 8px; }
+    .tg-room-hdr {
+      font-size: 1rem;
+      padding: 10px 8px;
+    }
   }
   .tg-time {
-    font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; color: #444;
-    background: #0d0d0d; position: sticky; left: 0; z-index: 10;
-    display: flex; align-items: flex-start; padding: 3px 4px 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    color: #444;
+    background: #0d0d0d;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    align-items: flex-start;
+    padding: 3px 4px 0;
     border-right: 1px solid #1a1a1a;
   }
   @media (min-width: 640px) {
-    .tg-time { font-size: 1rem; padding: 3px 6px 0; }
+    .tg-time {
+      font-size: 1rem;
+      padding: 3px 6px 0;
+    }
   }
-  .tg-time.is-hour { color: #555; border-top: 1px solid #1e1e1e; }
-  .tg-time.is-half { border-top: 1px solid #161616; }
-  .tg-hour-line { border-top: 1px solid #1a1a1a; pointer-events: none; z-index: 1; }
-  .tg-half-line { border-top: 1px solid #131313; pointer-events: none; z-index: 1; }
+  .tg-time.is-hour {
+    color: #555;
+    border-top: 1px solid #1e1e1e;
+  }
+  .tg-time.is-half {
+    border-top: 1px solid #161616;
+  }
+  .tg-hour-line {
+    border-top: 1px solid #1a1a1a;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .tg-half-line {
+    border-top: 1px solid #131313;
+    pointer-events: none;
+    z-index: 1;
+  }
   .tg-session {
-    margin: 2px 3px; padding: 4px 6px;
-    border-left: 3px solid var(--dc, #CC2200); background: #141414;
-    overflow: hidden; z-index: 5;
-    font-size: 0.72rem; line-height: 1.35; position: relative; transition: background 0.1s;
+    margin: 2px 3px;
+    padding: 4px 6px;
+    border-left: 3px solid var(--dc, #cc2200);
+    background: #141414;
+    overflow: hidden;
+    z-index: 5;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    position: relative;
+    transition: background 0.1s;
   }
   @media (min-width: 640px) {
-    .tg-session { padding: 6px 8px; font-size: 1rem; }
+    .tg-session {
+      padding: 6px 8px;
+      font-size: 1rem;
+    }
   }
-  .tg-session.clickable { cursor: pointer; }
-  .tg-session.clickable:hover { background: #1c1c1c; }
-  .tg-session.clickable:focus-visible { outline: 2px solid var(--dc, #CC2200); outline-offset: -2px; }
-  .tg-session.intervalo { background: #0a0a0a; border-left-color: #222; }
-  .tg-session.especial { background: #111000; border-left-color: #FFD400; }
+  .tg-session.clickable {
+    cursor: pointer;
+  }
+  .tg-session.clickable:hover {
+    background: #1c1c1c;
+  }
+  .tg-session.clickable:focus-visible {
+    outline: 2px solid var(--dc, #cc2200);
+    outline-offset: -2px;
+  }
+  .tg-session.intervalo {
+    background: #0a0a0a;
+    border-left-color: #222;
+  }
+  .tg-session.especial {
+    background: #111000;
+    border-left-color: #ffd400;
+  }
   .tg-time-badge {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.7rem;
-    background: var(--dc, #CC2200); color: white; padding: 1px 4px; border-radius: 2px;
-    display: inline-block; margin-bottom: 2px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    background: var(--dc, #cc2200);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 2px;
   }
   @media (min-width: 640px) {
-    .tg-time-badge { font-size: 1rem; padding: 1px 5px; margin-bottom: 3px; }
+    .tg-time-badge {
+      font-size: 1rem;
+      padding: 1px 5px;
+      margin-bottom: 3px;
+    }
   }
-  .tg-session.intervalo .tg-time-badge { background: #252525; color: #555; }
-  .tg-session.especial  .tg-time-badge { background: #FFD400; color: #000; }
+  .tg-session.intervalo .tg-time-badge {
+    background: #252525;
+    color: #555;
+  }
+  .tg-session.especial .tg-time-badge {
+    background: #ffd400;
+    color: #000;
+  }
   .tg-mesa-tag {
-    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.65rem;
-    background: #1a1a1a; color: #888; padding: 1px 4px; border-radius: 2px;
-    display: inline-block; margin-bottom: 2px; margin-left: 3px; border: 1px solid #2a2a2a;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 1px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-left: 3px;
+    border: 1px solid #2a2a2a;
   }
   @media (min-width: 640px) {
-    .tg-mesa-tag { font-size: 0.85rem; padding: 1px 5px; margin-left: 4px; }
+    .tg-mesa-tag {
+      font-size: 0.85rem;
+      padding: 1px 5px;
+      margin-left: 4px;
+    }
   }
-  .tg-session.intervalo .tg-mesa-tag { background: #0a0a0a; color: #333; border-color: #1a1a1a; }
-  .tg-session.especial  .tg-mesa-tag { background: #1a1a00; color: #aa8800; border-color: #332a00; }
+  .tg-session.intervalo .tg-mesa-tag {
+    background: #0a0a0a;
+    color: #333;
+    border-color: #1a1a1a;
+  }
+  .tg-session.especial .tg-mesa-tag {
+    background: #1a1a00;
+    color: #aa8800;
+    border-color: #332a00;
+  }
   .tg-title {
-    display: block; font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 500; font-size: 1.2rem; color: #ddd; line-height: 1; margin-bottom: 2px;
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: #ddd;
+    line-height: 1;
+    margin-bottom: 2px;
   }
   @media (min-width: 640px) {
-    .tg-title { font-size: 1.2rem; margin-bottom: 3px; }
+    .tg-title {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
   }
-  .tg-session.intervalo .tg-title { color: #444; font-weight: 400; }
-  .tg-session.especial  .tg-title { color: #FFD400; }
+  .tg-session.intervalo .tg-title {
+    color: #444;
+    font-weight: 400;
+  }
+  .tg-session.especial .tg-title {
+    color: #ffd400;
+  }
 
   .session-dialog {
-    background: #0d0d0d; color: #e0e0e0; border: 1px solid #252525;
-    border-radius: 8px; padding: 0; max-width: 480px; width: 92vw;
+    background: #0d0d0d;
+    color: #e0e0e0;
+    border: 1px solid #252525;
+    border-radius: 8px;
+    padding: 0;
+    max-width: 480px;
+    width: 92vw;
     font-family: 'Barlow Condensed', sans-serif;
-    border-top: 3px solid var(--dc, #CC2200);
+    border-top: 3px solid var(--dc, #cc2200);
     margin: auto;
     max-height: 90vh;
     overflow-y: auto;
   }
-  .session-dialog::backdrop { background: rgba(0,0,0,0.85); }
-  .dialog-form { position: sticky; top: 0; z-index: 1; }
+  .session-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+  }
+  .dialog-form {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
   .dialog-close {
-    position: absolute; top: 8px; right: 8px;
-    background: #1a1a1a; border: 1px solid #333; color: #888;
-    width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
-    font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #888;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background 0.15s;
   }
-  .dialog-close:hover { background: #333; color: #fff; }
-  .dialog-body { padding: 24px 20px 20px; position: relative; }
-  .dialog-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .dialog-close:hover {
+    background: #333;
+    color: #fff;
+  }
+  .dialog-body {
+    padding: 24px 20px 20px;
+    position: relative;
+  }
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
   .dialog-time {
-    font-weight: 700; font-size: 0.85rem;
-    background: var(--dc, #CC2200); color: #fff; padding: 2px 8px; border-radius: 3px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--dc, #cc2200);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
   }
   .dialog-tag {
-    font-weight: 700; font-size: 0.75rem;
-    background: #1a1a1a; color: #888; padding: 2px 8px; border-radius: 3px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    background: #1a1a1a;
+    color: #888;
+    padding: 2px 8px;
+    border-radius: 3px;
     border: 1px solid #2a2a2a;
   }
   .dialog-title {
-    font-size: 1.4rem; font-weight: 700; color: #fff; line-height: 1.2; margin: 0 0 6px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin: 0 0 6px;
   }
-  .dialog-location { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
+  .dialog-location {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
   .dialog-details :global(.sd-desc) {
-    font-family: 'Overpass', sans-serif; font-size: 0.9rem; color: #bbb;
-    line-height: 1.5; margin: 0 0 10px;
+    font-family: 'Overpass', sans-serif;
+    font-size: 0.9rem;
+    color: #bbb;
+    line-height: 1.5;
+    margin: 0 0 10px;
   }
-  .dialog-details :global(.sd-participantes) { margin-bottom: 10px; }
+  .dialog-details :global(.sd-participantes) {
+    margin-bottom: 10px;
+  }
   .dialog-details :global(.sd-participantes h4),
   .dialog-details :global(.sd-moderador h4) {
-    font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    color: #555; margin: 0 0 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    margin: 0 0 8px;
   }
-  .dialog-details :global(.sd-participantes ul) { list-style: none; margin: 0; padding: 0; }
+  .dialog-details :global(.sd-participantes ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
   .dialog-details :global(.sd-participantes li) {
-    padding: 4px 0; font-size: 0.95rem; color: #ccc;
+    padding: 4px 0;
+    font-size: 0.95rem;
+    color: #ccc;
     border-bottom: 1px solid #141414;
   }
-  .dialog-details :global(.sd-participantes li:last-child) { border-bottom: none; }
-  .dialog-details :global(.sd-moderador) { margin-top: 8px; }
-  .dialog-details :global(.sd-moderador p) { font-size: 0.95rem; color: #ccc; }
-  .dialog-details :global(.sd-org) { color: #777; }
-  @media (max-width: 480px) {
-    .dialog-body { padding: 20px 16px 16px; }
-    .dialog-title { font-size: 1.2rem; }
+  .dialog-details :global(.sd-participantes li:last-child) {
+    border-bottom: none;
   }
-
+  .dialog-details :global(.sd-moderador) {
+    margin-top: 8px;
+  }
+  .dialog-details :global(.sd-moderador p) {
+    font-size: 0.95rem;
+    color: #ccc;
+  }
+  .dialog-details :global(.sd-org) {
+    color: #777;
+  }
+  @media (max-width: 480px) {
+    .dialog-body {
+      padding: 20px 16px 16px;
+    }
+    .dialog-title {
+      font-size: 1.2rem;
+    }
+  }
 </style>
 
 <script>
   (() => {
-    function clearEl(el) {
+    type Performer = { nome: string; org?: string; role?: string };
+    type Session = {
+      titulo: string;
+      inicio: string;
+      fim?: string;
+      tipo: string;
+      local?: string;
+      color?: string;
+      descricao?: string;
+      palestrantes?: Performer[];
+      moderador?: Performer;
+    };
+
+    function clearEl(el: Element): void {
       while (el.firstChild) el.removeChild(el.firstChild);
     }
-    function makeEl(tag, cls, text) {
+    function makeEl<K extends keyof HTMLElementTagNameMap>(
+      tag: K,
+      cls?: string,
+      text?: string
+    ): HTMLElementTagNameMap[K] {
       const el = document.createElement(tag);
       if (cls) el.className = cls;
       if (text !== undefined) el.textContent = text;
       return el;
     }
 
-    document.querySelectorAll('.session-dialog').forEach(dialog => {
-      const time = dialog.querySelector('.dialog-time');
-      const tag = dialog.querySelector('.dialog-tag');
-      const title = dialog.querySelector('.dialog-title');
-      const loc = dialog.querySelector('.dialog-location');
-      const details = dialog.querySelector('.dialog-details');
+    document.querySelectorAll<HTMLDialogElement>('.session-dialog').forEach((dialog) => {
+      const time = dialog.querySelector<HTMLElement>('.dialog-time');
+      const tag = dialog.querySelector<HTMLElement>('.dialog-tag');
+      const title = dialog.querySelector<HTMLElement>('.dialog-title');
+      const loc = dialog.querySelector<HTMLElement>('.dialog-location');
+      const details = dialog.querySelector<HTMLElement>('.dialog-details');
       const parent = dialog.parentElement;
+      if (!parent || !time || !tag || !title || !loc || !details) return;
 
       // Fechar ao clicar fora do conteúdo (backdrop) ou pressionar ESC
-      dialog.addEventListener('click', e => {
+      dialog.addEventListener('click', (e: MouseEvent) => {
         if (e.target === dialog) dialog.close();
       });
-      dialog.addEventListener('keydown', e => {
+      dialog.addEventListener('keydown', (e: KeyboardEvent) => {
         if (e.key === 'Escape') dialog.close();
       });
 
-      parent.querySelectorAll('.tg-session.clickable').forEach(el => {
+      parent.querySelectorAll<HTMLElement>('.tg-session.clickable').forEach((el) => {
         const openDialog = () => {
           try {
-            const d = JSON.parse(el.dataset.session);
-            dialog.style.setProperty('--dc', d.color);
+            const raw = el.dataset.session;
+            if (!raw) return;
+            const d = JSON.parse(raw) as Session;
+            if (d.color) dialog.style.setProperty('--dc', d.color);
             dialog.setAttribute('aria-label', `Detalhes: ${d.titulo}`);
 
             time.textContent = d.inicio;
@@ -241,7 +484,9 @@ const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
             if (d.local || d.fim) {
               loc.textContent = `${d.local} · ${d.inicio}${d.fim ? ' — ' + d.fim : ''}`;
               loc.style.display = '';
-            } else { loc.style.display = 'none'; }
+            } else {
+              loc.style.display = 'none';
+            }
 
             clearEl(details);
 
@@ -250,12 +495,12 @@ const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
             }
 
             if (d.palestrantes && d.palestrantes.length > 0) {
-              const participantes = d.palestrantes.filter(p => p.role !== 'mediação');
+              const participantes = d.palestrantes.filter((p: Performer) => p.role !== 'mediação');
               if (participantes.length > 0) {
                 const container = makeEl('div', 'sd-participantes');
                 container.appendChild(makeEl('h4', '', 'Participantes'));
                 const ul = makeEl('ul');
-                participantes.forEach(p => {
+                participantes.forEach((p: Performer) => {
                   const li = makeEl('li');
                   li.appendChild(makeEl('strong', '', p.nome));
                   if (p.org) {
@@ -286,10 +531,17 @@ const gridRows = `48px repeat(${dia.nSlots}, ${SLOT_H_PX}px)`;
             }
 
             dialog.showModal();
-          } catch(e) { console.error('dialog error', e); }
+          } catch (e) {
+            console.error('dialog error', e);
+          }
         };
         el.addEventListener('click', openDialog);
-        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDialog(); } });
+        el.addEventListener('keydown', (e: KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openDialog();
+          }
+        });
       });
     });
   })();

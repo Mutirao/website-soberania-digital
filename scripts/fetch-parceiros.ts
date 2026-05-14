@@ -24,8 +24,9 @@ interface PartnersData {
 
 function extractPartners(html: string): Partner[] {
   const partners: Partner[] = [];
-  const itemRe = /class="conference__grid-item"[^>]*href="([^"]*)"[^>]*>[\s\S]*?<img[^>]*src="([^"]*)"[^>]*>[\s\S]*?conference__grid-item-text">([^<]*)<\/h3/g;
-  let m;
+  const itemRe =
+    /class="conference__grid-item"[^>]*href="([^"]*)"[^>]*>[\s\S]*?<img[^>]*src="([^"]*)"[^>]*>[\s\S]*?conference__grid-item-text">([^<]*)<\/h3/g;
+  let m: RegExpExecArray | null;
   while ((m = itemRe.exec(html)) !== null) {
     partners.push({
       url: m[1],
