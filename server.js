@@ -26,7 +26,7 @@ async function login() {
 
   const res = await fetch(`${PLANTAFORMAS}/users/sign_in`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Cookie': jar.join('; ') },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Cookie: jar.join('; ') },
     body: new URLSearchParams({
       authenticity_token: csrf,
       'user[email]': process.env.PLANTAFORMAS_EMAIL ?? '',
@@ -39,7 +39,7 @@ async function login() {
   for (const c of res.headers.getSetCookie?.() ?? []) {
     const v = c.split(';')[0];
     const n = v.split('=')[0];
-    const i = jar.findIndex(e => e.startsWith(`${n}=`));
+    const i = jar.findIndex((e) => e.startsWith(`${n}=`));
     if (i >= 0) jar.splice(i, 1);
     jar.push(v);
   }
@@ -51,7 +51,7 @@ async function fetchParceiros(cookie) {
   const query = `{ conference(id: "${CONF_ID}") { partners { id name partnerType weight logo link } } }`;
   const r = await fetch(`${PLANTAFORMAS}/api`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Cookie': cookie },
+    headers: { 'Content-Type': 'application/json', Cookie: cookie },
     body: JSON.stringify({ query }),
   });
   const { data } = await r.json();
@@ -60,20 +60,19 @@ async function fetchParceiros(cookie) {
 
 async function fetchInscritos(cookie) {
   const r = await fetch(`${PLANTAFORMAS}/admin/conferences/${CONF_SLUG}/components`, {
-    headers: { 'Cookie': cookie },
+    headers: { Cookie: cookie },
   });
   const html = await r.text();
-  const m = html.match(/Formulário\s*(?:de)?\s*Inscri[cç][ãa]o\s*<span\s+class="component-counter">\s*(\d+)\s*<\/span>/i);
+  const m = html.match(
+    /Formulário\s*(?:de)?\s*Inscri[cç][ãa]o\s*<span\s+class="component-counter">\s*(\d+)\s*<\/span>/i
+  );
   return m ? parseInt(m[1], 10) : null;
 }
 
 async function getDados() {
   if (cache && Date.now() - cacheTime < CACHE_TTL_MS) return cache;
   const cookie = await login();
-  const [parceiros, inscritos] = await Promise.all([
-    fetchParceiros(cookie),
-    fetchInscritos(cookie),
-  ]);
+  const [parceiros, inscritos] = await Promise.all([fetchParceiros(cookie), fetchInscritos(cookie)]);
   cache = { parceiros, inscritos, atualizadoEm: new Date().toISOString() };
   cacheTime = Date.now();
   return cache;

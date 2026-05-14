@@ -1,9 +1,21 @@
 ---
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Props {
   partnersGrid: any;
   asset: (p: string) => string;
 }
 const { partnersGrid, asset } = Astro.props;
+
+function apoioLogo(org: { logo?: string; url?: string }): string | null {
+  if (org.logo) return org.logo;
+  if (!org.url) return null;
+  try {
+    const host = new URL(org.url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+  } catch {
+    return null;
+  }
+}
 ---
 
 <section class="bg-white dark:bg-[#080808] py-16 md:py-20 border-t border-[#e5e7eb] dark:border-[#1a1a1a]">
@@ -102,14 +114,42 @@ const { partnersGrid, asset } = Astro.props;
     </div>
 
     <div class="border-t border-[#e5e7eb] dark:border-[#1a1a1a] pt-10">
-      <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
+      <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio</p>
       <div class="flex flex-wrap gap-2">
         {
-          partnersGrid.apoio.map((org: any) => (
-            <span class="border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 py-1.5 text-xs">
-              {org.nome}
-            </span>
-          ))
+          partnersGrid.apoio.map((org: any) => {
+            const logo = apoioLogo(org);
+            const inner = (
+              <>
+                {logo ? (
+                  <img
+                    src={logo}
+                    alt=""
+                    width="20"
+                    height="20"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-5 h-5 object-contain flex-shrink-0"
+                  />
+                ) : null}
+                <span>{org.nome}</span>
+              </>
+            );
+            const baseCls =
+              'inline-flex items-center gap-2 h-10 border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 text-xs';
+            return org.url ? (
+              <a
+                href={org.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`${baseCls} hover:border-[#FFD400] hover:text-[#FFD400] transition-colors`}
+              >
+                {inner}
+              </a>
+            ) : (
+              <span class={baseCls}>{inner}</span>
+            );
+          })
         }
       </div>
     </div>

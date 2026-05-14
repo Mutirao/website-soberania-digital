@@ -90,18 +90,22 @@
       }
     ],
     "apoio": [
-      {"nome": "Sindicato dos Bancários"},
-      {"nome": "Campanha Internet Legal"},
-      {"nome": "Coalizão Direitos na Rede"},
-      {"nome": "Interlig"},
-      {"nome": "Casa de Cultura Tainã"},
-      {"nome": "Marcha Mundial das Mulheres"},
-      {"nome": "MTST"},
-      {"nome": "MST"},
-      {"nome": "Alquimídia"},
-      {"nome": "POP Solutions"},
-      {"nome": "Rede Economia Solidária e Feminista"},
-      {"nome": "TV Travessia"}
+      { "nome": "Sindicato dos Bancários", "url": "https://bancariosdf.com.br" },
+      { "nome": "Campanha Internet Legal", "url": "https://internetlegal.org.br" },
+      { "nome": "Coalizão Direitos na Rede", "url": "https://direitosnarede.org.br" },
+      { "nome": "Interlig" },
+      { "nome": "Casa de Cultura Tainã", "url": "https://taina.net.br" },
+      { "nome": "Marcha Mundial das Mulheres", "url": "https://marchamundialdasmulheres.org.br" },
+      { "nome": "MTST", "url": "https://mtst.org" },
+      { "nome": "MST", "url": "https://mst.org.br" },
+      { "nome": "Alquimídia", "url": "https://alquimidia.org" },
+      { "nome": "Pop.Coop", "url": "https://pop.coop" },
+      { "nome": "Rede Economia Solidária e Feminista", "url": "http://portal.resf.com.br" },
+      { "nome": "TV Travessia" },
+      { "nome": "QSentinel" },
+      { "nome": "LPI — Linux Professional Institute", "url": "https://lpi.org" },
+      { "nome": "LSI — Laboratório de Sistemas Integráveis (USP)", "url": "https://sites.usp.br/lsi/" },
+      { "nome": "Caninos Loucos", "url": "https://caninosloucos.org" }
     ]
   },
   "community": [

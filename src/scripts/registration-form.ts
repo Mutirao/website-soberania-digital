@@ -29,7 +29,9 @@ export function initRegistrationForm() {
     btn.textContent = 'Enviando…';
 
     fetch(PAGE_URL, { credentials: 'include' })
-      .then(function (r) { return r.text(); })
+      .then(function (r) {
+        return r.text();
+      })
       .then(function (html: string) {
         const m = html.match(/name="csrf-token"\s+content="([^"]+)"/);
         if (!m) throw new Error('CSRF não encontrado');
@@ -52,7 +54,7 @@ export function initRegistrationForm() {
           { id: '876', v: val('cidade') },
           { id: '877', v: val('comunidade') },
           { id: '878', v: val('coletivo_organizacao') },
-          { id: '879', v: val('funcao_atuacao') }
+          { id: '879', v: val('funcao_atuacao') },
         ];
 
         fields.forEach(function (f, i) {
@@ -61,7 +63,7 @@ export function initRegistrationForm() {
         });
 
         body.set('questionnaire[responses][10][question_id]', '880');
-        var partIdx = 0;
+        let partIdx = 0;
         if (checked('participacao_dia18')) {
           body.set('questionnaire[responses][10][choices][' + partIdx + '][body]', 'Dia 18 de Maio');
           body.set('questionnaire[responses][10][choices][' + partIdx + '][answer_option_id]', '1818');
@@ -74,9 +76,12 @@ export function initRegistrationForm() {
         }
 
         const condicoesMap: Record<string, { body: string; id: string }> = {
-          'conta_propria':     { body: 'Consigo ir por conta própria', id: '1822' },
-          'apoio_transporte':  { body: 'Preciso de Apoio com Transporte e Hospedagem para ir ao evento', id: '1823' },
-          'convite_oficial':   { body: 'Preciso de Convite Oficial para viabilizar Transporte e Hospedagem pela minha organização', id: '1824' }
+          conta_propria: { body: 'Consigo ir por conta própria', id: '1822' },
+          apoio_transporte: { body: 'Preciso de Apoio com Transporte e Hospedagem para ir ao evento', id: '1823' },
+          convite_oficial: {
+            body: 'Preciso de Convite Oficial para viabilizar Transporte e Hospedagem pela minha organização',
+            id: '1824',
+          },
         };
         const condVal = radioVal('condicoes_deslocamento');
         const cond = condicoesMap[condVal];
@@ -92,7 +97,7 @@ export function initRegistrationForm() {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString()
+          body: body.toString(),
         });
       })
       .then(function (r) {

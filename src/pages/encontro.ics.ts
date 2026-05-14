@@ -49,8 +49,11 @@ function generateICS(): string {
     const summary = s.titulo;
     const speakers = s.palestrantes.map((p) => `${p.nome}${p.org ? ` (${p.org})` : ''}`).join(', ');
 
-    const uid = `encontro-${s.dia.replace('/', '')}-${s.inicio.replace(':', '')}-${s.local}-${summary.substring(0, 20)}@soberania.digital`
-      .replace(/[^a-zA-Z0-9@.-]/g, '-');
+    const uid =
+      `encontro-${s.dia.replace('/', '')}-${s.inicio.replace(':', '')}-${s.local}-${summary.substring(0, 20)}@soberania.digital`.replace(
+        /[^a-zA-Z0-9@.-]/g,
+        '-'
+      );
 
     lines.push('BEGIN:VEVENT');
     lines.push(`UID:${uid}`);

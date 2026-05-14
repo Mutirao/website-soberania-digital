@@ -56,7 +56,7 @@ async function fetchAssinaturas(): Promise<AssinaturasData> {
 
   // 2. POST login
   const loginBody = new URLSearchParams({
-    'authenticity_token': csrfToken,
+    authenticity_token: csrfToken,
     'user[email]': EMAIL,
     'user[password]': PASSWORD,
     'user[remember_me]': '0',
@@ -66,7 +66,7 @@ async function fetchAssinaturas(): Promise<AssinaturasData> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Cookie': cookieHeader,
+      Cookie: cookieHeader,
     },
     body: loginBody.toString(),
     redirect: 'manual',
@@ -80,7 +80,7 @@ async function fetchAssinaturas(): Promise<AssinaturasData> {
       const [name] = cookieVal.split('=');
       cookieJar.push(cookieVal);
       // Remove duplicatas (substitui cookie existente)
-      const idx = cookieJar.findIndex(existing => existing.startsWith(name + '='));
+      const idx = cookieJar.findIndex((existing) => existing.startsWith(name + '='));
       if (idx >= 0 && idx !== cookieJar.length - 1) {
         cookieJar.splice(idx, 1);
       }
@@ -95,10 +95,9 @@ async function fetchAssinaturas(): Promise<AssinaturasData> {
   const authCookie = cookieJar.join('; ');
 
   // 3. GET página de componentes da conferência no admin
-  const componentsRes = await fetch(
-    `${BASE_URL}/admin/conferences/${CONFERENCE_SLUG}/components`,
-    { headers: { 'Cookie': authCookie } }
-  );
+  const componentsRes = await fetch(`${BASE_URL}/admin/conferences/${CONFERENCE_SLUG}/components`, {
+    headers: { Cookie: authCookie },
+  });
 
   if (!componentsRes.ok) {
     throw new Error(`Falha ao acessar admin (${componentsRes.status}). Verifique permissões de admin.`);
@@ -108,14 +107,19 @@ async function fetchAssinaturas(): Promise<AssinaturasData> {
 
   // 4. Extrai o número do componente "Formulário de Inscrição"
   // O HTML do Decidim admin renderiza: Formulário de Inscrição<span class="component-counter">XXX</span>
-  const match = componentsHtml.match(/Formulário\s*(?:de)?\s*Inscri[cç][ãa]o\s*<span\s+class="component-counter">\s*(\d+)\s*<\/span>/i);
+  const match = componentsHtml.match(
+    /Formulário\s*(?:de)?\s*Inscri[cç][ãa]o\s*<span\s+class="component-counter">\s*(\d+)\s*<\/span>/i
+  );
   if (!match) {
     // Tenta exportar a contagem de outro componente ou padrão
     console.error('Não encontrou "Formulário de InscriçãoXXX" na página de admin');
-    console.error('HTML snippet:', componentsHtml.substring(
-      Math.max(0, componentsHtml.indexOf('Inscri') - 200),
-      componentsHtml.indexOf('Inscri') + 200
-    ));
+    console.error(
+      'HTML snippet:',
+      componentsHtml.substring(
+        Math.max(0, componentsHtml.indexOf('Inscri') - 200),
+        componentsHtml.indexOf('Inscri') + 200
+      )
+    );
     throw new Error('Contador de inscrições não encontrado');
   }
 
@@ -136,8 +140,9 @@ async function main() {
     fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
     console.log(`📁 Salvo em: ${outPath}`);
     console.log(`   Total: ${data.total} inscrições`);
-  } catch (err: any) {
-    console.error(`❌ Erro: ${err.message}`);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`❌ Erro: ${message}`);
     process.exit(1);
   }
 }
