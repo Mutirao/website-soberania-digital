@@ -1,6 +1,8 @@
 ---
+import type { PartnerOrg, PartnersGrid } from '~/types/evento';
+
 export interface Props {
-  partnersGrid: any;
+  partnersGrid: PartnersGrid;
   asset: (p: string) => string;
 }
 const { partnersGrid, asset } = Astro.props;
@@ -13,7 +15,7 @@ const { partnersGrid, asset } = Astro.props;
         <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Realização</p>
         <div class="flex justify-center gap-8 flex-wrap items-center">
           {
-            partnersGrid.realizacao.map((org: any) =>
+            partnersGrid.realizacao.map((org: PartnerOrg) =>
               org.logo ? (
                 <a
                   href={org.url}
@@ -42,7 +44,7 @@ const { partnersGrid, asset } = Astro.props;
         <p class="text-[#FFD400] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-6">Apoio Institucional</p>
         <div class="flex justify-center gap-8 flex-wrap items-center">
           {
-            partnersGrid.patrocinio.map((org: any) =>
+            partnersGrid.patrocinio.map((org: PartnerOrg) =>
               org.logo ? (
                 <a
                   href={org.url}
@@ -75,7 +77,7 @@ const { partnersGrid, asset } = Astro.props;
       </p>
       <div class="flex justify-center gap-8 flex-wrap items-center">
         {
-          [...partnersGrid.producao].reverse().map((org: any) =>
+          [...partnersGrid.producao].reverse().map((org: PartnerOrg) =>
             org.logo ? (
               <a
                 href={org.url}
@@ -105,7 +107,7 @@ const { partnersGrid, asset } = Astro.props;
       <p class="text-[#777] dark:text-[#555] text-[0.6875rem] font-bold uppercase tracking-[0.12em] mb-3">Apoio</p>
       <div class="flex flex-wrap gap-2">
         {
-          partnersGrid.apoio.map((org: any) => (
+          partnersGrid.apoio.map((org: PartnerOrg) => (
             <span class="border border-[#e5e7eb] dark:border-[#222] text-[#555] dark:text-[#777] px-3 py-1.5 text-xs">
               {org.nome}
             </span>
