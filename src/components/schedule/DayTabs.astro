@@ -8,25 +8,56 @@ export interface Props {
 const { dias, viewTarget } = Astro.props;
 ---
 
-<div class="flex mb-0" role="tablist">
-  {dias.map((dia, i) => (
-    <button class={`day-tab${i === 0 ? ' active' : ''}`} data-day={dia.key} data-view-target={viewTarget}
-      style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}>
-      📅 {dia.label}
-    </button>
-  ))}
+<div class="flex mb-0" role="tablist" aria-label="Selecionar dia da programação">
+  {
+    dias.map((dia, i) => (
+      <button
+        class={`day-tab${i === 0 ? ' active' : ''}`}
+        data-day={dia.key}
+        data-view-target={viewTarget}
+        role="tab"
+        id={`day-tab-${viewTarget}-${dia.key}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-controls={`${viewTarget}-${dia.key}`}
+        tabindex={i === 0 ? 0 : -1}
+        style={`background:${dia.color};border-right:1px solid rgba(0,0,0,.3)`}
+      >
+        <span aria-hidden="true">📅</span> {dia.label}
+      </button>
+    ))
+  }
 </div>
 
 <style>
   .day-tab {
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900; font-size: 0.95rem; text-transform: uppercase;
-    letter-spacing: 1px; padding: 10px 20px; min-height: 44px; border: none;
-    cursor: pointer; opacity: 0.45; transition: opacity 0.15s; color: white;
-    flex: 1 1 0; min-width: 0; text-align: center;
+    font-weight: 900;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    min-height: 44px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: opacity 0.15s;
+    color: white;
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
   }
-  .day-tab.active { opacity: 1; }
+  .day-tab.active {
+    opacity: 1;
+  }
+  .day-tab:focus-visible {
+    outline: 2px solid #ffd400;
+    outline-offset: -2px;
+  }
   @media (max-width: 400px) {
-    .day-tab { padding: 8px 10px; font-size: 0.78rem; letter-spacing: 0.5px; }
+    .day-tab {
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      letter-spacing: 0.5px;
+    }
   }
 </style>

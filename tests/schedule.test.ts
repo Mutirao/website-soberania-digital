@@ -159,6 +159,13 @@ describe('buildScheduleData', () => {
     assert.equal(maddog!.sessoes.length, 1);
   });
 
+  it('strips Mesa/Roda prefixes from palList session titles', () => {
+    const [, dia2] = buildScheduleData(sessoes);
+    const maddog = dia2.palList.find((p) => p.nome === 'Jon "maddog" Hall');
+    assert.ok(maddog);
+    assert.deepEqual(maddog!.sessoes, ['Software livre']);
+  });
+
   it('sorts palList by Brazilian-Portuguese collation', () => {
     const dias = buildScheduleData([
       ...sessoes,
