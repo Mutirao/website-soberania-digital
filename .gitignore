@@ -33,3 +33,24 @@ pnpm-lock.yaml
 # gerado automaticamente por scripts/build-programacao.mjs
 src/data/programacao-gerado.json
 .superpowers/
+
+# editor / IDE
+.vscode/
+.idea/
+
+# sandbox online
+.stackblitzrc
+sandbox.config.json
+
+# arquivos de backup
+*.bak
+*.orig
+
+# dados intermediários / scraping
+plataformas_*.csv
+
+# documentação externa / planejamento
+docs/superpowers/
+"Plantaformas - API Documentation.pdf"
+"PROGRAMA - 2º ENCONTRO.pdf"
+DESIGN-encontro.md
