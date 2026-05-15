@@ -30,9 +30,22 @@ interface AssinaturasData {
   fonte: string;
 }
 
+function loadExistingOrMock(outPath: string): AssinaturasData {
+  if (fs.existsSync(outPath)) {
+    const existing = JSON.parse(fs.readFileSync(outPath, 'utf-8')) as AssinaturasData;
+    console.log(`📄 Mantendo dados existentes: ${existing.total} inscrições`);
+    return existing;
+  }
+  return {
+    total: 0,
+    atualizadoEm: new Date().toISOString(),
+    fonte: 'mock — credenciais não configuradas',
+  };
+}
+
 async function fetchAssinaturas(): Promise<AssinaturasData> {
   if (!EMAIL || !PASSWORD) {
-    throw new Error('Defina PLANTAFORMAS_EMAIL e PLANTAFORMAS_PASSWORD no .env');
+    throw new Error('Credenciais não configuradas');
   }
 
   // Usamos fetch nativo + regex para evitar dependências extras
@@ -134,16 +147,20 @@ async function fetchAssinaturas(): Promise<AssinaturasData> {
 }
 
 async function main() {
+  const outPath = path.resolve(__dirname, '../src/data/assinaturas.json');
+
   try {
     const data = await fetchAssinaturas();
-    const outPath = path.resolve(__dirname, '../src/data/assinaturas.json');
     fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
     console.log(`📁 Salvo em: ${outPath}`);
     console.log(`   Total: ${data.total} inscrições`);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error(`❌ Erro: ${message}`);
-    process.exit(1);
+    console.warn(`⚠️  ${message}`);
+    const fallback = loadExistingOrMock(outPath);
+    fs.writeFileSync(outPath, JSON.stringify(fallback, null, 2));
+    console.log(`📁 Salvo em: ${outPath}`);
+    console.log(`   Total: ${fallback.total} inscrições (fallback)`);
   }
 }
 

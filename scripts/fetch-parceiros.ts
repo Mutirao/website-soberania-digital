@@ -37,39 +37,56 @@ function extractPartners(html: string): Partner[] {
   return partners;
 }
 
+function loadExistingOrMock(): PartnersData {
+  if (fs.existsSync(OUT)) {
+    const existing = JSON.parse(fs.readFileSync(OUT, 'utf-8')) as PartnersData;
+    console.log(`📄 Mantendo dados existentes: ${existing.organizadores.length} parceiros`);
+    return existing;
+  }
+  return {
+    organizadores: [],
+    atualizadoEm: new Date().toISOString(),
+    fonte: 'mock — requisição não disponível',
+  };
+}
+
 async function main() {
   const url = `${BASE_URL}/conferences/${CONF_SLUG}`;
   console.log(`⏳ Buscando parceiros: ${url}`);
 
-  const res = await fetch(url);
-  if (!res.ok) {
-    console.error(`❌ HTTP ${res.status}`);
-    process.exit(1);
-  }
-
-  const html = await res.text();
-  const organizadores = extractPartners(html);
-
-  if (organizadores.length === 0) {
-    console.warn('⚠️  Nenhum parceiro encontrado. Mantendo arquivo anterior se existir.');
-    if (fs.existsSync(OUT)) {
-      console.log('📄 Mantendo:', OUT);
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
     }
-    return;
+
+    const html = await res.text();
+    const organizadores = extractPartners(html);
+
+    if (organizadores.length === 0) {
+      console.warn('⚠️  Nenhum parceiro encontrado. Mantendo arquivo anterior se existir.');
+      if (fs.existsSync(OUT)) {
+        console.log('📄 Mantendo:', OUT);
+      }
+      return;
+    }
+
+    const data: PartnersData = {
+      organizadores,
+      atualizadoEm: new Date().toISOString(),
+      fonte: `${BASE_URL}/conferences/${CONF_SLUG} — #conference-partners-main_promotor`,
+    };
+
+    fs.writeFileSync(OUT, JSON.stringify(data, null, 2) + '\n');
+    console.log(`✅ ${organizadores.length} parceiros salvos em ${OUT}`);
+    organizadores.forEach((p) => console.log(`   - ${p.nome}`));
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.warn(`⚠️  ${message}`);
+    const fallback = loadExistingOrMock();
+    fs.writeFileSync(OUT, JSON.stringify(fallback, null, 2) + '\n');
+    console.log(`📁 Fallback salvo em: ${OUT}`);
   }
-
-  const data: PartnersData = {
-    organizadores,
-    atualizadoEm: new Date().toISOString(),
-    fonte: `${BASE_URL}/conferences/${CONF_SLUG} — #conference-partners-main_promotor`,
-  };
-
-  fs.writeFileSync(OUT, JSON.stringify(data, null, 2) + '\n');
-  console.log(`✅ ${organizadores.length} parceiros salvos em ${OUT}`);
-  organizadores.forEach((p) => console.log(`   - ${p.nome}`));
 }
 
-main().catch((e) => {
-  console.error('❌ Erro:', e);
-  process.exit(1);
-});
+main();
