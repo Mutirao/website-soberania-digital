@@ -61,7 +61,7 @@ export function initMap() {
       maxZoom: 19,
     }).addTo(map);
 
-    L.marker([-15.7993, -47.8905], { icon: mkIcon('#E31B23', '#fff', '📍', 34) })
+    L.marker([-15.826094, -47.924214], { icon: mkIcon('#E31B23', '#fff', '📍', 34) })
       .addTo(map)
       .bindPopup(
         '<strong>Sindicato e Teatro dos Bancários</strong><br>EQS 314/315, Asa Sul<br>📍 Local do 2º Encontro'
