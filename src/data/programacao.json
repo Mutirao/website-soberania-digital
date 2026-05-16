@@ -677,37 +677,37 @@
       "inicio": "10:45",
       "fim": "12:15",
       "tipo": "Mesa",
-      "titulo": "Mesa 14 — Saúde, dados e soberania sanitária",
-      "descricao": "Soberania digital aplicada à saúde, dados sanitários e políticas públicas.",
+      "titulo": "Mesa 14 – A quem pertence o prontuário? Diálogos sobre soberania digital e sanitária frente a mercantilização da vida",
+      "descricao": "A quem pertence o prontuário? Diálogos sobre soberania digital e sanitária frente à mercantilização da vida.",
       "palestrantes": [
         {
           "nome": "Raquel Rachid",
           "org": "USP / Fórum Popular Paulista de Saúde",
-          "role": ""
+          "role": "presencial"
         },
         {
           "nome": "Adriana Macedo Marques",
           "org": "Ministério da Saúde",
-          "role": ""
+          "role": "presencial"
         },
         {
           "nome": "Uirá Porã",
           "org": "FeliciLab",
-          "role": ""
+          "role": "presencial"
         },
         {
           "nome": "Nésio Fernandes",
           "org": "Movimento Software Livre",
-          "role": ""
+          "role": "online"
         },
         {
           "nome": "Deivison Faustino",
-          "org": "",
-          "role": ""
+          "org": "Faculdade de Saúde Pública da USP",
+          "role": "online"
         },
         {
           "nome": "Lucas da Costa Brandão",
-          "org": "UERJ / Campanha Internet Legal",
+          "org": "UERJ / Campanha Internet Legal / Frente Nacional Contra a Privatização da Saúde",
           "role": "coordenação"
         }
       ]
